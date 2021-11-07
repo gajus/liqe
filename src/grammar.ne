@@ -115,14 +115,12 @@ relational_operator ->
 regex ->
   regex_body regex_flags {% d => d.join('') %}
 
-regex_body -> "/" regex_body_char:* "/" {% d => '/' + d[1].join('') + '/' %}
+regex_body ->
+    "/" regex_body_char:* "/" {% d => '/' + d[1].join('') + '/' %}
 
-regex_body_char -> [^\\"\n] {% id %}
-    | "\\" strescape {%
-    function(d) {
-        return JSON.parse("\""+d.join("")+"\"");
-    }
-%}
+regex_body_char ->
+    [^\\"\n] {% id %}
+  | "\\" strescape {% d => JSON.parse("\""+d.join("")+"\"") %}
 
 regex_flags ->
   null |

@@ -249,11 +249,7 @@ const grammar: Grammar = {
     {"name": "regex_body$ebnf$1", "symbols": ["regex_body$ebnf$1", "regex_body_char"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "regex_body", "symbols": [{"literal":"/"}, "regex_body$ebnf$1", {"literal":"/"}], "postprocess": d => '/' + d[1].join('') + '/'},
     {"name": "regex_body_char", "symbols": [/[^\\"\n]/], "postprocess": id},
-    {"name": "regex_body_char", "symbols": [{"literal":"\\"}, "strescape"], "postprocess": 
-        function(d) {
-            return JSON.parse("\""+d.join("")+"\"");
-        }
-        },
+    {"name": "regex_body_char", "symbols": [{"literal":"\\"}, "strescape"], "postprocess": d => JSON.parse("\""+d.join("")+"\"")},
     {"name": "regex_flags", "symbols": []},
     {"name": "regex_flags$ebnf$1", "symbols": [/[gmiyusd]/]},
     {"name": "regex_flags$ebnf$1", "symbols": ["regex_flags$ebnf$1", /[gmiyusd]/], "postprocess": (d) => d[0].concat([d[1]])},
