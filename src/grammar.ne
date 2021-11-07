@@ -79,12 +79,6 @@ post_expr ->
     __ expr {% d => d[1] %}
   | "(" _ expr _ ")" {% d => d[2] %}
 
-mid_expr ->
-    "(" _ expr _ ")" {% d => d[2] %}
-  | __ "(" _ expr _ ")" {% d => d[3] %}
-  | "(" _ expr _ ")" __ {% d => d[2] %}
-  | __ expr __ {% d => d[1] %}
-
 boolean_primary ->
   side {% id %}
 
