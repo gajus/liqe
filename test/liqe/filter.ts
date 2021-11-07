@@ -46,6 +46,7 @@ const testQuery = test.macro((t, expectedResultNames: string[]) => {
 
 test('"david"', testQuery, ['david']);
 
+test('name:"da"', testQuery, ['david']);
 test('name:"david"', testQuery, ['david']);
 test('name:David', testQuery, ['david']);
 test('name:D*d', testQuery, ['david']);
