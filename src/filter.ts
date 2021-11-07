@@ -1,4 +1,3 @@
-import picomatch from 'picomatch';
 import parseRegex from 'regex-parser';
 import type {
   Ast,
@@ -59,7 +58,7 @@ const testString = (ast: Ast, query: string, value: string): boolean => {
     if (ast.regex) {
       ast.test = createRegexTest(ast.query);
     } else if (query.includes('*') && ast.quoted === false) {
-      ast.test = picomatch(query);
+      ast.test = createRegexTest(query.replace(/\*/g, '.*?'));
     }
   }
 
