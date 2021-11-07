@@ -1,0 +1,70 @@
+{
+  "author": {
+    "email": "gajus@gajus.com",
+    "name": "Gajus Kuizinas",
+    "url": "http://gajus.com"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "files": [
+      "test/liqe/**/*"
+    ],
+    "require": [
+      "ts-node/register/transpile-only"
+    ]
+  },
+  "dependencies": {
+    "micromatch": "^4.0.4",
+    "nearley": "^2.20.1",
+    "regex-parser": "^2.2.11"
+  },
+  "description": "Lightweight and performant Lucene-like parser and search engine.",
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/node": "^16.10.9",
+    "@types/semver-compare": "^1.0.1",
+    "@types/sinon": "^10.0.4",
+    "ava": "4.0.0-rc.1",
+    "benny": "^3.7.1",
+    "coveralls": "^3.1.1",
+    "del-cli": "^4.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-canonical": "^28.0.0",
+    "faker": "^5.5.3",
+    "husky": "^7.0.4",
+    "npm-watch": "^0.11.0",
+    "nyc": "^15.1.0",
+    "semantic-release": "^18.0.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  },
+  "engines": {
+    "node": ">=12.0"
+  },
+  "keywords": [
+    "lucene"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "./dist/src/Liqe.js",
+  "name": "liqe",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:gajus/liqe.git"
+  },
+  "watch": {
+    "compile-parser": "src/grammar.ne"
+  },
+  "scripts": {
+    "watch": "npm-watch",
+    "benchmark": "ts-node --transpile-only test/benchmark.ts",
+    "build": "del-cli ./dist && tsc",
+    "compile-parser": "nearleyc src/grammar.ne --out ./src/grammar.ts",
+    "dev": "tsc --watch",
+    "lint": "eslint ./src ./test && tsc --noEmit",
+    "test": "NODE_ENV=test ava --serial --verbose"
+  },
+  "typings": "./dist/src/Liqe.d.ts",
+  "version": "1.0.0"
+}
