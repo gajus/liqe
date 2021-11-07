@@ -6,8 +6,13 @@ import {
   parse,
 } from '../../src/parse';
 
+type Location = {
+  city: string,
+};
+
 type Person = {
   height: number,
+  location?: Location,
   name: string,
   nick?: string,
   tags?: string[],
@@ -24,6 +29,9 @@ const persons: readonly Person[] = [
   },
   {
     height: 175,
+    location: {
+      city: 'London',
+    },
     name: 'mike',
   },
   {
@@ -85,3 +93,6 @@ test('height:175 AND NOT name:mike', testQuery, ['john']);
 
 test('"member"', testQuery, ['robert']);
 test('tags:"member"', testQuery, ['robert']);
+
+test('"London"', testQuery, []);
+test('location.city:"London"', testQuery, ['mike']);
