@@ -59,9 +59,7 @@ expr -> two_op_expr {% id %}
 
 two_op_expr ->
     pre_two_op_expr "OR" post_one_op_expr {% opExpr('OR') %}
-  | pre_two_op_expr "||" post_one_op_expr {% opExpr('OR') %}
   | pre_two_op_expr "AND" post_one_op_expr {% opExpr('AND') %}
-  | pre_two_op_expr "&&" post_one_op_expr {% opExpr('AND') %}
 	| one_op_expr {% d => d[0] %}
 
 pre_two_op_expr ->
