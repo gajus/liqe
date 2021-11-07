@@ -75,10 +75,6 @@ post_one_op_expr ->
     __ one_op_expr {% d => d[1] %}
   | "(" _ one_op_expr _ ")" {% d => d[2] %}
 
-post_expr ->
-    __ expr {% d => d[1] %}
-  | "(" _ expr _ ")" {% d => d[2] %}
-
 boolean_primary ->
   side {% id %}
 
