@@ -207,7 +207,7 @@ const grammar: Grammar = {
     {"name": "two_op_expr", "symbols": ["one_op_expr"], "postprocess": d => d[0]},
     {"name": "pre_two_op_expr", "symbols": ["two_op_expr", "__"], "postprocess": d => d[0]},
     {"name": "pre_two_op_expr", "symbols": [{"literal":"("}, "_", "two_op_expr", "_", {"literal":")"}], "postprocess": d => d[2]},
-    {"name": "one_op_expr", "symbols": [{"literal":"("}, "_", "expr", "_", {"literal":")"}], "postprocess": d => d[2]},
+    {"name": "one_op_expr", "symbols": [{"literal":"("}, "_", "two_op_expr", "_", {"literal":")"}], "postprocess": d => d[2]},
     {"name": "one_op_expr$string$1", "symbols": [{"literal":"N"}, {"literal":"O"}, {"literal":"T"}], "postprocess": (d) => d.join('')},
     {"name": "one_op_expr", "symbols": ["one_op_expr$string$1", "post_boolean_primary"], "postprocess": notOp},
     {"name": "one_op_expr", "symbols": ["boolean_primary"], "postprocess": d => d[0]},

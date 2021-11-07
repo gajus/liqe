@@ -67,7 +67,7 @@ pre_two_op_expr ->
   | "(" _ two_op_expr _ ")" {% d => d[2] %}
 
 one_op_expr ->
-    "(" _ expr _ ")" {% d => d[2] %}
+    "(" _ two_op_expr _ ")" {% d => d[2] %}
 	|	"NOT" post_boolean_primary {% notOp %}
   | boolean_primary {% d => d[0] %}
 

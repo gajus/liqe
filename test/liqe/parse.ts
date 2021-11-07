@@ -15,6 +15,20 @@ test('foo', testQuery, {
   quoted: false,
 });
 
+test.skip('foo bar', testQuery, {
+  left: {
+    field: '<implicit>',
+    query: 'foo',
+    quoted: false,
+  },
+  operator: 'AND',
+  right: {
+    field: '<implicit>',
+    query: 'bar',
+    quoted: false,
+  },
+});
+
 test('foo_bar', testQuery, {
   field: '<implicit>',
   query: 'foo_bar',
@@ -131,6 +145,18 @@ test('foo:\'bar\'', testQuery, {
   quoted: true,
 });
 
+test.skip('foo:bar baz:qux', testQuery, {
+  left: {
+    field: 'foo',
+    query: 'bar',
+  },
+  operator: 'AND',
+  right: {
+    field: 'baz',
+    query: 'qux',
+  },
+});
+
 test('foo:bar AND baz:qux', testQuery, {
   left: {
     field: 'foo',
@@ -141,6 +167,45 @@ test('foo:bar AND baz:qux', testQuery, {
     field: 'baz',
     query: 'qux',
   },
+});
+
+test('(foo:bar) AND (baz:qux)', testQuery, {
+  left: {
+    field: 'foo',
+    query: 'bar',
+  },
+  operator: 'AND',
+  right: {
+    field: 'baz',
+    query: 'qux',
+  },
+});
+
+test('(foo:bar AND baz:qux)', testQuery, {
+  left: {
+    field: 'foo',
+    query: 'bar',
+  },
+  operator: 'AND',
+  right: {
+    field: 'baz',
+    query: 'qux',
+  },
+});
+
+test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
+  operand: {
+    left: {
+      field: 'foo',
+      query: 'bar',
+    },
+    operator: 'AND',
+    right: {
+      field: 'baz',
+      query: 'qux',
+    },
+  },
+  operator: 'NOT',
 });
 
 test('NOT foo:bar', testQuery, {
@@ -187,6 +252,12 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
 });
 
 test('(foo:bar)', testQuery, {
+  field: 'foo',
+  query: 'bar',
+  quoted: false,
+});
+
+test('((foo:bar))', testQuery, {
   field: 'foo',
   query: 'bar',
   quoted: false,
