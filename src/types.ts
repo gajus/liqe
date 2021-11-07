@@ -11,7 +11,7 @@ export type Ast = {
   field: string,
   left?: Ast,
   operand?: Ast,
-  operator?: '&&' | '||' | 'AND' | 'NOT' | 'OR',
+  operator?: 'AND' | 'NOT' | 'OR',
   query: string,
   quoted?: boolean,
   range?: Range,
