@@ -143,6 +143,15 @@ test('foo:bar AND baz:qux', testQuery, {
   },
 });
 
+test('NOT foo:bar', testQuery, {
+  operand: {
+    field: 'foo',
+    query: 'bar',
+    quoted: false,
+  },
+  operator: 'NOT',
+});
+
 test('foo:bar AND NOT baz:qux', testQuery, {
   left: {
     field: 'foo',
