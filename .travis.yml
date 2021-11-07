@@ -13,7 +13,7 @@ script:
   - nyc check-coverage --lines 30
 after_success:
   - NODE_ENV=production npm run build
-  - semantic-release
+  - semantic-release --branches main
 notifications:
   email: false
 sudo: false
