@@ -40,49 +40,49 @@ void suite(
     const query = parse('name:"Gajus"');
 
     return () => {
-      filter(persons, query);
+      filter(query, persons);
     };
   }),
   add('filters list by the "name" field using regex check', () => {
     const query = parse('name:/Gajus/i');
 
     return () => {
-      filter(persons, query);
+      filter(query, persons);
     };
   }),
   add('filters list by the "name" field using loose inclusion check', () => {
     const query = parse('name:Gajus');
 
     return () => {
-      filter(persons, query);
+      filter(query, persons);
     };
   }),
   add('filters list by the "name" field using glob check', () => {
     const query = parse('name:Ga*');
 
     return () => {
-      filter(persons, query);
+      filter(query, persons);
     };
   }),
   add('filters list by any field using loose inclusion check', () => {
     const query = parse('Gajus');
 
     return () => {
-      filter(persons, query);
+      filter(query, persons);
     };
   }),
   add('filters list by the "height" field using strict equality check', () => {
     const query = parse('height:180');
 
     return () => {
-      filter(persons, query);
+      filter(query, persons);
     };
   }),
   add('filters list by the "height" field using range check', () => {
     const query = parse('height:[160 TO 180]');
 
     return () => {
-      filter(persons, query);
+      filter(query, persons);
     };
   }),
   cycle(),
