@@ -109,6 +109,16 @@ test('$foo:baz', testQuery, {
   query: 'baz',
 });
 
+test('"foo bar":baz', testQuery, {
+  field: 'foo bar',
+  query: 'baz',
+});
+
+test('\'foo bar\':baz', testQuery, {
+  field: 'foo bar',
+  query: 'baz',
+});
+
 test('foo:"bar"', testQuery, {
   field: 'foo',
   query: 'bar',
