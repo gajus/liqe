@@ -168,6 +168,12 @@ test('(foo:bar)', testQuery, {
   quoted: false,
 });
 
+test('( foo:bar )', testQuery, {
+  field: 'foo',
+  query: 'bar',
+  quoted: false,
+});
+
 test('(foo:bar OR baz:qux)', testQuery, {
   left: {
     field: 'foo',
