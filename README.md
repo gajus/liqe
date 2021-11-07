@@ -22,6 +22,7 @@ Lightweight and performant Lucene-like parser and search engine.
 import {
   filter,
   parse,
+  test,
 } from 'liqe';
 
 const persons = [
@@ -31,7 +32,13 @@ const persons = [
   },
 ];
 
-filter(persons, parse('name:Mike'));
+const query = parse('name:Mike');
+
+// If you want to filter a collection
+filter(query, persons);
+
+// or if you want to test a single value
+test(query, persons[0]);
 
 ```
 

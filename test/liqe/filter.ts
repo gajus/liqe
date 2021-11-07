@@ -47,7 +47,7 @@ const persons: readonly Person[] = [
 ];
 
 const testQuery = test.macro((t, expectedResultNames: string[]) => {
-  const matchingPersonNames = filter(persons, parse(t.title)).map((person) => {
+  const matchingPersonNames = filter(parse(t.title), persons).map((person) => {
     return person.name;
   });
 

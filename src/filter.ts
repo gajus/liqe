@@ -148,8 +148,8 @@ const testField = <T extends Object>(row: T, ast: Ast): boolean => {
 };
 
 export const filter = <T extends Object>(
-  inputData: readonly T[],
   ast: Ast,
+  inputData: readonly T[],
 ): readonly T[] => {
   const data = inputData;
 
@@ -161,8 +161,8 @@ export const filter = <T extends Object>(
 
   if (ast.operator === 'NOT' && ast.operand) {
     const removeData = filter(
-      data,
       ast.operand,
+      data,
     );
 
     return data.filter((row) => {
@@ -175,14 +175,14 @@ export const filter = <T extends Object>(
   }
 
   const leftData = filter(
-    data,
     ast.left,
+    data,
   );
 
   if (ast.operator === 'OR') {
     const rightData = filter(
-      data,
       ast.right,
+      data,
     );
 
     return Array.from(
@@ -193,8 +193,8 @@ export const filter = <T extends Object>(
     );
   } else if (ast.operator === 'AND') {
     return filter(
-      leftData,
       ast.right,
+      leftData,
     );
   }
 
