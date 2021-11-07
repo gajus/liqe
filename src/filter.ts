@@ -1,9 +1,9 @@
-/* eslint-disable complexity */
-
 import micromatch from 'micromatch';
 import parseRegex from 'regex-parser';
 import type {
   Ast,
+  Range,
+  RelationalOperator,
 } from './types';
 
 const createRegexTest = (regex: string) => {
@@ -14,10 +14,66 @@ const createRegexTest = (regex: string) => {
   };
 };
 
-const check = (term, value, ast: Ast) => {
+const testRange = (value: number, range: Range): boolean => {
+  if (value < range.min) {
+    return false;
+  }
+
+  if (value === range.min && !range.minInclusive) {
+    return false;
+  }
+
+  if (value > range.max) {
+    return false;
+  }
+
+  if (value === range.max && !range.maxInclusive) {
+    return false;
+  }
+
+  return true;
+};
+
+const testRelationalRange = (term: number, value: number, relationalOperator: RelationalOperator): boolean => {
+  switch (relationalOperator) {
+    case '=': return value === term;
+    case '>': return value > term;
+    case '<': return value < term;
+    case '>=': return value >= term;
+    case '<=': return value <= term;
+    default: throw new Error(`Unimplemented relational operator: ${relationalOperator}`);
+  }
+};
+
+const testString = (ast: Ast, term: string, value: string): boolean => {
+  let normalizedValue = value;
+
+  if (
+    ast.regex !== true &&
+    ast.quoted === false
+  ) {
+    normalizedValue = normalizedValue.toLowerCase();
+  }
+
+  if (!ast.test) {
+    if (ast.regex) {
+      ast.test = createRegexTest(ast.term);
+    } else if (term.includes('*') && ast.quoted === false) {
+      ast.test = micromatch.matcher(term);
+    }
+  }
+
+  if (ast.test) {
+    return ast.test(normalizedValue);
+  }
+
+  return normalizedValue.includes(term);
+};
+
+const testValue = (term, value, ast: Ast) => {
   if (Array.isArray(value)) {
     for (const item of value) {
-      if (check(term, item, ast)) {
+      if (testValue(term, item, ast)) {
         return true;
       }
     }
@@ -26,23 +82,7 @@ const check = (term, value, ast: Ast) => {
   }
 
   if (ast.range) {
-    if (value < ast.range.min) {
-      return false;
-    }
-
-    if (value === ast.range.min && !ast.range.minInclusive) {
-      return false;
-    }
-
-    if (value > ast.range.max) {
-      return false;
-    }
-
-    if (value === ast.range.max && !ast.range.maxInclusive) {
-      return false;
-    }
-
-    return true;
+    return testRange(value, ast.range);
   }
 
   if (typeof term === 'boolean') {
@@ -50,43 +90,15 @@ const check = (term, value, ast: Ast) => {
   } else if (term === null) {
     return term === null;
   } else if (typeof value === 'string') {
-    let normalizedValue = value;
-
-    if (
-      ast.regex !== true &&
-      ast.quoted === false
-    ) {
-      normalizedValue = normalizedValue.toLowerCase();
-    }
-
-    if (!ast.test) {
-      if (ast.regex) {
-        ast.test = createRegexTest(ast.term);
-      } else if (term.includes('*') && ast.quoted === false) {
-        ast.test = micromatch.matcher(term);
-      }
-    }
-
-    if (ast.test) {
-      return ast.test(normalizedValue);
-    }
-
-    return normalizedValue.includes(term);
-  } else if (typeof term === 'number' && typeof value === 'number') {
-    switch (ast.relationalOperator) {
-      case '=': return value === term;
-      case '>': return value > term;
-      case '<': return value < term;
-      case '>=': return value >= term;
-      case '<=': return value <= term;
-      default: throw new Error(`Unimplemented relational operator: ${ast.relationalOperator}`);
-    }
+    return testString(ast, term, value);
+  } else if (typeof term === 'number' && typeof value === 'number' && ast.relationalOperator) {
+    return testRelationalRange(term, value, ast.relationalOperator);
   } else {
     return false;
   }
 };
 
-const fieldFilter = <T extends Object>(row: T, ast: Ast): boolean => {
+const testField = <T extends Object>(row: T, ast: Ast): boolean => {
   let term = ast.term;
 
   if (
@@ -98,7 +110,7 @@ const fieldFilter = <T extends Object>(row: T, ast: Ast): boolean => {
   }
 
   if (ast.field in row) {
-    return check(
+    return testValue(
       term,
       row[ast.field],
       ast,
@@ -117,14 +129,14 @@ const fieldFilter = <T extends Object>(row: T, ast: Ast): boolean => {
       }
     }
 
-    return check(
+    return testValue(
       term,
       value,
       ast,
     );
   } else if (ast.field === '<implicit>') {
     for (const field in row) {
-      if (fieldFilter(row, {...ast, field})) {
+      if (testField(row, {...ast, field})) {
         return true;
       }
     }
@@ -143,7 +155,7 @@ export const filter = <T extends Object>(
 
   if (ast.field) {
     return data.filter((row) => {
-      return fieldFilter(row, ast);
+      return testField(row, ast);
     });
   }
 
