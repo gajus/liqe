@@ -140,4 +140,4 @@ regex_flags ->
   [gmiyusd]:+ {% d => d[0].join('') %}
 
 unquoted_value ->
-  [a-zA-Z*]:+ {% d => d[0].join('') %}
+  [a-zA-Z_*]:+ {% d => d[0].join('') %}

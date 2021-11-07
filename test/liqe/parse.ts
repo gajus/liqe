@@ -15,6 +15,12 @@ test('foo', testQuery, {
   term: 'foo',
 });
 
+test('foo_bar', testQuery, {
+  field: '<implicit>',
+  quoted: false,
+  term: 'foo_bar',
+});
+
 test('"foo"', testQuery, {
   field: '<implicit>',
   quoted: true,
@@ -85,6 +91,11 @@ test('foo:null', testQuery, {
 
 test('foo.bar:baz', testQuery, {
   field: 'foo.bar',
+  term: 'baz',
+});
+
+test('foo_bar:baz', testQuery, {
+  field: 'foo_bar',
   term: 'baz',
 });
 
