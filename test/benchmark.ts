@@ -43,6 +43,13 @@ void suite(
       filter(persons, query);
     };
   }),
+  add('filters list by the "name" field using regex check', () => {
+    const query = parse('name:/Gajus/i');
+
+    return () => {
+      filter(persons, query);
+    };
+  }),
   add('filters list by the "name" field using loose inclusion check', () => {
     const query = parse('name:Gajus');
 
