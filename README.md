@@ -76,12 +76,6 @@ Search for either the phrase "foo bar" in the `title` field AND the phrase "quic
 (title:"foo bar" AND body:"quick fox") OR title:fox
 ```
 
-Search for word "foo" and not "bar" in the `title` field.
-
-```
-title:foo -title:bar
-```
-
 ### Range matching
 
 Search for value greater or equal to 100 and lower or equal to 200 in the `height` field.
