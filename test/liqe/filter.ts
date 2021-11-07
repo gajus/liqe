@@ -12,7 +12,7 @@ type Person = {
   nick?: string,
 };
 
-const persons: ReadonlyArray<Person> = [
+const persons: readonly Person[] = [
   {
     height: 180,
     name: 'david',
@@ -37,7 +37,7 @@ const persons: ReadonlyArray<Person> = [
 ];
 
 const testQuery = test.macro((t, expectedResultNames: string[]) => {
-	const matchingPersonNames = filter(persons, parse(t.title)).map((person) => {
+  const matchingPersonNames = filter(persons, parse(t.title)).map((person) => {
     return person.name;
   });
 
