@@ -97,7 +97,7 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field ":" query {% d => ({field: d[0], ...d[2]}) %}
+    field ":" _ query {% d => ({field: d[0], ...d[3]}) %}
   | query {% d => ({field: '<implicit>', ...d[0]}) %}
 
 field -> [_a-zA-Z] [_a-zA-Z0-9-.]:* {% d => d[0] + d[1].join('') %}

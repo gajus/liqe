@@ -52,6 +52,11 @@ test('foo:bar', testQuery, {
   query: 'bar',
 });
 
+test('foo:   bar', testQuery, {
+  field: 'foo',
+  query: 'bar',
+});
+
 test('foo:123', testQuery, {
   field: 'foo',
   query: 123,
