@@ -16,8 +16,8 @@
     ]
   },
   "dependencies": {
-    "micromatch": "^4.0.4",
     "nearley": "^2.20.1",
+    "picomatch": "^2.3.0",
     "regex-parser": "^2.2.11"
   },
   "description": "Lightweight and performant Lucene-like parser and search engine.",

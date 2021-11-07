@@ -1,4 +1,4 @@
-import micromatch from 'micromatch';
+import picomatch from 'picomatch';
 import parseRegex from 'regex-parser';
 import type {
   Ast,
@@ -59,7 +59,7 @@ const testString = (ast: Ast, query: string, value: string): boolean => {
     if (ast.regex) {
       ast.test = createRegexTest(ast.query);
     } else if (query.includes('*') && ast.quoted === false) {
-      ast.test = micromatch.matcher(query);
+      ast.test = picomatch(query);
     }
   }
 
