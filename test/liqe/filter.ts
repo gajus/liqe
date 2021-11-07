@@ -52,6 +52,7 @@ test('name:David', testQuery, ['david']);
 test('name:D*d', testQuery, ['david']);
 test('name:*avid', testQuery, ['david']);
 test('name:/(david)|(john)/', testQuery, ['david', 'john']);
+test('name:/(David)|(John)/', testQuery, []);
 test('name:/(David)|(John)/i', testQuery, ['david', 'john']);
 
 test('height:[200 TO 300]', testQuery, ['robert', 'noah']);

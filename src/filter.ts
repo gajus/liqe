@@ -53,6 +53,7 @@ const check = (term, value, ast: Ast) => {
     let normalizedValue = value;
 
     if (
+      ast.regex !== true &&
       ast.quoted === false
     ) {
       normalizedValue = normalizedValue.toLowerCase();
