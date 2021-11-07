@@ -10,6 +10,7 @@ type Person = {
   height: number,
   name: string,
   nick?: string,
+  tags?: string[],
 };
 
 const persons: readonly Person[] = [
@@ -28,6 +29,7 @@ const persons: readonly Person[] = [
   {
     height: 220,
     name: 'robert',
+    tags: ['member'],
   },
   {
     height: 225,
@@ -80,3 +82,6 @@ test('height:>220', testQuery, ['noah']);
 test('height:>=220', testQuery, ['robert', 'noah']);
 
 test('height:175 AND NOT name:mike', testQuery, ['john']);
+
+test('"member"', testQuery, ['robert']);
+test('tags:"member"', testQuery, ['robert']);
