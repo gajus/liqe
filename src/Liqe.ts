@@ -7,3 +7,6 @@ export {
 export {
   test,
 } from './test';
+export {
+  Ast as Query,
+} from './types';
