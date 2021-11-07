@@ -34,18 +34,18 @@ const testRange = (value: number, range: Range): boolean => {
   return true;
 };
 
-const testRelationalRange = (term: number, value: number, relationalOperator: RelationalOperator): boolean => {
+const testRelationalRange = (query: number, value: number, relationalOperator: RelationalOperator): boolean => {
   switch (relationalOperator) {
-    case '=': return value === term;
-    case '>': return value > term;
-    case '<': return value < term;
-    case '>=': return value >= term;
-    case '<=': return value <= term;
+    case '=': return value === query;
+    case '>': return value > query;
+    case '<': return value < query;
+    case '>=': return value >= query;
+    case '<=': return value <= query;
     default: throw new Error(`Unimplemented relational operator: ${relationalOperator}`);
   }
 };
 
-const testString = (ast: Ast, term: string, value: string): boolean => {
+const testString = (ast: Ast, query: string, value: string): boolean => {
   let normalizedValue = value;
 
   if (
@@ -57,9 +57,9 @@ const testString = (ast: Ast, term: string, value: string): boolean => {
 
   if (!ast.test) {
     if (ast.regex) {
-      ast.test = createRegexTest(ast.term);
-    } else if (term.includes('*') && ast.quoted === false) {
-      ast.test = micromatch.matcher(term);
+      ast.test = createRegexTest(ast.query);
+    } else if (query.includes('*') && ast.quoted === false) {
+      ast.test = micromatch.matcher(query);
     }
   }
 
@@ -67,13 +67,13 @@ const testString = (ast: Ast, term: string, value: string): boolean => {
     return ast.test(normalizedValue);
   }
 
-  return normalizedValue.includes(term);
+  return normalizedValue.includes(query);
 };
 
-const testValue = (term, value, ast: Ast) => {
+const testValue = (query, value, ast: Ast) => {
   if (Array.isArray(value)) {
     for (const item of value) {
-      if (testValue(term, item, ast)) {
+      if (testValue(query, item, ast)) {
         return true;
       }
     }
@@ -85,33 +85,33 @@ const testValue = (term, value, ast: Ast) => {
     return testRange(value, ast.range);
   }
 
-  if (typeof term === 'boolean') {
-    return term === value;
-  } else if (term === null) {
-    return term === null;
+  if (typeof query === 'boolean') {
+    return query === value;
+  } else if (query === null) {
+    return query === null;
   } else if (typeof value === 'string') {
-    return testString(ast, term, value);
-  } else if (typeof term === 'number' && typeof value === 'number' && ast.relationalOperator) {
-    return testRelationalRange(term, value, ast.relationalOperator);
+    return testString(ast, query, value);
+  } else if (typeof query === 'number' && typeof value === 'number' && ast.relationalOperator) {
+    return testRelationalRange(query, value, ast.relationalOperator);
   } else {
     return false;
   }
 };
 
 const testField = <T extends Object>(row: T, ast: Ast): boolean => {
-  let term = ast.term;
+  let query = ast.query;
 
   if (
     ast.quoted !== true &&
     ast.regex !== true &&
-    typeof ast.term === 'string'
+    typeof ast.query === 'string'
   ) {
-    term = term.toLowerCase();
+    query = query.toLowerCase();
   }
 
   if (ast.field in row) {
     return testValue(
-      term,
+      query,
       row[ast.field],
       ast,
     );
@@ -130,7 +130,7 @@ const testField = <T extends Object>(row: T, ast: Ast): boolean => {
     }
 
     return testValue(
-      term,
+      query,
       value,
       ast,
     );

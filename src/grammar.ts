@@ -20,19 +20,19 @@ const notOp = (d) => {
 }
 
 const unquotedValue = (d, location, reject) => {
-  let term = d.join('');
+  let query = d.join('');
 
-  if (term === 'true') {
-    term = true;
-  } else if (term === 'false') {
-    term = false;
-  } else if (term === 'null') {
-    term = null;
+  if (query === 'true') {
+    query = true;
+  } else if (query === 'false') {
+    query = false;
+  } else if (query === 'null') {
+    query = null;
   }
 
   return {
     quoted: false,
-    term,
+    query,
   };
 }
 
@@ -224,17 +224,17 @@ const grammar: Grammar = {
     {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
     {"name": "post_boolean_primary", "symbols": [{"literal":"("}, "_", "boolean_primary", "_", {"literal":")"}], "postprocess": d => d[2]},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
-    {"name": "side", "symbols": ["field", {"literal":":"}, "term"], "postprocess": d => ({field: d[0], ...d[2]})},
-    {"name": "side", "symbols": ["term"], "postprocess": d => ({field: '<implicit>', ...d[0]})},
+    {"name": "side", "symbols": ["field", {"literal":":"}, "query"], "postprocess": d => ({field: d[0], ...d[2]})},
+    {"name": "side", "symbols": ["query"], "postprocess": d => ({field: '<implicit>', ...d[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[_a-zA-Z0-9-.]/], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "field", "symbols": [/[_a-zA-Z]/, "field$ebnf$1"], "postprocess": d => d[0] + d[1].join('')},
-    {"name": "term", "symbols": ["relational_operator", "decimal"], "postprocess": d => ({quoted: false, term: d[1], relationalOperator: d[0][0] ?? '='})},
-    {"name": "term", "symbols": ["regex"], "postprocess": d => ({quoted: false, regex: true, term: d.join('')})},
-    {"name": "term", "symbols": ["range"], "postprocess": id},
-    {"name": "term", "symbols": ["unquoted_value"], "postprocess": unquotedValue},
-    {"name": "term", "symbols": ["sqstring"], "postprocess": d => ({quoted: true, term: d.join('')})},
-    {"name": "term", "symbols": ["dqstring"], "postprocess": d => ({quoted: true, term: d.join('')})},
+    {"name": "query", "symbols": ["relational_operator", "decimal"], "postprocess": d => ({quoted: false, query: d[1], relationalOperator: d[0][0] ?? '='})},
+    {"name": "query", "symbols": ["regex"], "postprocess": d => ({quoted: false, regex: true, query: d.join('')})},
+    {"name": "query", "symbols": ["range"], "postprocess": id},
+    {"name": "query", "symbols": ["unquoted_value"], "postprocess": unquotedValue},
+    {"name": "query", "symbols": ["sqstring"], "postprocess": d => ({quoted: true, query: d.join('')})},
+    {"name": "query", "symbols": ["dqstring"], "postprocess": d => ({quoted: true, query: d.join('')})},
     {"name": "range$string$1", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
     {"name": "range", "symbols": [{"literal":"["}, "_", "decimal", "_", "range$string$1", "_", "decimal", "_", {"literal":"]"}], "postprocess": range(true, true)},
     {"name": "range$string$2", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},

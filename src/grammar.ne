@@ -22,19 +22,19 @@ const notOp = (d) => {
 }
 
 const unquotedValue = (d, location, reject) => {
-  let term = d.join('');
+  let query = d.join('');
 
-  if (term === 'true') {
-    term = true;
-  } else if (term === 'false') {
-    term = false;
-  } else if (term === 'null') {
-    term = null;
+  if (query === 'true') {
+    query = true;
+  } else if (query === 'false') {
+    query = false;
+  } else if (query === 'null') {
+    query = null;
   }
 
   return {
     quoted: false,
-    term,
+    query,
   };
 }
 
@@ -97,18 +97,18 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field ":" term {% d => ({field: d[0], ...d[2]}) %}
-  | term {% d => ({field: '<implicit>', ...d[0]}) %}
+    field ":" query {% d => ({field: d[0], ...d[2]}) %}
+  | query {% d => ({field: '<implicit>', ...d[0]}) %}
 
 field -> [_a-zA-Z] [_a-zA-Z0-9-.]:* {% d => d[0] + d[1].join('') %}
 
-term ->
-    relational_operator decimal {% d => ({quoted: false, term: d[1], relationalOperator: d[0][0] ?? '='}) %}
-  | regex {% d => ({quoted: false, regex: true, term: d.join('')}) %}
+query ->
+    relational_operator decimal {% d => ({quoted: false, query: d[1], relationalOperator: d[0][0] ?? '='}) %}
+  | regex {% d => ({quoted: false, regex: true, query: d.join('')}) %}
   | range {% id %}
   | unquoted_value {% unquotedValue %}
-  | sqstring {% d => ({quoted: true, term: d.join('')}) %}
-  | dqstring {% d => ({quoted: true, term: d.join('')}) %}
+  | sqstring {% d => ({quoted: true, query: d.join('')}) %}
+  | dqstring {% d => ({quoted: true, query: d.join('')}) %}
 
 range ->
     "[" _ decimal _ "TO" _ decimal _ "]" {% range(true, true) %}

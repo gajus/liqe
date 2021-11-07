@@ -11,128 +11,128 @@ const testQuery = (t, expectedAst) => {
 
 test('foo', testQuery, {
   field: '<implicit>',
+  query: 'foo',
   quoted: false,
-  term: 'foo',
 });
 
 test('foo_bar', testQuery, {
   field: '<implicit>',
+  query: 'foo_bar',
   quoted: false,
-  term: 'foo_bar',
 });
 
 test('"foo"', testQuery, {
   field: '<implicit>',
+  query: 'foo',
   quoted: true,
-  term: 'foo',
 });
 
 test('\'foo\'', testQuery, {
   field: '<implicit>',
+  query: 'foo',
   quoted: true,
-  term: 'foo',
 });
 
 test('/foo/', testQuery, {
   field: '<implicit>',
+  query: '/foo/',
   quoted: false,
   regex: true,
-  term: '/foo/',
 });
 
 test('/foo/ui', testQuery, {
   field: '<implicit>',
+  query: '/foo/ui',
   quoted: false,
   regex: true,
-  term: '/foo/ui',
 });
 
 test('foo:bar', testQuery, {
   field: 'foo',
-  term: 'bar',
+  query: 'bar',
 });
 
 test('foo:123', testQuery, {
   field: 'foo',
+  query: 123,
   relationalOperator: '=',
-  term: 123,
 });
 
 test('foo:-123', testQuery, {
   field: 'foo',
-  term: -123,
+  query: -123,
 });
 
 test('foo:123.4', testQuery, {
   field: 'foo',
-  term: 123.4,
+  query: 123.4,
 });
 
 test('foo:>=123', testQuery, {
   field: 'foo',
+  query: 123,
   relationalOperator: '>=',
-  term: 123,
 });
 
 test('foo:true', testQuery, {
   field: 'foo',
-  term: true,
+  query: true,
 });
 
 test('foo:false', testQuery, {
   field: 'foo',
-  term: false,
+  query: false,
 });
 
 test('foo:null', testQuery, {
   field: 'foo',
-  term: null,
+  query: null,
 });
 
 test('foo.bar:baz', testQuery, {
   field: 'foo.bar',
-  term: 'baz',
+  query: 'baz',
 });
 
 test('foo_bar:baz', testQuery, {
   field: 'foo_bar',
-  term: 'baz',
+  query: 'baz',
 });
 
 test('foo:"bar"', testQuery, {
   field: 'foo',
+  query: 'bar',
   quoted: true,
-  term: 'bar',
 });
 
 test('foo:\'bar\'', testQuery, {
   field: 'foo',
+  query: 'bar',
   quoted: true,
-  term: 'bar',
 });
 
 test('foo:bar AND baz:qux', testQuery, {
   left: {
     field: 'foo',
-    term: 'bar',
+    query: 'bar',
   },
   operator: 'AND',
   right: {
     field: 'baz',
-    term: 'qux',
+    query: 'qux',
   },
 });
 
 test('foo:bar AND NOT baz:qux', testQuery, {
   left: {
     field: 'foo',
-    term: 'bar',
+    query: 'bar',
   },
   operator: 'AND',
   right: {
     operand: {
       field: 'baz',
-      term: 'qux',
+      query: 'qux',
     },
     operator: 'NOT',
   },
@@ -142,59 +142,59 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
   left: {
     left: {
       field: 'foo',
-      term: 'bar',
+      query: 'bar',
     },
     operator: 'AND',
     right: {
       field: 'baz',
-      term: 'qux',
+      query: 'qux',
     },
   },
   operator: 'AND',
   right: {
     field: 'quuz',
-    term: 'corge',
+    query: 'corge',
   },
 });
 
 test('(foo:bar)', testQuery, {
   field: 'foo',
+  query: 'bar',
   quoted: false,
-  term: 'bar',
 });
 
 test('(foo:bar OR baz:qux)', testQuery, {
   left: {
     field: 'foo',
+    query: 'bar',
     quoted: false,
-    term: 'bar',
   },
   operator: 'OR',
   right: {
     field: 'baz',
+    query: 'qux',
     quoted: false,
-    term: 'qux',
   },
 });
 
 test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
   left: {
     field: 'foo',
+    query: 'bar',
     quoted: false,
-    term: 'bar',
   },
   operator: 'OR',
   right: {
     left: {
       field: 'baz',
+      query: 'qux',
       quoted: false,
-      term: 'qux',
     },
     operator: 'OR',
     right: {
       field: 'quuz',
+      query: 'corge',
       quoted: false,
-      term: 'corge',
     },
   },
 });
@@ -203,21 +203,21 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
   left: {
     left: {
       field: 'foo',
+      query: 'bar',
       quoted: false,
-      term: 'bar',
     },
     operator: 'OR',
     right: {
       field: 'baz',
+      query: 'qux',
       quoted: false,
-      term: 'qux',
     },
   },
   operator: 'OR',
   right: {
     field: 'quuz',
+    query: 'corge',
     quoted: false,
-    term: 'corge',
   },
 });
 
