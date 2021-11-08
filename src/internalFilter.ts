@@ -13,9 +13,7 @@ const createRegexTest = (regex: string) => {
   const rule = parseRegex(regex);
 
   return (subject: string): string | false => {
-    const result = subject.match(rule);
-
-    return result ? result[0] : false;
+    return subject.match(rule)?.[0] ?? false;
   };
 };
 
