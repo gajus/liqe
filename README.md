@@ -18,28 +18,65 @@ Lightweight and performant Lucene-like parser and search engine.
 
 ## Usage
 
-```js
+```ts
 import {
   filter,
+  highlight,
   parse,
   test,
 } from 'liqe';
 
 const persons = [
   {
-    height: 1.8,
-    name: 'John',
+    height: 180,
+    name: 'John Morton',
+  },
+  {
+    height: 175,
+    name: 'David Barker',
+  },
+  {
+    height: 170,
+    name: 'Thomas Castro',
   },
 ];
+```
 
-const query = parse('name:Mike');
+Filter a collection:
 
-// If you want to filter a collection
-filter(query, persons);
+```ts
+filter(parse('height:>170'), persons);
+// [
+//   {
+//     height: 180,
+//     name: 'John Morton',
+//   },
+//   {
+//     height: 175,
+//     name: 'David Barker',
+//   },
+// ]
+```
 
-// or if you want to test a single value
-test(query, persons[0]);
+Test a single object:
 
+```ts
+test(parse('name:John'), persons[0]);
+// true
+test(parse('name:David'), persons[0]);
+// false
+```
+
+Highlight matching fields and substrings:
+
+```ts
+test(highlight('name:John'), persons[0]);
+// [
+//   {
+//     keyword: 'John',
+//     path: 'name',
+//   }
+// ]
 ```
 
 ## Query Syntax

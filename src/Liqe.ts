@@ -2,6 +2,9 @@ export {
   filter,
 } from './filter';
 export {
+  highlight,
+} from './highlight';
+export {
   parse,
 } from './parse';
 export {

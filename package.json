@@ -16,6 +16,8 @@
     ]
   },
   "dependencies": {
+    "lucene": "^2.1.1",
+    "micromatch": "^4.0.4",
     "nearley": "^2.20.1",
     "regex-parser": "^2.2.11"
   },

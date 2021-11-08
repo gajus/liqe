@@ -18,5 +18,10 @@ export type Ast = {
   regex?: boolean,
   relationalOperator?: RelationalOperator,
   right: Ast,
-  test?: (subject: string) => boolean,
+  test?: (subject: string) => string | false,
+};
+
+export type Highlight = {
+  keyword?: string,
+  path: string,
 };
