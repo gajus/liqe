@@ -227,14 +227,12 @@ export const internalFilter = <T extends Object>(
   }
 
   if (ast.operator === 'NOT' && ast.operand) {
-    const removeHighlights: Highlight[] = [];
-
     const removeData = internalFilter(
       ast.operand,
       data,
       failFast,
       path,
-      removeHighlights,
+      [],
     );
 
     return data.filter((row) => {
