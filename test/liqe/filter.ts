@@ -13,8 +13,10 @@ type Location = {
 type Person = {
   height: number,
   location?: Location,
+  membership?: null,
   name: string,
   nick?: string,
+  subscribed?: boolean,
   tags?: string[],
 };
 
@@ -43,8 +45,10 @@ const persons: readonly Person[] = [
   },
   {
     height: 225,
+    membership: null,
     name: 'noah',
     nick: 'john',
+    subscribed: true,
   },
 ];
 
@@ -61,6 +65,7 @@ test('"david"', testQuery, ['david']);
 test('name:"da"', testQuery, ['david']);
 test('name:"david"', testQuery, ['david']);
 test('name:David', testQuery, ['david']);
+
 test('name:D*d', testQuery, ['david']);
 test('name:*avid', testQuery, ['david']);
 test('name:/(david)|(john)/', testQuery, ['david', 'john']);
@@ -94,7 +99,12 @@ test('height:>=220', testQuery, ['robert', 'noah']);
 test('height:175 AND NOT name:mike', testQuery, ['john']);
 
 test('"member"', testQuery, ['robert']);
+
 test('tags:"member"', testQuery, ['robert']);
 
 test('"London"', testQuery, ['mike']);
 test('location.city:"London"', testQuery, ['mike']);
+
+test('membership:null', testQuery, ['noah']);
+
+test('subscribed:true', testQuery, ['noah']);

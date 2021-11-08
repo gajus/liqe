@@ -4,19 +4,15 @@ import {
 } from './escapeRegexString';
 import type {
   Ast,
+  Highlight,
+  InternalTest,
   Range,
   RelationalOperator,
-  Highlight,
 } from './types';
 
-// Technically, this is a memory leak.
-// Practically, it is unlikely to cause issues and
-// it is the most efficient method of caching regex.
-// Alternatively, we could initiate regexCache
-// in the `internalFilter` closure.
-const regexCache = {};
+type RegExpCache = Record<string, RegExp>;
 
-const createRegexTest = (regex: string) => {
+const createRegexTest = (regexCache: RegExpCache, regex: string) => {
   let rule: RegExp;
 
   if (regexCache[regex]) {
@@ -67,18 +63,60 @@ const testRelationalRange = (query: number, value: number, relationalOperator: R
   }
 };
 
-const testString = (ast: Ast, value: string): string | false => {
-  if (!ast.test) {
-    if (ast.regex) {
-      ast.test = createRegexTest(ast.query);
-    } else if (ast.query.includes('*') && ast.quoted === false) {
-      ast.test = createRegexTest('/(' + ast.query.replace(/\*/g, '.+?') + ')/' + (ast.quoted ? 'u' : 'ui'));
-    } else {
-      ast.test = createRegexTest('/(' + escapeRegexString(ast.query) + ')/' + (ast.quoted ? 'u' : 'ui'));
+const createStringTest = (regexCache: RegExpCache, ast: Ast) => {
+  if (ast.regex) {
+    return createRegexTest(regexCache, ast.query);
+  } else if (ast.query.includes('*') && ast.quoted === false) {
+    return createRegexTest(regexCache, '/(' + ast.query.replace(/\*/g, '.+?') + ')/' + (ast.quoted ? 'u' : 'ui'));
+  } else {
+    return createRegexTest(regexCache, '/(' + escapeRegexString(ast.query) + ')/' + (ast.quoted ? 'u' : 'ui'));
+  }
+};
+
+const createValueTest = (ast: Ast): InternalTest => {
+  const query = ast.query;
+
+  if (ast.range) {
+    return (value) => {
+      return testRange(value, ast.range as Range);
+    };
+  } else if (ast.relationalOperator) {
+    const relationalOperator = ast.relationalOperator;
+
+    if (typeof query !== 'number') {
+      throw new TypeError('Unexpected state.');
     }
+
+    return (value) => {
+      if (typeof value !== 'number') {
+        return false;
+      }
+
+      return testRelationalRange(query, value, relationalOperator);
+    };
+  } else if (typeof query === 'boolean') {
+    return (value) => {
+      return value === query;
+    };
+  } else if (query === null) {
+    return (value) => {
+      return value === null;
+    };
+  } else if (typeof query === 'string') {
+    const testString = createStringTest({}, ast);
+
+    return (value) => {
+      if (typeof value !== 'string') {
+        return false;
+      }
+
+      return testString(value);
+    };
   }
 
-  return ast.test(value);
+  return () => {
+    return false;
+  };
 };
 
 const testValue = (
@@ -88,34 +126,7 @@ const testValue = (
   path: string[],
   highlights: Highlight[],
 ) => {
-  const capture = (condition: boolean | string) => {
-    if (condition) {
-      highlights.push({
-        ...typeof condition === 'string' && {keyword: condition},
-        path: path.join('.'),
-      });
-
-      return true;
-    }
-
-    return false;
-  };
-
-  if (ast.range) {
-    return capture(testRange(value, ast.range));
-  } else if (ast.relationalOperator) {
-    if (typeof value !== 'number') {
-      return false;
-    }
-
-    return capture(testRelationalRange(ast.query as unknown as number, value, ast.relationalOperator));
-  } else if (ast.query === null) {
-    return capture(ast.query === null);
-  } else if (typeof ast.query === 'boolean') {
-    return capture(ast.query === value);
-  } else if (typeof value === 'string') {
-    return capture(testString(ast, value));
-  } else if (Array.isArray(value)) {
+  if (Array.isArray(value)) {
     let foundMatch = false;
     let index = 0;
 
@@ -144,9 +155,28 @@ const testValue = (
     }
 
     return foundMatch;
-  } else {
-    return false;
   }
+
+  if (!ast.test) {
+    throw new Error('Unexpected state.');
+  }
+
+  const result = ast.test(
+    value,
+  );
+
+  if (result) {
+    highlights.push({
+      ...typeof result === 'string' && {keyword: result},
+      path: path.join('.'),
+    });
+
+    return true;
+  }
+
+  return Boolean(
+    result,
+  );
 };
 
 const testField = <T extends Object>(
@@ -156,6 +186,10 @@ const testField = <T extends Object>(
   path: string[],
   highlights: Highlight[],
 ): boolean => {
+  if (!ast.test) {
+    ast.test = createValueTest(ast);
+  }
+
   if (ast.field in row) {
     return testValue(
       ast,
