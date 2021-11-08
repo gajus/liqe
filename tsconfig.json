@@ -13,7 +13,7 @@
     "outDir": "dist",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2018"
+    "target": "es5"
   },
   "exclude": [
     "dist",
