@@ -1,7 +1,9 @@
-import parseRegex from 'regex-parser';
 import {
   escapeRegexString,
 } from './escapeRegexString';
+import {
+  parseRegex,
+} from './parseRegex';
 import type {
   Ast,
   Highlight,
