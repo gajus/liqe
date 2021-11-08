@@ -37,7 +37,9 @@ const persons: readonly Person[] = [
   {
     height: 220,
     name: 'robert',
-    tags: ['member'],
+    tags: [
+      'member',
+    ],
   },
   {
     height: 225,
