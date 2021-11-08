@@ -147,19 +147,9 @@ const testField = <T extends Object>(
   path: string[],
   highlights: Highlight[],
 ): boolean => {
-  let query = ast.query;
-
-  if (
-    ast.quoted !== true &&
-    ast.regex !== true &&
-    typeof ast.query === 'string'
-  ) {
-    query = query.toLowerCase();
-  }
-
   if (ast.field in row) {
     return testValue(
-      query,
+      ast.query,
       row[ast.field],
       ast,
       resultFast,
@@ -180,7 +170,7 @@ const testField = <T extends Object>(
     }
 
     return testValue(
-      query,
+      ast.query,
       value,
       ast,
       resultFast,
