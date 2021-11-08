@@ -66,14 +66,18 @@ test(
 test(
   'matches or',
   testQuery,
-  'name:foo OR name:bar',
+  'name:foo OR name:bar OR height:180',
   {
+    height: 180,
     name: 'bar',
   },
   [
     {
       keyword: 'bar',
       path: 'name',
+    },
+    {
+      path: 'height',
     },
   ],
 );
