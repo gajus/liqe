@@ -70,7 +70,7 @@ test(parse('name:David'), persons[0]);
 Highlight matching fields and substrings:
 
 ```ts
-test(highlight('name:John'), persons[0]);
+test(highlight('name:john'), persons[0]);
 // [
 //   {
 //     keyword: 'John',
