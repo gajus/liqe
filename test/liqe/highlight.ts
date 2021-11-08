@@ -98,6 +98,21 @@ test(
 );
 
 test(
+  'matches glob (lazy)',
+  testQuery,
+  'name:f*o',
+  {
+    name: 'foo bar o baz',
+  },
+  [
+    {
+      keyword: 'foo',
+      path: 'name',
+    },
+  ],
+);
+
+test(
   'matches regex',
   testQuery,
   'name:/foo/',

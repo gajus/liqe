@@ -55,7 +55,7 @@ const testString = (ast: Ast, query: string, value: string): string | false => {
     if (ast.regex) {
       ast.test = createRegexTest(ast.query);
     } else if (query.includes('*') && ast.quoted === false) {
-      ast.test = createRegexTest('/(' + query.replace(/\*/g, '.*') + ')/' + (ast.quoted ? 'u' : 'ui'));
+      ast.test = createRegexTest('/(' + query.replace(/\*/g, '.+?') + ')/' + (ast.quoted ? 'u' : 'ui'));
     } else {
       ast.test = createRegexTest('/(' + escapeRegexString(ast.query) + ')/' + (ast.quoted ? 'u' : 'ui'));
     }
