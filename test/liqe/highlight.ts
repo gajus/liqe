@@ -13,6 +13,26 @@ const testQuery = test.macro(<T extends Object>(t, query: string, subject: T, hi
   t.deepEqual(highlight(parse(query), subject), highlights);
 });
 
+test.skip(
+  'matches every property',
+  testQuery,
+  '*',
+  {
+    email: 'foo@bar.com',
+    name: 'foo bar',
+  },
+  [
+    {
+      keyword: 'foo@bar.com',
+      path: 'email',
+    },
+    {
+      keyword: 'foo bar',
+      path: 'name',
+    },
+  ],
+);
+
 test(
   'matches any property',
   testQuery,
