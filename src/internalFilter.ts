@@ -86,16 +86,10 @@ const testValue = (
   const capture = (condition: boolean | string) => {
     if (condition) {
       if (highlights) {
-        if (typeof condition === 'string') {
-          highlights.push({
-            keyword: condition,
-            path: path.join('.'),
-          });
-        } else {
-          highlights.push({
-            path: path.join('.'),
-          });
-        }
+        highlights.push({
+          ...typeof condition === 'string' && {keyword: condition},
+          path: path.join('.'),
+        });
       }
 
       return true;
