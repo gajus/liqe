@@ -1,4 +1,7 @@
 import parseRegex from 'regex-parser';
+import {
+  escapeRegexString,
+} from './escapeRegexString';
 import type {
   Ast,
   Range,
@@ -48,29 +51,17 @@ const testRelationalRange = (query: number, value: number, relationalOperator: R
 };
 
 const testString = (ast: Ast, query: string, value: string): string | false => {
-  let normalizedValue = value;
-
-  if (
-    ast.regex !== true &&
-    ast.quoted === false
-  ) {
-    normalizedValue = normalizedValue.toLowerCase();
-  }
-
   if (!ast.test) {
     if (ast.regex) {
       ast.test = createRegexTest(ast.query);
     } else if (query.includes('*') && ast.quoted === false) {
-      ast.test = createRegexTest('(' + query.replace(/\*/g, '.*') + ')');
+      ast.test = createRegexTest('/(' + query.replace(/\*/g, '.*') + ')/' + (ast.quoted ? 'u' : 'ui'));
+    } else {
+      ast.test = createRegexTest('/(' + escapeRegexString(ast.query) + ')/' + (ast.quoted ? 'u' : 'ui'));
     }
   }
 
-  if (ast.test) {
-    return ast.test(normalizedValue);
-  }
-
-  // @todo will not work with CI
-  return normalizedValue.includes(query) ? query : false;
+  return ast.test(value);
 };
 
 const testValue = (

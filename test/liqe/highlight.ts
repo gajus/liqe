@@ -49,6 +49,21 @@ test(
 );
 
 test(
+  'matches property (case sensitive)',
+  testQuery,
+  'name:foo',
+  {
+    name: 'Foo Bar',
+  },
+  [
+    {
+      keyword: 'Foo',
+      path: 'name',
+    },
+  ],
+);
+
+test(
   'matches or',
   testQuery,
   'name:foo OR name:bar',
