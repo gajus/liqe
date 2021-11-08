@@ -96,7 +96,17 @@ const testValue = (
     return false;
   };
 
-  if (Array.isArray(value)) {
+  if (typeof value === 'number' && ast.range) {
+    return capture(testRange(value, ast.range));
+  } else if (typeof query === 'boolean') {
+    return capture(query === value);
+  } else if (query === null) {
+    return capture(query === null);
+  } else if (typeof value === 'string') {
+    return capture(testString(ast, query, value));
+  } else if (typeof query === 'number' && typeof value === 'number' && ast.relationalOperator) {
+    return capture(testRelationalRange(query, value, ast.relationalOperator));
+  } else if (Array.isArray(value)) {
     let foundMatch = false;
     let index = 0;
 
@@ -111,16 +121,6 @@ const testValue = (
     }
 
     return foundMatch;
-  } else if (typeof value === 'number' && ast.range) {
-    return capture(testRange(value, ast.range));
-  } else if (typeof query === 'boolean') {
-    return capture(query === value);
-  } else if (query === null) {
-    return capture(query === null);
-  } else if (typeof value === 'string') {
-    return capture(testString(ast, query, value));
-  } else if (typeof query === 'number' && typeof value === 'number' && ast.relationalOperator) {
-    return capture(testRelationalRange(query, value, ast.relationalOperator));
   } else {
     return false;
   }
