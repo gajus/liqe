@@ -231,9 +231,19 @@ test(
 );
 
 test.skip(
-  'does not include highlights from non-matching branches',
+  'does not include highlights from non-matching branches (and)',
   testQuery,
   'name:foo AND NOT name:foo',
+  {
+    name: 'foo',
+  },
+  [],
+);
+
+test(
+  'does not include highlights from non-matching branches (or)',
+  testQuery,
+  'name:bar OR NOT name:foo',
   {
     name: 'foo',
   },
