@@ -30,24 +30,30 @@ const createRegexTest = (regex: string) => {
   };
 };
 
-const testRange = (value: number, range: Range): boolean => {
-  if (value < range.min) {
-    return false;
+const testRange = (value: unknown, range: Range): boolean => {
+  if (typeof value === 'number') {
+    if (value < range.min) {
+      return false;
+    }
+
+    if (value === range.min && !range.minInclusive) {
+      return false;
+    }
+
+    if (value > range.max) {
+      return false;
+    }
+
+    if (value === range.max && !range.maxInclusive) {
+      return false;
+    }
+
+    return true;
   }
 
-  if (value === range.min && !range.minInclusive) {
-    return false;
-  }
+  // @todo handle non-numeric ranges -- https://github.com/gajus/liqe/issues/3
 
-  if (value > range.max) {
-    return false;
-  }
-
-  if (value === range.max && !range.maxInclusive) {
-    return false;
-  }
-
-  return true;
+  return false;
 };
 
 const testRelationalRange = (query: number, value: number, relationalOperator: RelationalOperator): boolean => {
@@ -96,7 +102,7 @@ const testValue = (
     return false;
   };
 
-  if (typeof value === 'number' && ast.range) {
+  if (ast.range) {
     return capture(testRange(value, ast.range));
   } else if (typeof query === 'boolean') {
     return capture(query === value);
