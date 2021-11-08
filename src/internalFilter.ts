@@ -9,8 +9,21 @@ import type {
   Highlight,
 } from './types';
 
+// Technically, this is a memory leak.
+// Practically, it is unlikely to cause issues and
+// it is the most efficient method of caching regex.
+// Alternatively, we could initiate regexCache
+// in the `internalFilter` closure.
+const regexCache = {};
+
 const createRegexTest = (regex: string) => {
-  const rule = parseRegex(regex);
+  let rule: RegExp;
+
+  if (regexCache[regex]) {
+    rule = regexCache[regex];
+  } else {
+    rule = regexCache[regex] = parseRegex(regex);
+  }
 
   return (subject: string): string | false => {
     return subject.match(rule)?.[0] ?? false;

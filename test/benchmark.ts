@@ -36,6 +36,7 @@ while (size--) {
 
 void suite(
   'liqe',
+
   add('filters list by the "name" field using simple strict equality check', () => {
     const query = parse('name:"Gajus"');
 
@@ -43,13 +44,15 @@ void suite(
       filter(query, persons);
     };
   }),
+
   add('filters list by the "name" field using regex check', () => {
-    const query = parse('name:/Gajus/i');
+    const query = parse('name:/Gajus/ui');
 
     return () => {
       filter(query, persons);
     };
   }),
+
   add('filters list by the "name" field using loose inclusion check', () => {
     const query = parse('name:Gajus');
 
@@ -57,6 +60,7 @@ void suite(
       filter(query, persons);
     };
   }),
+
   add('filters list by the "name" field using glob check', () => {
     const query = parse('name:Ga*');
 
@@ -64,6 +68,7 @@ void suite(
       filter(query, persons);
     };
   }),
+
   add('filters list by any field using loose inclusion check', () => {
     const query = parse('Gajus');
 
@@ -71,6 +76,7 @@ void suite(
       filter(query, persons);
     };
   }),
+
   add('filters list by the "height" field using strict equality check', () => {
     const query = parse('height:180');
 
@@ -78,6 +84,7 @@ void suite(
       filter(query, persons);
     };
   }),
+
   add('filters list by the "height" field using range check', () => {
     const query = parse('height:[160 TO 180]');
 
