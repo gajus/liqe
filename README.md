@@ -77,6 +77,12 @@ test(highlight('name:John'), persons[0]);
 //     path: 'name',
 //   }
 // ]
+test(highlight('height:180'), persons[0]);
+// [
+//   {
+//     path: 'height',
+//   }
+// ]
 ```
 
 ## Query Syntax
