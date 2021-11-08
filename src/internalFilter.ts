@@ -124,7 +124,7 @@ const testValue = (
   } else if (typeof value === 'object' && value !== null) {
     let foundMatch = false;
 
-    for (const key of Object.keys(value)) {
+    for (const key in value) {
       if (testValue(query, value[key], ast, resultFast, [...path, key], highlights)) {
         if (resultFast) {
           return true;
