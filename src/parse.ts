@@ -4,8 +4,10 @@ import type {
   Ast,
 } from './types';
 
+const rules = nearley.Grammar.fromCompiled(grammar);
+
 export const parse = (query: string): Ast => {
-  const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+  const parser = new nearley.Parser(rules);
 
   const results = parser.feed(query).results;
 
