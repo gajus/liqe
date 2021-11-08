@@ -49,7 +49,7 @@ test(
 );
 
 test(
-  'matches property (case sensitive)',
+  'matches property (correctly handles case mismatch)',
   testQuery,
   'name:foo',
   {
