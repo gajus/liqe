@@ -216,13 +216,13 @@ const testField = <T extends Object>(
 
 export const internalFilter = <T extends Object>(
   ast: Ast,
-  data: readonly T[],
+  rows: readonly T[],
   resultFast: boolean = true,
   path: string[] = [],
   highlights: Highlight[] = [],
 ): readonly T[] => {
   if (ast.field) {
-    return data.filter((row) => {
+    return rows.filter((row) => {
       return testField(
         row,
         ast,
@@ -234,16 +234,16 @@ export const internalFilter = <T extends Object>(
   }
 
   if (ast.operator === 'NOT' && ast.operand) {
-    const removeData = internalFilter(
+    const removeRows = internalFilter(
       ast.operand,
-      data,
+      rows,
       resultFast,
       path,
       [],
     );
 
-    return data.filter((row) => {
-      return !removeData.includes(row);
+    return rows.filter((row) => {
+      return !removeRows.includes(row);
     });
   }
 
@@ -251,18 +251,18 @@ export const internalFilter = <T extends Object>(
     throw new Error('Unexpected state.');
   }
 
-  const leftData = internalFilter(
+  const leftRows = internalFilter(
     ast.left,
-    data,
+    rows,
     resultFast,
     path,
     highlights,
   );
 
   if (ast.operator === 'OR') {
-    const rightData = internalFilter(
+    const rightRows = internalFilter(
       ast.right,
-      data,
+      rows,
       resultFast,
       path,
       highlights,
@@ -270,14 +270,14 @@ export const internalFilter = <T extends Object>(
 
     return Array.from(
       new Set([
-        ...leftData,
-        ...rightData,
+        ...leftRows,
+        ...rightRows,
       ]),
     );
   } else if (ast.operator === 'AND') {
     return internalFilter(
       ast.right,
-      leftData,
+      leftRows,
       resultFast,
       path,
       highlights,
