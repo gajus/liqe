@@ -79,18 +79,16 @@ const testValue = (
   query: string,
   value: unknown,
   ast: Ast,
-  failFast: boolean,
+  resultFast: boolean,
   path: string[],
   highlights: Highlight[],
 ) => {
   const capture = (condition: boolean | string) => {
     if (condition) {
-      if (highlights) {
-        highlights.push({
-          ...typeof condition === 'string' && {keyword: condition},
-          path: path.join('.'),
-        });
-      }
+      highlights.push({
+        ...typeof condition === 'string' && {keyword: condition},
+        path: path.join('.'),
+      });
 
       return true;
     }
@@ -103,8 +101,8 @@ const testValue = (
     let index = 0;
 
     for (const item of value) {
-      if (testValue(query, item, ast, failFast, [...path, String(index++)], highlights)) {
-        if (failFast) {
+      if (testValue(query, item, ast, resultFast, [...path, String(index++)], highlights)) {
+        if (resultFast) {
           return true;
         }
 
@@ -131,7 +129,7 @@ const testValue = (
 const testField = <T extends Object>(
   row: T,
   ast: Ast,
-  failFast: boolean,
+  resultFast: boolean,
   path: string[],
   highlights: Highlight[],
 ): boolean => {
@@ -150,7 +148,7 @@ const testField = <T extends Object>(
       query,
       row[ast.field],
       ast,
-      failFast,
+      resultFast,
       path,
       highlights,
     );
@@ -160,8 +158,7 @@ const testField = <T extends Object>(
     for (const key of ast.field.split('.')) {
       if (typeof value !== 'object' || value === null) {
         return false;
-      }
-      if (key in value) {
+      } else if (key in value) {
         value = value[key];
       } else {
         return false;
@@ -172,7 +169,7 @@ const testField = <T extends Object>(
       query,
       value,
       ast,
-      failFast,
+      resultFast,
       path,
       highlights,
     );
@@ -182,14 +179,14 @@ const testField = <T extends Object>(
       if (testField(
         row,
         {...ast, field},
-        failFast,
+        resultFast,
         [
           ...path,
           field,
         ],
         highlights,
       )) {
-        if (failFast) {
+        if (resultFast) {
           return true;
         }
 
@@ -206,7 +203,7 @@ const testField = <T extends Object>(
 export const internalFilter = <T extends Object>(
   ast: Ast,
   data: readonly T[],
-  failFast: boolean = true,
+  resultFast: boolean = true,
   path: string[] = [],
   highlights: Highlight[] = [],
 ): readonly T[] => {
@@ -215,7 +212,7 @@ export const internalFilter = <T extends Object>(
       return testField(
         row,
         ast,
-        failFast,
+        resultFast,
         ast.field === '<implicit>' ? path : [...path, ast.field],
         highlights,
       );
@@ -226,7 +223,7 @@ export const internalFilter = <T extends Object>(
     const removeData = internalFilter(
       ast.operand,
       data,
-      failFast,
+      resultFast,
       path,
       [],
     );
@@ -243,7 +240,7 @@ export const internalFilter = <T extends Object>(
   const leftData = internalFilter(
     ast.left,
     data,
-    failFast,
+    resultFast,
     path,
     highlights,
   );
@@ -252,7 +249,7 @@ export const internalFilter = <T extends Object>(
     const rightData = internalFilter(
       ast.right,
       data,
-      failFast,
+      resultFast,
       path,
       highlights,
     );
@@ -267,7 +264,7 @@ export const internalFilter = <T extends Object>(
     return internalFilter(
       ast.right,
       leftData,
-      failFast,
+      resultFast,
       path,
       highlights,
     );
