@@ -65,8 +65,8 @@ const testString = (ast: Ast, query: string, value: string): string | false => {
 };
 
 const testValue = (
-  query,
-  value,
+  query: string,
+  value: unknown,
   ast: Ast,
   failFast: boolean,
   path: string[],
@@ -108,7 +108,7 @@ const testValue = (
     }
 
     return foundMatch;
-  } else if (ast.range) {
+  } else if (typeof value === 'number' && ast.range) {
     return capture(testRange(value, ast.range));
   } else if (typeof query === 'boolean') {
     return capture(query === value);
