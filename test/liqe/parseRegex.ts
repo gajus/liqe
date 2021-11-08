@@ -5,7 +5,7 @@ import {
 
 const EMAIL_REGEX = /[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/;
 
-const testRule = test.macro(<T extends Object>(t, regex) => {
+const testRule = test.macro((t, regex: RegExp) => {
   t.deepEqual(parseRegex(t.title), regex);
 });
 
