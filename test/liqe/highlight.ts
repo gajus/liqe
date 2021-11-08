@@ -127,6 +127,25 @@ test(
   ],
 );
 
+test.skip(
+  'matches regex (multiple)',
+  testQuery,
+  'name:/(foo|bar)/g',
+  {
+    name: 'foo bar baz',
+  },
+  [
+    {
+      keyword: 'foo',
+      path: 'name',
+    },
+    {
+      keyword: 'bar',
+      path: 'name',
+    },
+  ],
+);
+
 test(
   'matches number',
   testQuery,
