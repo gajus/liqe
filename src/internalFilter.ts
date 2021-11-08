@@ -67,12 +67,12 @@ const testRelationalRange = (query: number, value: number, relationalOperator: R
   }
 };
 
-const testString = (ast: Ast, query: string, value: string): string | false => {
+const testString = (ast: Ast, value: string): string | false => {
   if (!ast.test) {
     if (ast.regex) {
       ast.test = createRegexTest(ast.query);
-    } else if (query.includes('*') && ast.quoted === false) {
-      ast.test = createRegexTest('/(' + query.replace(/\*/g, '.+?') + ')/' + (ast.quoted ? 'u' : 'ui'));
+    } else if (ast.query.includes('*') && ast.quoted === false) {
+      ast.test = createRegexTest('/(' + ast.query.replace(/\*/g, '.+?') + ')/' + (ast.quoted ? 'u' : 'ui'));
     } else {
       ast.test = createRegexTest('/(' + escapeRegexString(ast.query) + ')/' + (ast.quoted ? 'u' : 'ui'));
     }
@@ -82,9 +82,8 @@ const testString = (ast: Ast, query: string, value: string): string | false => {
 };
 
 const testValue = (
-  query: string,
-  value: unknown,
   ast: Ast,
+  value: unknown,
   resultFast: boolean,
   path: string[],
   highlights: Highlight[],
@@ -104,20 +103,24 @@ const testValue = (
 
   if (ast.range) {
     return capture(testRange(value, ast.range));
-  } else if (typeof query === 'boolean') {
-    return capture(query === value);
-  } else if (query === null) {
-    return capture(query === null);
+  } else if (ast.relationalOperator) {
+    if (typeof value !== 'number') {
+      return false;
+    }
+
+    return capture(testRelationalRange(ast.query as unknown as number, value, ast.relationalOperator));
+  } else if (ast.query === null) {
+    return capture(ast.query === null);
+  } else if (typeof ast.query === 'boolean') {
+    return capture(ast.query === value);
   } else if (typeof value === 'string') {
-    return capture(testString(ast, query, value));
-  } else if (typeof query === 'number' && typeof value === 'number' && ast.relationalOperator) {
-    return capture(testRelationalRange(query, value, ast.relationalOperator));
+    return capture(testString(ast, value));
   } else if (Array.isArray(value)) {
     let foundMatch = false;
     let index = 0;
 
     for (const item of value) {
-      if (testValue(query, item, ast, resultFast, [...path, String(index++)], highlights)) {
+      if (testValue(ast, item, resultFast, [...path, String(index++)], highlights)) {
         if (resultFast) {
           return true;
         }
@@ -131,7 +134,7 @@ const testValue = (
     let foundMatch = false;
 
     for (const key in value) {
-      if (testValue(query, value[key], ast, resultFast, [...path, key], highlights)) {
+      if (testValue(ast, value[key], resultFast, [...path, key], highlights)) {
         if (resultFast) {
           return true;
         }
@@ -155,9 +158,8 @@ const testField = <T extends Object>(
 ): boolean => {
   if (ast.field in row) {
     return testValue(
-      ast.query,
-      row[ast.field],
       ast,
+      row[ast.field],
       resultFast,
       path,
       highlights,
@@ -176,9 +178,8 @@ const testField = <T extends Object>(
     }
 
     return testValue(
-      ast.query,
-      value,
       ast,
+      value,
       resultFast,
       path,
       highlights,
@@ -188,12 +189,11 @@ const testField = <T extends Object>(
 
     for (const field in row) {
       if (testValue(
-        ast.query,
-        row[field],
         {
           ...ast,
           field,
         },
+        row[field],
         resultFast,
         [
           ...path,
