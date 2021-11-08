@@ -16,8 +16,7 @@
     ]
   },
   "dependencies": {
-    "nearley": "^2.20.1",
-    "regex-parser": "^2.2.11"
+    "nearley": "^2.20.1"
   },
   "description": "Lightweight and performant Lucene-like parser and search engine.",
   "devDependencies": {
