@@ -179,10 +179,15 @@ const testField = <T extends Object>(
     );
   } else if (ast.field === '<implicit>') {
     let foundMatch = false;
+
     for (const field in row) {
-      if (testField(
-        row,
-        {...ast, field},
+      if (testValue(
+        ast.query,
+        row[field],
+        {
+          ...ast,
+          field,
+        },
         resultFast,
         [
           ...path,
