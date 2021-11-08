@@ -6,10 +6,10 @@ import {
   parse,
 } from '../../src/parse';
 import type {
-  Highlights,
+  Highlight,
 } from '../../src/types';
 
-const testQuery = test.macro(<T extends Object>(t, query: string, subject: T, highlights: Highlights) => {
+const testQuery = test.macro(<T extends Object>(t, query: string, subject: T, highlights: Highlight[]) => {
   t.deepEqual(highlight(parse(query), subject), highlights);
 });
 
