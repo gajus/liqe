@@ -94,5 +94,5 @@ test('height:175 AND NOT name:mike', testQuery, ['john']);
 test('"member"', testQuery, ['robert']);
 test('tags:"member"', testQuery, ['robert']);
 
-test('"London"', testQuery, []);
+test('"London"', testQuery, ['mike']);
 test('location.city:"London"', testQuery, ['mike']);

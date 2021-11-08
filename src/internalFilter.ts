@@ -121,6 +121,20 @@ const testValue = (
     }
 
     return foundMatch;
+  } else if (typeof value === 'object' && value !== null) {
+    let foundMatch = false;
+
+    for (const key of Object.keys(value)) {
+      if (testValue(query, value[key], ast, resultFast, [...path, key], highlights)) {
+        if (resultFast) {
+          return true;
+        }
+
+        foundMatch = true;
+      }
+    }
+
+    return foundMatch;
   } else {
     return false;
   }
