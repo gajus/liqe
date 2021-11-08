@@ -12,4 +12,5 @@ export {
 } from './test';
 export {
   Ast as Query,
+  Highlight,
 } from './types';
