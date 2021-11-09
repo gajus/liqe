@@ -96,6 +96,12 @@ test('foo:=123', testQuery, {
   relationalOperator: '=',
 });
 
+test('foo:=   123', testQuery, {
+  field: 'foo',
+  query: 123,
+  relationalOperator: '=',
+});
+
 test('foo:=-123', testQuery, {
   field: 'foo',
   query: -123,

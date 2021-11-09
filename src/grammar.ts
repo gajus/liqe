@@ -223,7 +223,7 @@ const grammar: Grammar = {
     {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": d => d[0] + d[1].join('')},
     {"name": "field", "symbols": ["sqstring"], "postprocess": id},
     {"name": "field", "symbols": ["dqstring"], "postprocess": id},
-    {"name": "query", "symbols": ["relational_operator", "decimal"], "postprocess": d => ({quoted: false, query: d[1], relationalOperator: d[0][0]})},
+    {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": d => ({quoted: false, query: d[2], relationalOperator: d[0][0]})},
     {"name": "query", "symbols": ["decimal"], "postprocess": d => ({quoted: false, query: d.join('')})},
     {"name": "query", "symbols": ["regex"], "postprocess": d => ({quoted: false, regex: true, query: d.join('')})},
     {"name": "query", "symbols": ["range"], "postprocess": id},
