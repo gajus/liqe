@@ -110,6 +110,13 @@ name:/foo/o
 # search using wildcard
 name:foo*bar
 
+# boolean search
+member:true
+member:false
+
+# null search
+member:null
+
 # search for age =, >, >=, <, <=
 age:=100
 age:>100
