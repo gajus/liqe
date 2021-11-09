@@ -119,8 +119,8 @@ regex_body ->
     "/" regex_body_char:* "/" {% d => '/' + d[1].join('') + '/' %}
 
 regex_body_char ->
-    [^\\"\n] {% id %}
-  | "\\" strescape {% d => JSON.parse("\""+d.join("")+"\"") %}
+    [^\\] {% id %}
+  | "\\" [^\\] {% d => '\\' + d[1] %}
 
 regex_flags ->
   null |

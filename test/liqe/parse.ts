@@ -61,6 +61,20 @@ test('/foo/ui', testQuery, {
   regex: true,
 });
 
+test('/\\s/', testQuery, {
+  field: '<implicit>',
+  query: '/\\s/',
+  quoted: false,
+  regex: true,
+});
+
+test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, {
+  field: '<implicit>',
+  query: '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
+  quoted: false,
+  regex: true,
+});
+
 test('foo:bar', testQuery, {
   field: 'foo',
   query: 'bar',

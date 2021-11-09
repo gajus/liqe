@@ -11,6 +11,7 @@ type Location = {
 };
 
 type Person = {
+  email?: string,
   height: number,
   location?: Location,
   membership?: null,
@@ -44,6 +45,7 @@ const persons: readonly Person[] = [
     ],
   },
   {
+    email: 'noah@john.com',
     height: 225,
     membership: null,
     name: 'noah',
@@ -109,3 +111,5 @@ test('location.city:"London"', testQuery, ['mike']);
 test('membership:null', testQuery, ['noah']);
 
 test('subscribed:true', testQuery, ['noah']);
+
+test('email:/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, ['noah']);
