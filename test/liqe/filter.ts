@@ -68,6 +68,7 @@ test('name:David', testQuery, ['david']);
 
 test('name:D*d', testQuery, ['david']);
 test('name:*avid', testQuery, ['david']);
+test('name:a*d', testQuery, ['david']);
 test('name:/(david)|(john)/', testQuery, ['david', 'john']);
 test('name:/(David)|(John)/', testQuery, []);
 test('name:/(David)|(John)/i', testQuery, ['david', 'john']);

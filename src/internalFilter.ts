@@ -69,7 +69,7 @@ const createStringTest = (regexCache: RegExpCache, ast: Ast) => {
   if (ast.regex) {
     return createRegexTest(regexCache, ast.query);
   } else if (ast.query.includes('*') && ast.quoted === false) {
-    return createRegexTest(regexCache, '/(' + ast.query.replace(/\*/g, '.+?') + ')/' + (ast.quoted ? 'u' : 'ui'));
+    return createRegexTest(regexCache, '/' + ast.query.replace(/\*/g, '(.+?)') + '/' + (ast.quoted ? 'u' : 'ui'));
   } else {
     return createRegexTest(regexCache, '/(' + escapeRegexString(ast.query) + ')/' + (ast.quoted ? 'u' : 'ui'));
   }
