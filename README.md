@@ -10,6 +10,7 @@ Lightweight and performant Lucene-like parser and search engine.
 
 * [Usage](#usage)
 * [Query Syntax](#query-syntax)
+  * [Liqe syntax cheat sheet](#liqe-syntax-cheat-sheet)
   * [Keyword matching](#keyword-matching)
   * [Number matching](#number-matching)
   * [Range matching](#range-matching)
@@ -89,6 +90,45 @@ test(highlight('height:180'), persons[0]);
 
 ## Query Syntax
 
+### Liqe syntax cheat sheet
+
+```rb
+# search for "foo" term anywhere in the document (case insensitive)
+foo
+
+# search for "foo" term anywhere in the document (case sensitive)
+'foo'
+"foo"
+
+# search for "foo" term in `name` field
+name:foo
+
+# search using regex
+name:/foo/
+name:/foo/o
+
+# search using wildcard
+name:foo*bar
+
+# search for age =, >, >=, <, <=
+age:=100
+age:>100
+age:>=100
+age:<100
+age:<>=100
+
+# search for age in range (inclusive, exclusive)
+height:[100 TO 200]
+height:{100 TO 200}
+
+# logical operators
+name:foo AND age:=100
+name:foo OR name:bar
+
+# grouping
+name:foo AND (bio:bar OR bio:baz)
+```
+
 ### Keyword matching
 
 Search for word "foo" in any field (case insensitive).
@@ -97,28 +137,28 @@ Search for word "foo" in any field (case insensitive).
 foo
 ```
 
-Search for word "foo" in the `title` field.
+Search for word "foo" in the `name` field.
 
 ```rb
-title:foo
+name:foo
 ```
 
-Search for `title` field values matching `/foo/i` regex.
+Search for `name` field values matching `/foo/i` regex.
 
 ```rb
-title:/foo/i
+name:/foo/i
 ```
 
-Search for `title` field values matching `f*o` glob pattern.
+Search for `name` field values matching `f*o` glob pattern.
 
 ```rb
-title:f*o
+name:f*o
 ```
 
-Search for phrase "foo bar" in the `title` field (case sensitive).
+Search for phrase "foo bar" in the `name` field (case sensitive).
 
 ```rb
-title:"foo bar"
+name:"foo bar"
 ```
 
 ### Number matching
@@ -157,30 +197,30 @@ height:{100 TO 200}
 
 ### Wildcard matching
 
-Search for any word that starts with "foo" in the `title` field.
+Search for any word that starts with "foo" in the `name` field.
 
 ```rb
-title:foo*
+name:foo*
 ```
 
-Search for any word that starts with "foo" and ends with bar in the `title` field.
+Search for any word that starts with "foo" and ends with bar in the `name` field.
 
 ```rb
-title:foo*bar
+name:foo*bar
 ```
 
 ### Logical Operators
 
-Search for phrase "foo bar" in the `title` field AND the phrase "quick fox" in the `body` field.
+Search for phrase "foo bar" in the `name` field AND the phrase "quick fox" in the `bio` field.
 
 ```rb
-title:"foo bar" AND body:"quick fox"
+name:"foo bar" AND bio:"quick fox"
 ```
 
-Search for either the phrase "foo bar" in the `title` field AND the phrase "quick fox" in the `body` field, or the word "fox" in the `title` field.
+Search for either the phrase "foo bar" in the `name` field AND the phrase "quick fox" in the `bio` field, or the word "fox" in the `name` field.
 
 ```rb
-(title:"foo bar" AND body:"quick fox") OR title:fox
+(name:"foo bar" AND bio:"quick fox") OR name:fox
 ```
 
 ## Compatibility with Lucene
