@@ -103,6 +103,10 @@ foo
 # search for "foo" term in `name` field
 name:foo
 
+# search for "foo" term in `first` field, member of `name`, i.e.
+# matches {name: {first: 'foo'}}
+name.first:foo
+
 # search using regex
 name:/foo/
 name:/foo/o
