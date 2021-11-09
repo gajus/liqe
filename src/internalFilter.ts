@@ -107,21 +107,13 @@ const createValueTest = (ast: Ast): InternalTest => {
     return (value) => {
       return value === null;
     };
-  } else if (typeof query === 'string') {
+  } else {
     const testString = createStringTest({}, ast);
 
     return (value) => {
-      if (typeof value !== 'string') {
-        return false;
-      }
-
-      return testString(value);
+      return testString(String(value));
     };
   }
-
-  return () => {
-    return false;
-  };
 };
 
 const testValue = (

@@ -11,6 +11,7 @@ type Location = {
 };
 
 type Person = {
+  balance?: number,
   email?: string,
   height: number,
   location?: Location,
@@ -46,6 +47,7 @@ const persons: readonly Person[] = [
     ],
   },
   {
+    balance: 6_364_917,
     email: 'noah@john.com',
     height: 225,
     membership: null,
@@ -118,3 +120,5 @@ test('email:/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', test
 
 test('phoneNumber:"404-050-2611"', testQuery, ['noah']);
 test('phoneNumber:404', testQuery, ['noah']);
+
+test('balance:364', testQuery, ['noah']);
