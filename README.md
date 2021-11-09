@@ -14,6 +14,7 @@ Lightweight and performant Lucene-like parser and search engine.
   * [Number matching](#number-matching)
   * [Range matching](#range-matching)
   * [Wildcard matching](#wildcard-matching)
+  * [Logical Operators](#logical-operators)
 * [Compatibility with Lucene](#compatibility-with-lucene)
 * [Development](#development)
 
@@ -120,18 +121,6 @@ Search for phrase "foo bar" in the `title` field (case sensitive).
 title:"foo bar"
 ```
 
-Search for phrase "foo bar" in the `title` field AND the phrase "quick fox" in the `body` field.
-
-```
-title:"foo bar" AND body:"quick fox"
-```
-
-Search for either the phrase "foo bar" in the `title` field AND the phrase "quick fox" in the `body` field, or the word "fox" in the `title` field.
-
-```
-(title:"foo bar" AND body:"quick fox") OR title:fox
-```
-
 ### Number matching
 
 Search for value equal to 100 in the `height` field.
@@ -178,6 +167,20 @@ Search for any word that starts with "foo" and ends with bar in the `title` fiel
 
 ```
 title:foo*bar
+```
+
+### Logical Operators
+
+Search for phrase "foo bar" in the `title` field AND the phrase "quick fox" in the `body` field.
+
+```
+title:"foo bar" AND body:"quick fox"
+```
+
+Search for either the phrase "foo bar" in the `title` field AND the phrase "quick fox" in the `body` field, or the word "fox" in the `title` field.
+
+```
+(title:"foo bar" AND body:"quick fox") OR title:fox
 ```
 
 ## Compatibility with Lucene
