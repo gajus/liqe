@@ -93,31 +93,31 @@ test(highlight('height:180'), persons[0]);
 
 Search for word "foo" in any field (case insensitive).
 
-```
+```rb
 foo
 ```
 
 Search for word "foo" in the `title` field.
 
-```
+```rb
 title:foo
 ```
 
 Search for `title` field values matching `/foo/i` regex.
 
-```
+```rb
 title:/foo/i
 ```
 
 Search for `title` field values matching `f*o` glob pattern.
 
-```
+```rb
 title:f*o
 ```
 
 Search for phrase "foo bar" in the `title` field (case sensitive).
 
-```
+```rb
 title:"foo bar"
 ```
 
@@ -125,19 +125,19 @@ title:"foo bar"
 
 Search for value equal to 100 in the `height` field.
 
-```
+```rb
 height:=100
 ```
 
 Search for value greater than 100 in the `height` field.
 
-```
+```rb
 height:>100
 ```
 
 Search for value greater than or equal to 100 in the `height` field.
 
-```
+```rb
 height:>=100
 ```
 
@@ -145,13 +145,13 @@ height:>=100
 
 Search for value greater or equal to 100 and lower or equal to 200 in the `height` field.
 
-```
+```rb
 height:[100 TO 200]
 ```
 
 Search for value greater than 100 and lower than 200 in the `height` field.
 
-```
+```rb
 height:{100 TO 200}
 ```
 
@@ -159,13 +159,13 @@ height:{100 TO 200}
 
 Search for any word that starts with "foo" in the `title` field.
 
-```
+```rb
 title:foo*
 ```
 
 Search for any word that starts with "foo" and ends with bar in the `title` field.
 
-```
+```rb
 title:foo*bar
 ```
 
@@ -173,13 +173,13 @@ title:foo*bar
 
 Search for phrase "foo bar" in the `title` field AND the phrase "quick fox" in the `body` field.
 
-```
+```rb
 title:"foo bar" AND body:"quick fox"
 ```
 
 Search for either the phrase "foo bar" in the `title` field AND the phrase "quick fox" in the `body` field, or the word "fox" in the `title` field.
 
-```
+```rb
 (title:"foo bar" AND body:"quick fox") OR title:fox
 ```
 
