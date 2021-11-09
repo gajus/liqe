@@ -254,8 +254,8 @@ const grammar: Grammar = {
     {"name": "regex_flags$ebnf$1", "symbols": [/[gmiyusd]/]},
     {"name": "regex_flags$ebnf$1", "symbols": ["regex_flags$ebnf$1", /[gmiyusd]/], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "regex_flags", "symbols": ["regex_flags$ebnf$1"], "postprocess": d => d[0].join('')},
-    {"name": "unquoted_value$ebnf$1", "symbols": [/[a-zA-Z_*]/]},
-    {"name": "unquoted_value$ebnf$1", "symbols": ["unquoted_value$ebnf$1", /[a-zA-Z_*]/], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "unquoted_value$ebnf$1", "symbols": [/[a-zA-Z\-_*]/]},
+    {"name": "unquoted_value$ebnf$1", "symbols": ["unquoted_value$ebnf$1", /[a-zA-Z\-_*]/], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "unquoted_value", "symbols": ["unquoted_value$ebnf$1"], "postprocess": d => d[0].join('')}
   ],
   ParserStart: "main",
