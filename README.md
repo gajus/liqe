@@ -90,7 +90,7 @@ test(highlight('height:180'), persons[0]);
 
 ### Keyword matching
 
-Search for word "foo" in any field.
+Search for word "foo" in any field (case insensitive).
 
 ```
 foo
@@ -102,7 +102,19 @@ Search for word "foo" in the `title` field.
 title:foo
 ```
 
-Search for phrase "foo bar" in the `title` field.
+Search for `title` field values matching `/foo/i` regex.
+
+```
+title:/foo/i
+```
+
+Search for `title` field values matching `f*o` glob pattern.
+
+```
+title:f*o
+```
+
+Search for phrase "foo bar" in the `title` field (case sensitive).
 
 ```
 title:"foo bar"
