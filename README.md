@@ -126,7 +126,7 @@ age:=100
 age:>100
 age:>=100
 age:<100
-age:<>=100
+age:<=100
 
 # search for age in range (inclusive, exclusive)
 height:[100 TO 200]
