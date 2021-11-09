@@ -11,6 +11,7 @@ Lightweight and performant Lucene-like parser and search engine.
 * [Usage](#usage)
 * [Query Syntax](#query-syntax)
   * [Keyword matching](#keyword-matching)
+  * [Number matching](#number-matching)
   * [Range matching](#range-matching)
   * [Wildcard matching](#wildcard-matching)
 * [Compatibility with Lucene](#compatibility-with-lucene)
@@ -119,18 +120,12 @@ Search for either the phrase "foo bar" in the `title` field AND the phrase "quic
 (title:"foo bar" AND body:"quick fox") OR title:fox
 ```
 
-### Range matching
+### Number matching
 
-Search for value greater or equal to 100 and lower or equal to 200 in the `height` field.
-
-```
-height:[100 TO 200]
-```
-
-Search for value greater than 100 and lower than 200 in the `height` field.
+Search for value equal to 100 in the `height` field.
 
 ```
-height:{100 TO 200}
+height:=100
 ```
 
 Search for value greater than 100 in the `height` field.
@@ -143,6 +138,20 @@ Search for value greater than or equal to 100 in the `height` field.
 
 ```
 height:>=100
+```
+
+### Range matching
+
+Search for value greater or equal to 100 and lower or equal to 200 in the `height` field.
+
+```
+height:[100 TO 200]
+```
+
+Search for value greater than 100 and lower than 200 in the `height` field.
+
+```
+height:{100 TO 200}
 ```
 
 ### Wildcard matching

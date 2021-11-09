@@ -17,6 +17,7 @@ type Person = {
   membership?: null,
   name: string,
   nick?: string,
+  phoneNumber?: string,
   subscribed?: boolean,
   tags?: string[],
 };
@@ -50,6 +51,7 @@ const persons: readonly Person[] = [
     membership: null,
     name: 'noah',
     nick: 'john',
+    phoneNumber: '404-050-2611',
     subscribed: true,
   },
 ];
@@ -94,12 +96,12 @@ test('name:David OR name:John', testQuery, ['david', 'john']);
 test('name:"david" OR name:"john"', testQuery, ['david', 'john']);
 test('name:"David" OR name:"John"', testQuery, []);
 
-test('height:175', testQuery, ['john', 'mike']);
+test('height:=175', testQuery, ['john', 'mike']);
 test('height:>200', testQuery, ['robert', 'noah']);
 test('height:>220', testQuery, ['noah']);
 test('height:>=220', testQuery, ['robert', 'noah']);
 
-test('height:175 AND NOT name:mike', testQuery, ['john']);
+test('height:=175 AND NOT name:mike', testQuery, ['john']);
 
 test('"member"', testQuery, ['robert']);
 
@@ -113,3 +115,6 @@ test('membership:null', testQuery, ['noah']);
 test('subscribed:true', testQuery, ['noah']);
 
 test('email:/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, ['noah']);
+
+test('phoneNumber:"404-050-2611"', testQuery, ['noah']);
+test('phoneNumber:404', testQuery, ['noah']);

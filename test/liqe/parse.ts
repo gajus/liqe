@@ -87,16 +87,21 @@ test('foo:   bar', testQuery, {
 
 test('foo:123', testQuery, {
   field: 'foo',
+  query: '123',
+});
+
+test('foo:=123', testQuery, {
+  field: 'foo',
   query: 123,
   relationalOperator: '=',
 });
 
-test('foo:-123', testQuery, {
+test('foo:=-123', testQuery, {
   field: 'foo',
   query: -123,
 });
 
-test('foo:123.4', testQuery, {
+test('foo:=123.4', testQuery, {
   field: 'foo',
   query: 123.4,
 });

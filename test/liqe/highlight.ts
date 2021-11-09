@@ -86,7 +86,7 @@ test(
 test(
   'matches or',
   testQuery,
-  'name:foo OR name:bar OR height:180',
+  'name:foo OR name:bar OR height:=180',
   {
     height: 180,
     name: 'bar',
@@ -169,7 +169,7 @@ test.skip(
 test(
   'matches number',
   testQuery,
-  'height:180',
+  'height:=180',
   {
     height: 180,
   },

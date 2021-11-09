@@ -92,7 +92,8 @@ field ->
   | dqstring {% id %}
 
 query ->
-    relational_operator decimal {% d => ({quoted: false, query: d[1], relationalOperator: d[0][0] ?? '='}) %}
+    relational_operator decimal {% d => ({quoted: false, query: d[1], relationalOperator: d[0][0]}) %}
+  | decimal {% d => ({quoted: false, query: d.join('')}) %}
   | regex {% d => ({quoted: false, regex: true, query: d.join('')}) %}
   | range {% id %}
   | unquoted_value {% unquotedValue %}
@@ -106,7 +107,7 @@ range ->
   | "{" _ decimal _ "TO" _ decimal _ "}" {% range(false, false) %}
   
 relational_operator ->
-    null
+    "="
   | ">"
   | "<"
   | ">="
