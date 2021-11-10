@@ -125,18 +125,18 @@ member:false
 member:null
 
 # search for age =, >, >=, <, <=
-age:=100
-age:>100
-age:>=100
-age:<100
-age:<=100
+height:=100
+height:>100
+height:>=100
+height:<100
+height:<=100
 
-# search for age in range (inclusive, exclusive)
+# search for height in range (inclusive, exclusive)
 height:[100 TO 200]
 height:{100 TO 200}
 
 # logical operators
-name:foo AND age:=100
+name:foo AND height:=100
 name:foo OR name:bar
 
 # grouping
