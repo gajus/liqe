@@ -269,3 +269,18 @@ test(
   },
   [],
 );
+
+test(
+  'does not highlight the same term multiple times',
+  testQuery,
+  'foo',
+  {
+    name: 'foo foo foo',
+  },
+  [
+    {
+      keyword: 'foo',
+      path: 'name',
+    },
+  ],
+);
