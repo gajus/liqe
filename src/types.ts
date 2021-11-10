@@ -21,9 +21,14 @@ export type Ast = {
   test?: InternalTest,
 };
 
-export type Highlight = {
+export type InternalHighlight = {
   keyword?: string,
   path: string,
+};
+
+export type Highlight = {
+  path: string,
+  query?: RegExp,
 };
 
 export type InternalTest = (value: unknown) => boolean | string;

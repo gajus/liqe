@@ -23,11 +23,11 @@ test.skip(
   },
   [
     {
-      keyword: 'foo@bar.com',
       path: 'email',
+      query: /(foo@bar.com)/,
     },
     {
-      keyword: 'foo bar',
+      keyword: /(foo bar)/,
       path: 'name',
     },
   ],
@@ -43,12 +43,12 @@ test(
   },
   [
     {
-      keyword: 'foo',
       path: 'email',
+      query: /(foo)/,
     },
     {
-      keyword: 'foo',
       path: 'name',
+      query: /(foo)/,
     },
   ],
 );
@@ -62,8 +62,8 @@ test(
   },
   [
     {
-      keyword: 'foo',
       path: 'name',
+      query: /(foo)/,
     },
   ],
 );
@@ -77,8 +77,8 @@ test(
   },
   [
     {
-      keyword: 'Foo',
       path: 'name',
+      query: /(Foo)/,
     },
   ],
 );
@@ -93,8 +93,8 @@ test(
   },
   [
     {
-      keyword: 'bar',
       path: 'name',
+      query: /(bar)/,
     },
     {
       path: 'height',
@@ -111,8 +111,8 @@ test(
   },
   [
     {
-      keyword: 'foo',
       path: 'name',
+      query: /(foo)/,
     },
   ],
 );
@@ -126,8 +126,8 @@ test(
   },
   [
     {
-      keyword: 'foo',
       path: 'name',
+      query: /(foo)/,
     },
   ],
 );
@@ -141,8 +141,8 @@ test(
   },
   [
     {
-      keyword: 'foo',
       path: 'name',
+      query: /(foo)/,
     },
   ],
 );
@@ -156,11 +156,11 @@ test.skip(
   },
   [
     {
-      keyword: 'foo',
       path: 'name',
+      query: /(foo)/,
     },
     {
-      keyword: 'bar',
+      keyword: /(bar)/,
       path: 'name',
     },
   ],
@@ -221,8 +221,8 @@ test(
   },
   [
     {
-      keyword: 'bar',
       path: 'tags.1',
+      query: /(bar)/,
     },
   ],
 );
@@ -240,12 +240,12 @@ test(
   },
   [
     {
-      keyword: 'ba',
       path: 'tags.1',
+      query: /(ba)/,
     },
     {
-      keyword: 'ba',
       path: 'tags.2',
+      query: /(ba)/,
     },
   ],
 );
@@ -279,8 +279,53 @@ test(
   },
   [
     {
-      keyword: 'foo',
       path: 'name',
+      query: /(foo)/,
+    },
+  ],
+);
+
+test(
+  'aggregates multiple highlights',
+  testQuery,
+  'foo AND bar AND baz',
+  {
+    name: 'foo bar baz',
+  },
+  [
+    {
+      path: 'name',
+      query: /(foo|bar|baz)/,
+    },
+  ],
+);
+
+test(
+  'aggregates multiple highlights (phrases)',
+  testQuery,
+  '"foo bar" AND baz',
+  {
+    name: 'foo bar baz',
+  },
+  [
+    {
+      path: 'name',
+      query: /(foo bar|baz)/,
+    },
+  ],
+);
+
+test(
+  'aggregates multiple highlights (escaping)',
+  testQuery,
+  '"(foo bar)" AND baz',
+  {
+    name: '(foo bar) baz',
+  },
+  [
+    {
+      path: 'name',
+      query: /(\(foo bar\)|baz)/,
     },
   ],
 );

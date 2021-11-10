@@ -17,6 +17,8 @@ Lightweight and performant Lucene-like parser and search engine.
   * [Wildcard matching](#wildcard-matching)
   * [Logical Operators](#logical-operators)
 * [Compatibility with Lucene](#compatibility-with-lucene)
+* [Recipes](#recipes)
+  * [Highlighting matches](#highlighting-matches)
 * [Development](#development)
 
 ## Usage
@@ -76,8 +78,8 @@ Highlight matching fields and substrings:
 test(highlight('name:john'), persons[0]);
 // [
 //   {
-//     keyword: 'John',
 //     path: 'name',
+//     query: /(John)/,
 //   }
 // ]
 test(highlight('height:180'), persons[0]);
@@ -241,6 +243,12 @@ The following Lucene abilities are not supported:
 * [Fuzzy Searches](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Fuzzy%20Searches)
 * [Proximity Searches](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Proximity%20Searches)
 * [Boosting a Term](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Boosting%20a%20Term)
+
+## Recipes
+
+### Highlighting matches
+
+Consider using [`highlight-words`](https://github.com/tricinel/highlight-words) package to highlight Liqe matches.
 
 ## Development
 

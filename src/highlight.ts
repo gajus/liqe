@@ -1,16 +1,25 @@
 import {
+  escapeRegexString,
+} from './escapeRegexString';
+import {
   internalFilter,
 } from './internalFilter';
 import type {
   Ast,
   Highlight,
+  InternalHighlight,
 } from './types';
+
+type AggregatedHighlight = {
+  keywords: string[],
+  path: string,
+};
 
 export const highlight = <T extends Object>(
   ast: Ast,
   data: T,
 ): Highlight[] => {
-  const highlights = [];
+  const highlights: InternalHighlight[] = [];
 
   internalFilter(
     ast,
@@ -20,5 +29,39 @@ export const highlight = <T extends Object>(
     highlights,
   );
 
-  return highlights;
+  const aggregatedHighlights: AggregatedHighlight[] = [];
+
+  for (const highlightNode of highlights) {
+    let aggregatedHighlight = aggregatedHighlights.find((maybeTarget) => {
+      return maybeTarget.path === highlightNode.path;
+    });
+
+    if (!aggregatedHighlight) {
+      aggregatedHighlight = {
+        keywords: [],
+        path: highlightNode.path,
+      };
+
+      aggregatedHighlights.push(aggregatedHighlight);
+    }
+
+    if (highlightNode.keyword) {
+      aggregatedHighlight.keywords.push(highlightNode.keyword);
+    }
+  }
+
+  return aggregatedHighlights.map((aggregatedHighlight) => {
+    if (aggregatedHighlight.keywords.length > 0) {
+      return {
+        path: aggregatedHighlight.path,
+        query: new RegExp('(' + aggregatedHighlight.keywords.map((keyword) => {
+          return escapeRegexString(keyword.trim());
+        }).join('|') + ')'),
+      };
+    }
+
+    return {
+      path: aggregatedHighlight.path,
+    };
+  });
 };

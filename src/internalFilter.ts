@@ -9,7 +9,7 @@ import {
 } from './parseRegex';
 import type {
   Ast,
-  Highlight,
+  InternalHighlight,
   InternalTest,
   Range,
   RelationalOperator,
@@ -121,7 +121,7 @@ const testValue = (
   value: unknown,
   resultFast: boolean,
   path: string[],
-  highlights: Highlight[],
+  highlights: InternalHighlight[],
 ) => {
   if (Array.isArray(value)) {
     let foundMatch = false;
@@ -181,7 +181,7 @@ const testField = <T extends Object>(
   ast: Ast,
   resultFast: boolean,
   path: string[],
-  highlights: Highlight[],
+  highlights: InternalHighlight[],
 ): boolean => {
   if (!ast.test) {
     ast.test = createValueTest(ast);
@@ -251,7 +251,7 @@ export const internalFilter = <T extends Object>(
   rows: readonly T[],
   resultFast: boolean = true,
   path: string[] = [],
-  highlights: Highlight[] = [],
+  highlights: InternalHighlight[] = [],
 ): readonly T[] => {
   if (ast.field) {
     return rows.filter((row) => {
