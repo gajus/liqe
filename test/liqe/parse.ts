@@ -1,4 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import test from 'ava';
+import {
+  SyntaxError,
+} from '../../src/errors';
 import {
   parse,
 } from '../../src/parse';
@@ -8,6 +13,17 @@ const testQuery = (t, expectedAst) => {
 
   t.like(ast, expectedAst);
 };
+
+test('error describes offset', (t) => {
+  const error = t.throws<SyntaxError>(() => {
+    parse('foo bar');
+  })!;
+
+  t.true(error instanceof SyntaxError);
+  t.is(error.offset, 4);
+  t.is(error.line, 1);
+  t.is(error.column, 5);
+});
 
 test('foo', testQuery, {
   field: '<implicit>',

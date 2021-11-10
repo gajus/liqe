@@ -18,6 +18,7 @@ Lightweight and performant Lucene-like parser and search engine.
   * [Logical Operators](#logical-operators)
 * [Compatibility with Lucene](#compatibility-with-lucene)
 * [Recipes](#recipes)
+  * [Handling syntax errors](#handling-syntax-errors)
   * [Highlighting matches](#highlighting-matches)
 * [Development](#development)
 
@@ -245,6 +246,36 @@ The following Lucene abilities are not supported:
 * [Boosting a Term](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Boosting%20a%20Term)
 
 ## Recipes
+
+### Handling syntax errors
+
+In case of a syntax error, Liqe throws `SyntaxError`.
+
+```ts
+import {
+  parse,
+  SyntaxError,
+} from 'liqe';
+
+try {
+  parse('foo bar');
+} catch (error) {
+  if (error instanceof SyntaxError) {
+    console.error({
+      // Syntax error at line 1 column 5
+      message: error.message,
+      // 4
+      offset: error.offset,
+      // 1
+      offset: error.line,
+      // 5
+      offset: error.column,
+    });
+  } else {
+    throw error;
+  }
+}
+```
 
 ### Highlighting matches
 

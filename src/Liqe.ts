@@ -14,3 +14,7 @@ export {
   Ast as Query,
   Highlight,
 } from './types';
+export {
+  LiqeError,
+  SyntaxError,
+} from './errors';
