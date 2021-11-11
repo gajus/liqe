@@ -1,10 +1,7 @@
 export const isOptionalChainingSupported = () => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const foo = {};
-
     // eslint-disable-next-line no-eval
-    eval('foo?.bar');
+    eval('const foo = {}; foo?.bar');
   } catch {
     return false;
   }
