@@ -69,12 +69,18 @@ const testRelationalRange = (query: number, value: number, relationalOperator: R
 };
 
 const createStringTest = (regexCache: RegExpCache, ast: Ast) => {
+  const query = ast.query;
+
+  if (!query) {
+    throw new Error('Unexpected state.');
+  }
+
   if (ast.regex) {
-    return createRegexTest(regexCache, ast.query);
-  } else if (ast.query.includes('*') && ast.quoted === false) {
-    return createRegexTest(regexCache, String(convertGlobToRegex(ast.query)) + (ast.quoted ? 'u' : 'ui'));
+    return createRegexTest(regexCache, query);
+  } else if (query.includes('*') && ast.quoted === false) {
+    return createRegexTest(regexCache, String(convertGlobToRegex(query)) + (ast.quoted ? 'u' : 'ui'));
   } else {
-    return createRegexTest(regexCache, '/(' + escapeRegexString(ast.query) + ')/' + (ast.quoted ? 'u' : 'ui'));
+    return createRegexTest(regexCache, '/(' + escapeRegexString(query) + ')/' + (ast.quoted ? 'u' : 'ui'));
   }
 };
 

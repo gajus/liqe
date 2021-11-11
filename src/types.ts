@@ -13,7 +13,7 @@ export type Ast = {
   left?: Ast,
   operand?: Ast,
   operator?: 'AND' | 'NOT' | 'OR',
-  query: string,
+  query?: string,
   quoted?: boolean,
   range?: Range,
   regex?: boolean,
