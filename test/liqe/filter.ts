@@ -11,6 +11,7 @@ type Location = {
 };
 
 type Person = {
+  attributes?: Record<string, string | null>,
   balance?: number,
   email?: string,
   height: number,
@@ -47,6 +48,9 @@ const persons: readonly Person[] = [
     ],
   },
   {
+    attributes: {
+      member: null,
+    },
     balance: 6_364_917,
     email: 'noah@john.com',
     height: 225,
