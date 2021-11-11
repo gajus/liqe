@@ -163,7 +163,7 @@ Search for `name` field values matching `/foo/i` regex.
 name:/foo/i
 ```
 
-Search for `name` field values matching `f*o` glob pattern.
+Search for `name` field values matching `f*o` wildcard pattern.
 
 ```rb
 name:f*o

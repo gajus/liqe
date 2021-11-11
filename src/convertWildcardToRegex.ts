@@ -1,8 +1,8 @@
 const WILDCARD_RULE = /\*+/g;
 
-export const convertGlobToRegex = (glob: string): RegExp => {
+export const convertWildcardToRegex = (pattern: string): RegExp => {
   return new RegExp(
-    glob
+    pattern
       .replace(WILDCARD_RULE, '(.+?)'),
   );
 };

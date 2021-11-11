@@ -1,10 +1,10 @@
 import test from 'ava';
 import {
-  convertGlobToRegex,
-} from '../../src/convertGlobToRegex';
+  convertWildcardToRegex,
+} from '../../src/convertWildcardToRegex';
 
 const testRule = test.macro((t, regex: RegExp) => {
-  t.deepEqual(convertGlobToRegex(t.title), regex);
+  t.deepEqual(convertWildcardToRegex(t.title), regex);
 });
 
 test('*', testRule, /(.+?)/);

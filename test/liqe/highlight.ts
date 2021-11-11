@@ -103,7 +103,7 @@ test(
 );
 
 test(
-  'matches glob',
+  'matches wildcard',
   testQuery,
   'name:f*o',
   {
@@ -118,7 +118,7 @@ test(
 );
 
 test(
-  'matches glob (lazy)',
+  'matches wildcard (lazy)',
   testQuery,
   'name:f*o',
   {

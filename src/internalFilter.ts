@@ -1,6 +1,6 @@
 import {
-  convertGlobToRegex,
-} from './convertGlobToRegex';
+  convertWildcardToRegex,
+} from './convertWildcardToRegex';
 import {
   escapeRegexString,
 } from './escapeRegexString';
@@ -78,7 +78,7 @@ const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
   if (ast.regex) {
     return createRegexTest(regexCache, query);
   } else if (query.includes('*') && ast.quoted === false) {
-    return createRegexTest(regexCache, String(convertGlobToRegex(query)) + (ast.quoted ? 'u' : 'ui'));
+    return createRegexTest(regexCache, String(convertWildcardToRegex(query)) + (ast.quoted ? 'u' : 'ui'));
   } else {
     return createRegexTest(regexCache, '/(' + escapeRegexString(query) + ')/' + (ast.quoted ? 'u' : 'ui'));
   }

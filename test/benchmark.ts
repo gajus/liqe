@@ -71,7 +71,7 @@ void suite(
     };
   }),
 
-  add('filters list by the "name" field using glob check', () => {
+  add('filters list by the "name" field using wildcard check', () => {
     const query = parse('name:Ga*');
 
     return () => {
