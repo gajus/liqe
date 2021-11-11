@@ -1,88 +1,18 @@
 import {
-  convertWildcardToRegex,
-} from './convertWildcardToRegex';
+  createStringTest,
+} from './createStringTest';
 import {
-  escapeRegexString,
-} from './escapeRegexString';
+  testRange,
+} from './testRange';
 import {
-  parseRegex,
-} from './parseRegex';
+  testRelationalRange,
+} from './testRelationalRange';
 import type {
   HydratedAst,
   InternalHighlight,
   InternalTest,
   Range,
-  RelationalOperator,
 } from './types';
-
-type RegExpCache = Record<string, RegExp>;
-
-const createRegexTest = (regexCache: RegExpCache, regex: string) => {
-  let rule: RegExp;
-
-  if (regexCache[regex]) {
-    rule = regexCache[regex];
-  } else {
-    rule = regexCache[regex] = parseRegex(regex);
-  }
-
-  return (subject: string): string | false => {
-    return subject.match(rule)?.[0] ?? false;
-  };
-};
-
-const testRange = (value: unknown, range: Range): boolean => {
-  if (typeof value === 'number') {
-    if (value < range.min) {
-      return false;
-    }
-
-    if (value === range.min && !range.minInclusive) {
-      return false;
-    }
-
-    if (value > range.max) {
-      return false;
-    }
-
-    if (value === range.max && !range.maxInclusive) {
-      return false;
-    }
-
-    return true;
-  }
-
-  // @todo handle non-numeric ranges -- https://github.com/gajus/liqe/issues/3
-
-  return false;
-};
-
-const testRelationalRange = (query: number, value: number, relationalOperator: RelationalOperator): boolean => {
-  switch (relationalOperator) {
-    case '=': return value === query;
-    case '>': return value > query;
-    case '<': return value < query;
-    case '>=': return value >= query;
-    case '<=': return value <= query;
-    default: throw new Error(`Unimplemented relational operator: ${relationalOperator}`);
-  }
-};
-
-const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
-  const query = ast.query;
-
-  if (!query) {
-    throw new Error('Unexpected state.');
-  }
-
-  if (ast.regex) {
-    return createRegexTest(regexCache, query);
-  } else if (query.includes('*') && ast.quoted === false) {
-    return createRegexTest(regexCache, String(convertWildcardToRegex(query)) + (ast.quoted ? 'u' : 'ui'));
-  } else {
-    return createRegexTest(regexCache, '/(' + escapeRegexString(query) + ')/' + (ast.quoted ? 'u' : 'ui'));
-  }
-};
 
 const createValueTest = (ast: HydratedAst): InternalTest => {
   const query = ast.query;
