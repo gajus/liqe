@@ -5,7 +5,7 @@ import {
   internalFilter,
 } from './internalFilter';
 import type {
-  Ast,
+  HydratedAst,
   Highlight,
   InternalHighlight,
 } from './types';
@@ -16,7 +16,7 @@ type AggregatedHighlight = {
 };
 
 export const highlight = <T extends Object>(
-  ast: Ast,
+  ast: HydratedAst,
   data: T,
 ): Highlight[] => {
   const highlights: InternalHighlight[] = [];

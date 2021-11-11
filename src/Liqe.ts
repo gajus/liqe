@@ -11,7 +11,7 @@ export {
   test,
 } from './test';
 export {
-  Ast as Query,
+  HydratedAst as Query,
   Highlight,
 } from './types';
 export {

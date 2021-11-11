@@ -2,11 +2,11 @@ import {
   internalFilter,
 } from './internalFilter';
 import type {
-  Ast,
+  HydratedAst,
 } from './types';
 
 export const filter = <T extends Object>(
-  ast: Ast,
+  ast: HydratedAst,
   data: readonly T[],
 ): readonly T[] => {
   return internalFilter(

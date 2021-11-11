@@ -3,21 +3,25 @@ import {
   SyntaxError,
 } from './errors';
 import grammar from './grammar';
+import {
+  hydrateAst,
+} from './hydrateAst';
 import type {
-  Ast,
+  HydratedAst,
+  ParserAst,
 } from './types';
 
 const rules = nearley.Grammar.fromCompiled(grammar);
 
 const MESSAGE_RULE = /Syntax error at line (?<line>\d+) col (?<column>\d+)/;
 
-export const parse = (query: string): Ast => {
+export const parse = (query: string): HydratedAst => {
   const parser = new nearley.Parser(rules);
 
   let results;
 
   try {
-    results = parser.feed(query).results;
+    results = parser.feed(query).results as ParserAst;
   } catch (error: any) {
     if (typeof error?.message === 'string' && typeof error?.offset === 'number') {
       const match = error.message.match(MESSAGE_RULE);
@@ -45,5 +49,5 @@ export const parse = (query: string): Ast => {
     throw new Error('Ambiguous results.');
   }
 
-  return results[0];
+  return hydrateAst(results[0]);
 };

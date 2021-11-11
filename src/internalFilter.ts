@@ -8,7 +8,7 @@ import {
   parseRegex,
 } from './parseRegex';
 import type {
-  Ast,
+  HydratedAst,
   InternalHighlight,
   InternalTest,
   Range,
@@ -68,7 +68,7 @@ const testRelationalRange = (query: number, value: number, relationalOperator: R
   }
 };
 
-const createStringTest = (regexCache: RegExpCache, ast: Ast) => {
+const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
   const query = ast.query;
 
   if (!query) {
@@ -84,7 +84,7 @@ const createStringTest = (regexCache: RegExpCache, ast: Ast) => {
   }
 };
 
-const createValueTest = (ast: Ast): InternalTest => {
+const createValueTest = (ast: HydratedAst): InternalTest => {
   const query = ast.query;
 
   if (ast.range) {
@@ -123,7 +123,7 @@ const createValueTest = (ast: Ast): InternalTest => {
 };
 
 const testValue = (
-  ast: Ast,
+  ast: HydratedAst,
   value: unknown,
   resultFast: boolean,
   path: readonly string[],
@@ -184,7 +184,7 @@ const testValue = (
 
 const testField = <T extends Object>(
   row: T,
-  ast: Ast,
+  ast: HydratedAst,
   resultFast: boolean,
   path: readonly string[],
   highlights: InternalHighlight[],
@@ -199,6 +199,14 @@ const testField = <T extends Object>(
       row[ast.field],
       resultFast,
       path,
+      highlights,
+    );
+  } else if (ast.getValue && ast.fieldPath) {
+    return testValue(
+      ast,
+      ast.getValue(row),
+      resultFast,
+      ast.fieldPath,
       highlights,
     );
   } else if (ast.fieldPath) {
@@ -218,7 +226,7 @@ const testField = <T extends Object>(
       ast,
       value,
       resultFast,
-      path,
+      ast.fieldPath,
       highlights,
     );
   } else if (ast.field === '<implicit>') {
@@ -253,7 +261,7 @@ const testField = <T extends Object>(
 };
 
 export const internalFilter = <T extends Object>(
-  ast: Ast,
+  ast: HydratedAst,
   rows: readonly T[],
   resultFast: boolean = true,
   path: readonly string[] = [],

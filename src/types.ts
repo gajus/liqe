@@ -7,19 +7,26 @@ export type Range = {
 
 export type RelationalOperator = '<' | '<=' | '=' | '>' | '>=';
 
-export type Ast = {
+export type ParserAst = {
   field: string,
-  left?: Ast,
-  operand?: Ast,
   fieldPath?: readonly string[],
+  left?: ParserAst,
+  operand?: ParserAst,
   operator?: 'AND' | 'NOT' | 'OR',
   query?: string,
   quoted?: boolean,
   range?: Range,
   regex?: boolean,
   relationalOperator?: RelationalOperator,
-  right?: Ast,
+  right?: ParserAst,
   test?: InternalTest,
+};
+
+export type HydratedAst = ParserAst & {
+  getValue?: (subject: unknown) => unknown,
+  left?: HydratedAst,
+  operand?: HydratedAst,
+  right?: HydratedAst,
 };
 
 export type InternalHighlight = {
