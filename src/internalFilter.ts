@@ -2,6 +2,9 @@ import {
   createStringTest,
 } from './createStringTest';
 import {
+  isOptionalChainingSupported,
+} from './isOptionalChainingSupported';
+import {
   testRange,
 } from './testRange';
 import {
@@ -13,6 +16,8 @@ import type {
   InternalTest,
   Range,
 } from './types';
+
+const optionalChainingIsSupported = isOptionalChainingSupported();
 
 const createValueTest = (ast: HydratedAst): InternalTest => {
   const query = ast.query;
@@ -131,7 +136,7 @@ const testField = <T extends Object>(
       path,
       highlights,
     );
-  } else if (ast.getValue && ast.fieldPath) {
+  } else if (optionalChainingIsSupported && ast.getValue && ast.fieldPath) {
     return testValue(
       ast,
       ast.getValue(row),
