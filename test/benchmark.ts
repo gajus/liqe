@@ -18,6 +18,11 @@ const randomInRange = (min, max) => {
 
 type Person = {
   email: string,
+  foo: {
+    bar: {
+      baz: string,
+    },
+  },
   height: number,
   name: string,
 };
