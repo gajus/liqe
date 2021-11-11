@@ -96,14 +96,6 @@ test('foo:bar', testQuery, {
   query: 'bar',
 });
 
-test('.foo:bar', testQuery, {
-  field: '.foo',
-  fieldPath: [
-    'foo',
-  ],
-  query: 'bar',
-});
-
 test('foo:   bar', testQuery, {
   field: 'foo',
   query: 'bar',

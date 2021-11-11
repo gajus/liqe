@@ -114,9 +114,11 @@ test('"member"', testQuery, ['robert']);
 test('tags:"member"', testQuery, ['robert']);
 
 test('"London"', testQuery, ['mike']);
+test('city:"London"', testQuery, []);
 test('location.city:"London"', testQuery, ['mike']);
 
 test('membership:null', testQuery, ['noah']);
+test('attributes.member:null', testQuery, ['noah']);
 
 test('subscribed:true', testQuery, ['noah']);
 
