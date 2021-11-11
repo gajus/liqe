@@ -5,6 +5,9 @@ import {
   createGetValueFunctionBody,
 } from './createGetValueFunctionBody';
 import {
+  isOptionalChainingSupported,
+} from './isOptionalChainingSupported';
+import {
   isSafePath,
 } from './isSafePath';
 import type {
@@ -12,12 +15,18 @@ import type {
   HydratedAst,
 } from './types';
 
+const optionalChainingIsSupported = isOptionalChainingSupported();
+
 export const hydrateAst = (subject: ParserAst): HydratedAst => {
   const newSubject: HydratedAst = {
     ...subject,
   };
 
-  if (typeof subject.field === 'string' && isSafePath(subject.field)) {
+  if (
+    optionalChainingIsSupported &&
+    typeof subject.field === 'string' &&
+    isSafePath(subject.field)
+  ) {
     newSubject.getValue = new Function('subject', createGetValueFunctionBody(subject.field)) as (subject: unknown) => unknown;
   }
 
