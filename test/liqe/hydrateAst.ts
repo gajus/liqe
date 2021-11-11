@@ -6,46 +6,46 @@ import {
   isOptionalChainingSupported,
 } from '../../src/isOptionalChainingSupported';
 
-test('adds getValue when field is a safe path', (t) => {
-  const parserAst = {
-    field: '.foo',
-  };
+if (isOptionalChainingSupported()) {
+  test('adds getValue when field is a safe path', (t) => {
+    const parserAst = {
+      field: '.foo',
+    };
 
-  const hydratedAst = hydrateAst(parserAst);
+    const hydratedAst = hydrateAst(parserAst);
 
-  t.true('getValue' in hydratedAst);
-});
+    t.true('getValue' in hydratedAst);
+  });
 
-test('adds getValue when field is a safe path (recursive)', (t) => {
-  const parserAst = {
-    field: '<implicit>',
-    left: {
+  test('adds getValue when field is a safe path (recursive)', (t) => {
+    const parserAst = {
       field: '<implicit>',
-      right: {
+      left: {
         field: '<implicit>',
-        operand: {
-          field: '.foo',
+        right: {
+          field: '<implicit>',
+          operand: {
+            field: '.foo',
+          },
         },
       },
-    },
-  };
+    };
 
-  const hydratedAst = hydrateAst(parserAst);
+    const hydratedAst = hydrateAst(parserAst);
 
-  t.true('getValue' in hydratedAst!.left!.right!.operand!);
-});
+    t.true('getValue' in hydratedAst!.left!.right!.operand!);
+  });
 
-test('does not add getValue if path is unsafe', (t) => {
-  const parserAst = {
-    field: 'foo',
-  };
+  test('does not add getValue if path is unsafe', (t) => {
+    const parserAst = {
+      field: 'foo',
+    };
 
-  const hydratedAst = hydrateAst(parserAst);
+    const hydratedAst = hydrateAst(parserAst);
 
-  t.false('getValue' in hydratedAst);
-});
+    t.false('getValue' in hydratedAst);
+  });
 
-if (isOptionalChainingSupported()) {
   test('getValue accesses existing value', (t) => {
     const parserAst = {
       field: '.foo',
