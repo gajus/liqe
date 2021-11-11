@@ -291,6 +291,10 @@ export const internalFilter = <T extends Object>(
     highlights,
   );
 
+  if (!ast.right) {
+    throw new Error('Unexpected state.');
+  }
+
   if (ast.operator === 'OR') {
     const rightRows = internalFilter(
       ast.right,

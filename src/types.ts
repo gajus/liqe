@@ -18,7 +18,7 @@ export type Ast = {
   range?: Range,
   regex?: boolean,
   relationalOperator?: RelationalOperator,
-  right: Ast,
+  right?: Ast,
   test?: InternalTest,
 };
 
