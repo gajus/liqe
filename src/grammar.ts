@@ -216,7 +216,7 @@ const grammar: Grammar = {
     {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
     {"name": "post_boolean_primary", "symbols": [{"literal":"("}, "_", "boolean_primary", "_", {"literal":")"}], "postprocess": d => d[2]},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
-    {"name": "side", "symbols": ["field", {"literal":":"}, "_", "query"], "postprocess": d => ({field: d[0], ...d[3]})},
+    {"name": "side", "symbols": ["field", {"literal":":"}, "_", "query"], "postprocess": d => ({field: d[0], fieldPath: d[0].split('.').filter(Boolean), ...d[3]})},
     {"name": "side", "symbols": ["query"], "postprocess": d => ({field: '<implicit>', ...d[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},

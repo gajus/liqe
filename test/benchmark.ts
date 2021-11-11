@@ -29,6 +29,11 @@ let size = 10_000;
 while (size--) {
   persons.push({
     email: faker.internet.email(),
+    foo: {
+      bar: {
+        baz: faker.name.findName(),
+      },
+    },
     height: randomInRange(160, 220),
     name: faker.name.findName(),
   });
@@ -92,6 +97,15 @@ void suite(
       filter(query, persons);
     };
   }),
+
+  add('filters list by the "foo.bar.baz" field using simple strict equality check', () => {
+    const query = parse('foo.bar.baz:"Gajus"');
+
+    return () => {
+      filter(query, persons);
+    };
+  }),
+
   cycle(),
   complete(),
 );

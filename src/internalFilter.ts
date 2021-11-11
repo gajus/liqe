@@ -195,10 +195,10 @@ const testField = <T extends Object>(
       path,
       highlights,
     );
-  } else if (ast.field.includes('.')) {
+  } else if (ast.fieldPath) {
     let value = row;
 
-    for (const key of ast.field.split('.')) {
+    for (const key of ast.fieldPath) {
       if (typeof value !== 'object' || value === null) {
         return false;
       } else if (key in value) {

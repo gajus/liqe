@@ -9,6 +9,7 @@ export type RelationalOperator = '<' | '<=' | '=' | '>' | '>=';
 
 export type Ast = {
   field: string,
+  fieldPath: readonly string[],
   left?: Ast,
   operand?: Ast,
   operator?: 'AND' | 'NOT' | 'OR',
