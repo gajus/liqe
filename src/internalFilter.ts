@@ -120,8 +120,8 @@ const testValue = (
   ast: Ast,
   value: unknown,
   resultFast: boolean,
-  path: string[],
-  highlights: InternalHighlight[],
+  path: readonly string[],
+  highlights: readonly InternalHighlight[],
 ) => {
   if (Array.isArray(value)) {
     let foundMatch = false;
@@ -180,8 +180,8 @@ const testField = <T extends Object>(
   row: T,
   ast: Ast,
   resultFast: boolean,
-  path: string[],
-  highlights: InternalHighlight[],
+  path: readonly string[],
+  highlights: readonly InternalHighlight[],
 ): boolean => {
   if (!ast.test) {
     ast.test = createValueTest(ast);
@@ -250,8 +250,8 @@ export const internalFilter = <T extends Object>(
   ast: Ast,
   rows: readonly T[],
   resultFast: boolean = true,
-  path: string[] = [],
-  highlights: InternalHighlight[] = [],
+  path: readonly string[] = [],
+  highlights: readonly InternalHighlight[] = [],
 ): readonly T[] => {
   if (ast.field) {
     return rows.filter((row) => {
