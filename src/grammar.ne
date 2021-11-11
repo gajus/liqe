@@ -51,6 +51,13 @@ const range = ( minInclusive, maxInclusive) => {
   };
 }
 
+const field = d => {
+  return {
+    field: d[0],
+    fieldPath: d[0].split('.').filter(Boolean),
+    ...d[3]
+  }
+};
 %}
 
 # Adapted from js-sql-parser
@@ -83,7 +90,7 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field ":" _ query {% d => ({field: d[0], fieldPath: d[0].split('.').filter(Boolean), ...d[3]}) %}
+    field ":" _ query {% field %}
   | query {% d => ({field: '<implicit>', ...d[0]}) %}
 
 field ->
