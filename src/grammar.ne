@@ -87,7 +87,7 @@ side ->
   | query {% d => ({field: '<implicit>', ...d[0]}) %}
 
 field ->
-    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% d => d[0] + d[1].join('') %}
+    [._a-zA-Z$] [a-zA-Z\d_$.]:* {% d => d[0] + d[1].join('') %}
   | sqstring {% id %}
   | dqstring {% id %}
 

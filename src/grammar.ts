@@ -220,7 +220,7 @@ const grammar: Grammar = {
     {"name": "side", "symbols": ["query"], "postprocess": d => ({field: '<implicit>', ...d[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": d => d[0] + d[1].join('')},
+    {"name": "field", "symbols": [/[._a-zA-Z$]/, "field$ebnf$1"], "postprocess": d => d[0] + d[1].join('')},
     {"name": "field", "symbols": ["sqstring"], "postprocess": id},
     {"name": "field", "symbols": ["dqstring"], "postprocess": id},
     {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": d => ({quoted: false, query: d[2], relationalOperator: d[0][0]})},
