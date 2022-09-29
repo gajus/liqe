@@ -120,6 +120,10 @@ foo
 # search for "foo" term in `name` field
 name:foo
 
+# search for "foo" term in `full name` field
+'full name':foo
+"full name":foo
+
 # search for "foo" term in `first` field, member of `name`, i.e.
 # matches {name: {first: 'foo'}}
 name.first:foo
