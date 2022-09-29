@@ -28,17 +28,25 @@ const createRegexTest = (regexCache: RegExpCache, regex: string) => {
 };
 
 export const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
-  const query = ast.query;
-
-  if (!query) {
-    throw new Error('Unexpected state.');
+  if (ast.type !== 'Condition') {
+    throw new Error('Expected a condition.');
   }
 
-  if (ast.regex) {
-    return createRegexTest(regexCache, query);
-  } else if (query.includes('*') && ast.quoted === false) {
-    return createRegexTest(regexCache, String(convertWildcardToRegex(query)) + (ast.quoted ? 'u' : 'ui'));
+  const {
+    expression,
+  } = ast;
+
+  if (expression.type === 'RangeExpression') {
+    throw new Error('Unexpected range expression.');
+  }
+
+  if (expression.type === 'RegexExpression') {
+    return createRegexTest(regexCache, expression.value);
+  }
+
+  if (expression.value.includes('*') && expression.quoted === false) {
+    return createRegexTest(regexCache, String(convertWildcardToRegex(expression.value)) + (expression.quoted ? 'u' : 'ui'));
   } else {
-    return createRegexTest(regexCache, '/(' + escapeRegexString(query) + ')/' + (ast.quoted ? 'u' : 'ui'));
+    return createRegexTest(regexCache, '/(' + escapeRegexString(expression.value) + ')/' + (expression.quoted ? 'u' : 'ui'));
   }
 };

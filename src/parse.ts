@@ -49,5 +49,7 @@ export const parse = (query: string): HydratedAst => {
     throw new Error('Ambiguous results.');
   }
 
-  return hydrateAst(results[0]);
+  const hydratedAst = hydrateAst(results[0]);
+
+  return hydratedAst;
 };

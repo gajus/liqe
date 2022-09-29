@@ -11,7 +11,7 @@ import {
 const testQuery = (t, expectedAst) => {
   const ast = parse(t.title);
 
-  t.like(ast, expectedAst);
+  t.deepEqual(ast, expectedAst);
 };
 
 test('error describes offset', (t) => {
@@ -26,174 +26,300 @@ test('error describes offset', (t) => {
 });
 
 test('foo', testQuery, {
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'foo',
+  },
   field: {
     name: '<implicit>',
   },
-  query: 'foo',
-  quoted: false,
+  type: 'Condition',
 });
 
 test.skip('foo bar', testQuery, {
   left: {
+    expression: {
+      quoted: false,
+      value: 'foo',
+    },
     field: {
       name: '<implicit>',
     },
-    query: 'foo',
-    quoted: false,
+    type: 'Condition',
   },
   operator: 'AND',
   right: {
+    expression: {
+      quoted: false,
+      value: 'bar',
+    },
     field: {
       name: '<implicit>',
     },
-    query: 'bar',
-    quoted: false,
+    type: 'Condition',
   },
+  type: 'ConditionGroup',
 });
 
 test('foo_bar', testQuery, {
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'foo_bar',
+  },
   field: {
     name: '<implicit>',
   },
-  query: 'foo_bar',
-  quoted: false,
+  type: 'Condition',
 });
 
 test('"foo"', testQuery, {
+  expression: {
+    quoted: true,
+    quotes: 'double',
+    type: 'LiteralExpression',
+    value: 'foo',
+  },
   field: {
     name: '<implicit>',
   },
-  query: 'foo',
-  quoted: true,
-  quotes: 'double',
+  type: 'Condition',
 });
 
 test('\'foo\'', testQuery, {
+  expression: {
+    quoted: true,
+    quotes: 'single',
+    type: 'LiteralExpression',
+    value: 'foo',
+  },
   field: {
     name: '<implicit>',
   },
-  query: 'foo',
-  quoted: true,
-  quotes: 'single',
+  type: 'Condition',
 });
 
 test('/foo/', testQuery, {
+  expression: {
+    type: 'RegexExpression',
+    value: '/foo/',
+  },
   field: {
     name: '<implicit>',
   },
-  query: '/foo/',
-  quoted: false,
-  regex: true,
+  type: 'Condition',
 });
 
 test('/foo/ui', testQuery, {
+  expression: {
+    type: 'RegexExpression',
+    value: '/foo/ui',
+  },
   field: {
     name: '<implicit>',
   },
-  query: '/foo/ui',
-  quoted: false,
-  regex: true,
+  type: 'Condition',
 });
 
 test('/\\s/', testQuery, {
+  expression: {
+    type: 'RegexExpression',
+    value: '/\\s/',
+  },
   field: {
     name: '<implicit>',
   },
-  query: '/\\s/',
-  quoted: false,
-  regex: true,
+  type: 'Condition',
 });
 
 test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, {
+  expression: {
+    type: 'RegexExpression',
+    value: '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
+  },
   field: {
     name: '<implicit>',
   },
-  query: '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
-  quoted: false,
-  regex: true,
+  type: 'Condition',
 });
 
 test('foo:bar', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'bar',
   },
-  query: 'bar',
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('foo:   bar', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'bar',
   },
-  query: 'bar',
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('foo:123', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: '123',
   },
-  query: '123',
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('foo:=123', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 123,
   },
-  query: 123,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
   relationalOperator: '=',
+  type: 'Condition',
 });
 
 test('foo:=   123', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 123,
   },
-  query: 123,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
   relationalOperator: '=',
+  type: 'Condition',
 });
 
 test('foo:=-123', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: -123,
   },
-  query: -123,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  relationalOperator: '=',
+  type: 'Condition',
 });
 
 test('foo:=123.4', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 123.4,
   },
-  query: 123.4,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  relationalOperator: '=',
+  type: 'Condition',
 });
 
 test('foo:>=123', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 123,
   },
-  query: 123,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
   relationalOperator: '>=',
+  type: 'Condition',
 });
 
 test('foo:true', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: true,
   },
-  query: true,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('foo:false', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: false,
   },
-  query: false,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('foo:null', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: null,
   },
-  query: null,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('foo.bar:baz', testQuery, {
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'baz',
+  },
   field: {
     location: 0,
     name: 'foo.bar',
@@ -201,330 +327,614 @@ test('foo.bar:baz', testQuery, {
       'foo',
       'bar',
     ],
+    quoted: false,
   },
-  query: 'baz',
+  type: 'Condition',
 });
 
 test('foo_bar:baz', testQuery, {
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'baz',
+  },
   field: {
     location: 0,
     name: 'foo_bar',
+    path: ['foo_bar'],
+    quoted: false,
   },
-  query: 'baz',
+  type: 'Condition',
 });
 
 test('$foo:baz', testQuery, {
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'baz',
+  },
   field: {
     location: 0,
     name: '$foo',
+    path: ['$foo'],
+    quoted: false,
   },
-  query: 'baz',
+  type: 'Condition',
 });
 
 test('"foo bar":baz', testQuery, {
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'baz',
+  },
   field: {
     location: 0,
     name: 'foo bar',
+    path: ['foo bar'],
     quoted: true,
     quotes: 'double',
   },
-  query: 'baz',
+  type: 'Condition',
 });
 
 test('\'foo bar\':baz', testQuery, {
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'baz',
+  },
   field: {
     location: 0,
     name: 'foo bar',
+    path: ['foo bar'],
     quoted: true,
     quotes: 'single',
   },
-  query: 'baz',
+  type: 'Condition',
 });
 
 test('foo:"bar"', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: true,
+    quotes: 'double',
+    type: 'LiteralExpression',
+    value: 'bar',
   },
-  query: 'bar',
-  quoted: true,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('foo:\'bar\'', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: true,
+    quotes: 'single',
+    type: 'LiteralExpression',
+    value: 'bar',
   },
-  query: 'bar',
-  quoted: true,
+  field: {
+    location: 0,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test.skip('foo:bar baz:qux', testQuery, {
   left: {
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
+    },
     field: {
       name: 'foo',
+      path: ['foo'],
+      quoted: false,
     },
-    query: 'bar',
+    type: 'Condition',
   },
   operator: 'AND',
   right: {
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'qux',
+    },
     field: {
       name: 'baz',
+      path: ['baz'],
+      quoted: false,
     },
-    query: 'qux',
+    type: 'Condition',
   },
+  type: 'ConditionGroup',
 });
 
 test('foo:bar AND baz:qux', testQuery, {
   left: {
-    field: {
-      name: 'foo',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
     },
-    query: 'bar',
+    field: {
+      location: 0,
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
   operator: 'AND',
   right: {
-    field: {
-      name: 'baz',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'qux',
     },
-    query: 'qux',
+    field: {
+      location: 12,
+      name: 'baz',
+      path: ['baz'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
+  type: 'ConditionGroup',
 });
 
 test('(foo:bar) AND (baz:qux)', testQuery, {
   left: {
-    field: {
-      name: 'foo',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
     },
-    query: 'bar',
+    field: {
+      location: 1,
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
   operator: 'AND',
   right: {
-    field: {
-      name: 'baz',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'qux',
     },
-    query: 'qux',
+    field: {
+      location: 15,
+      name: 'baz',
+      path: ['baz'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
+  type: 'ConditionGroup',
 });
 
 test('(foo:bar AND baz:qux)', testQuery, {
   left: {
-    field: {
-      name: 'foo',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
     },
-    query: 'bar',
+    field: {
+      location: 1,
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
   operator: 'AND',
   right: {
-    field: {
-      name: 'baz',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'qux',
     },
-    query: 'qux',
+    field: {
+      location: 13,
+      name: 'baz',
+      path: ['baz'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
+  type: 'ConditionGroup',
 });
 
 test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
   operand: {
     left: {
+      expression: {
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'bar',
+      },
       field: {
         name: 'foo',
+        path: ['foo'],
+        quoted: false,
       },
-      query: 'bar',
+      type: 'Condition',
     },
     operator: 'AND',
     right: {
+      expression: {
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'qux',
+      },
       field: {
         name: 'baz',
+        path: ['baz'],
+        quoted: false,
       },
-      query: 'qux',
+      type: 'Condition',
     },
+    type: 'ConditionGroup',
   },
   operator: 'NOT',
 });
 
 test('NOT foo:bar', testQuery, {
   operand: {
-    field: {
-      name: 'foo',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
     },
-    query: 'bar',
-    quoted: false,
+    field: {
+      location: 4,
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
   operator: 'NOT',
 });
 
 test('foo:bar AND NOT baz:qux', testQuery, {
   left: {
-    field: {
-      name: 'foo',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
     },
-    query: 'bar',
+    field: {
+      location: 0,
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
   operator: 'AND',
   right: {
     operand: {
-      field: {
-        name: 'baz',
+      expression: {
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'qux',
       },
-      query: 'qux',
+      field: {
+        location: 16,
+        name: 'baz',
+        path: ['baz'],
+        quoted: false,
+      },
+      type: 'Condition',
     },
     operator: 'NOT',
   },
+  type: 'ConditionGroup',
 });
 
 test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
   left: {
     left: {
-      field: {
-        name: 'foo',
+      expression: {
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'bar',
       },
-      query: 'bar',
+      field: {
+        location: 0,
+        name: 'foo',
+        path: ['foo'],
+        quoted: false,
+      },
+      type: 'Condition',
     },
     operator: 'AND',
     right: {
-      field: {
-        name: 'baz',
+      expression: {
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'qux',
       },
-      query: 'qux',
+      field: {
+        location: 12,
+        name: 'baz',
+        path: ['baz'],
+        quoted: false,
+      },
+      type: 'Condition',
     },
+    type: 'ConditionGroup',
   },
   operator: 'AND',
   right: {
-    field: {
-      name: 'quuz',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'corge',
     },
-    query: 'corge',
+    field: {
+      location: 24,
+      name: 'quuz',
+      path: ['quuz'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
+  type: 'ConditionGroup',
 });
 
 test('(foo:bar)', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'bar',
   },
-  query: 'bar',
-  quoted: false,
+  field: {
+    location: 1,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('((foo:bar))', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'bar',
   },
-  query: 'bar',
-  quoted: false,
+  field: {
+    location: 2,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('( foo:bar )', testQuery, {
-  field: {
-    name: 'foo',
+  expression: {
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'bar',
   },
-  query: 'bar',
-  quoted: false,
+  field: {
+    location: 2,
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+  },
+  type: 'Condition',
 });
 
 test('(foo:bar OR baz:qux)', testQuery, {
   left: {
-    field: {
-      name: 'foo',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
     },
-    query: 'bar',
-    quoted: false,
+    field: {
+      location: 1,
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
   operator: 'OR',
   right: {
-    field: {
-      name: 'baz',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'qux',
     },
-    query: 'qux',
-    quoted: false,
+    field: {
+      location: 12,
+      name: 'baz',
+      path: ['baz'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
+  type: 'ConditionGroup',
 });
 
 test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
   left: {
-    field: {
-      name: 'foo',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
     },
-    query: 'bar',
-    quoted: false,
+    field: {
+      location: 0,
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
   operator: 'OR',
   right: {
     left: {
-      field: {
-        name: 'baz',
+      expression: {
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'qux',
       },
-      query: 'qux',
-      quoted: false,
+      field: {
+        location: 12,
+        name: 'baz',
+        path: ['baz'],
+        quoted: false,
+      },
+      type: 'Condition',
     },
     operator: 'OR',
     right: {
-      field: {
-        name: 'quuz',
+      expression: {
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'corge',
       },
-      query: 'corge',
-      quoted: false,
+      field: {
+        location: 23,
+        name: 'quuz',
+        path: ['quuz'],
+        quoted: false,
+      },
+      type: 'Condition',
     },
+    type: 'ConditionGroup',
   },
+  type: 'ConditionGroup',
 });
 
 test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
   left: {
     left: {
-      field: {
-        name: 'foo',
+      expression: {
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'bar',
       },
-      query: 'bar',
-      quoted: false,
+      field: {
+        location: 1,
+        name: 'foo',
+        path: ['foo'],
+        quoted: false,
+      },
+      type: 'Condition',
     },
     operator: 'OR',
     right: {
-      field: {
-        name: 'baz',
+      expression: {
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'qux',
       },
-      query: 'qux',
-      quoted: false,
+      field: {
+        location: 12,
+        name: 'baz',
+        path: ['baz'],
+        quoted: false,
+      },
+      type: 'Condition',
     },
+    type: 'ConditionGroup',
   },
   operator: 'OR',
   right: {
-    field: {
-      name: 'quuz',
+    expression: {
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'corge',
     },
-    query: 'corge',
-    quoted: false,
+    field: {
+      location: 24,
+      name: 'quuz',
+      path: ['quuz'],
+      quoted: false,
+    },
+    type: 'Condition',
   },
+  type: 'ConditionGroup',
 });
 
 test('[1 TO 2]', testQuery, {
-  range: {
-    max: 2,
-    maxInclusive: true,
-    min: 1,
-    minInclusive: true,
+  expression: {
+    range: {
+      max: 2,
+      maxInclusive: true,
+      min: 1,
+      minInclusive: true,
+    },
+    type: 'RangeExpression',
   },
+  field: {
+    name: '<implicit>',
+  },
+  type: 'Condition',
 });
 
 test('{1 TO 2]', testQuery, {
-  range: {
-    max: 2,
-    maxInclusive: true,
-    min: 1,
-    minInclusive: false,
+  expression: {
+    range: {
+      max: 2,
+      maxInclusive: true,
+      min: 1,
+      minInclusive: false,
+    },
+    type: 'RangeExpression',
   },
+  field: {
+    name: '<implicit>',
+  },
+  type: 'Condition',
 });
 
 test('[1 TO 2}', testQuery, {
-  range: {
-    max: 2,
-    maxInclusive: false,
-    min: 1,
-    minInclusive: true,
+  expression: {
+    range: {
+      max: 2,
+      maxInclusive: false,
+      min: 1,
+      minInclusive: true,
+    },
+    type: 'RangeExpression',
   },
+  field: {
+    name: '<implicit>',
+  },
+  type: 'Condition',
 });
 
 test('{1 TO 2}', testQuery, {
-  range: {
-    max: 2,
-    maxInclusive: false,
-    min: 1,
-    minInclusive: false,
+  expression: {
+    range: {
+      max: 2,
+      maxInclusive: false,
+      min: 1,
+      minInclusive: false,
+    },
+    type: 'RangeExpression',
   },
+  field: {
+    name: '<implicit>',
+  },
+  type: 'Condition',
 });

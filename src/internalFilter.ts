@@ -20,17 +20,27 @@ import type {
 const optionalChainingIsSupported = isOptionalChainingSupported();
 
 const createValueTest = (ast: HydratedAst): InternalTest => {
-  const query = ast.query;
+  if (ast.type !== 'Condition') {
+    throw new Error('Expected a condition.');
+  }
 
-  if (ast.range) {
+  const {
+    expression,
+  } = ast;
+
+  if (expression.type === 'RangeExpression') {
     return (value) => {
-      return testRange(value, ast.range as Range);
+      return testRange(value, expression.range);
     };
-  } else if (ast.relationalOperator) {
+  }
+
+  const expressionValue = expression.value;
+
+  if (ast.relationalOperator) {
     const relationalOperator = ast.relationalOperator;
 
-    if (typeof query !== 'number') {
-      throw new TypeError('Unexpected state.');
+    if (typeof expressionValue !== 'number') {
+      throw new TypeError('Expected a number.');
     }
 
     return (value) => {
@@ -38,13 +48,13 @@ const createValueTest = (ast: HydratedAst): InternalTest => {
         return false;
       }
 
-      return testRelationalRange(query, value, relationalOperator);
+      return testRelationalRange(expressionValue, value, relationalOperator);
     };
-  } else if (typeof query === 'boolean') {
+  } else if (typeof expressionValue === 'boolean') {
     return (value) => {
-      return value === query;
+      return value === expressionValue;
     };
-  } else if (query === null) {
+  } else if (expressionValue === null) {
     return (value) => {
       return value === null;
     };
@@ -96,7 +106,7 @@ const testValue = (
   }
 
   if (!ast.test) {
-    throw new Error('Unexpected state.');
+    throw new Error('Expected test to be defined.');
   }
 
   const result = ast.test(
@@ -124,6 +134,10 @@ const testField = <T extends Object>(
   path: readonly string[],
   highlights: InternalHighlight[],
 ): boolean => {
+  if (ast.type !== 'Condition') {
+    throw new Error('Expected a condition.');
+  }
+
   if (!ast.test) {
     ast.test = createValueTest(ast);
   }
@@ -205,7 +219,7 @@ export const internalFilter = <T extends Object>(
   path: readonly string[] = [],
   highlights: InternalHighlight[] = [],
 ): readonly T[] => {
-  if (ast.field) {
+  if (ast.type === 'Condition') {
     return rows.filter((row) => {
       return testField(
         row,
@@ -232,7 +246,7 @@ export const internalFilter = <T extends Object>(
   }
 
   if (!ast.left) {
-    throw new Error('Unexpected state.');
+    throw new Error('Expected left to be defined.');
   }
 
   const leftRows = internalFilter(
@@ -244,7 +258,7 @@ export const internalFilter = <T extends Object>(
   );
 
   if (!ast.right) {
-    throw new Error('Unexpected state.');
+    throw new Error('Expected right to be defined.');
   }
 
   if (ast.operator === 'OR') {

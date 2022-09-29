@@ -6,6 +6,7 @@ function id(d: any[]): any { return d[0]; }
 
 const opExpr = (operator) => {
   return d => ({
+    type: 'ConditionGroup',
     operator: operator,
     left: d[0],
     right: d[2]
@@ -19,48 +20,22 @@ const notOp = (d) => {
   };
 }
 
-const unquotedValue = (d, location, reject) => {
-  let query = d.join('');
-
-  if (query === 'true') {
-    query = true;
-  } else if (query === 'false') {
-    query = false;
-  } else if (query === 'null') {
-    query = null;
-  }
-
-  return {
-    quoted: false,
-    query,
-  };
-}
-
 const range = ( minInclusive, maxInclusive) => {
   return (d) => {
     return {
-      range: {
-        min: d[2],
-        minInclusive,
-        maxInclusive,
-        max: d[6],
+      type: 'Condition',
+      expression: {
+        type: 'RangeExpression',
+        range: {
+          min: d[2],
+          minInclusive,
+          maxInclusive,
+          max: d[6],
+        }
       }
     }
   };
 }
-
-const field = d => {
-  return {
-    field: {
-      name: d[0].name,
-      path: d[0].name.split('.').filter(Boolean),
-      quoted: d[0].quoted,
-      quotes: d[0].quotes,
-      location: d[0].location,
-    },
-    ...d[3]
-  }
-};
 
 interface NearleyToken {
   value: any;
@@ -228,20 +203,56 @@ const grammar: Grammar = {
     {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
     {"name": "post_boolean_primary", "symbols": [{"literal":"("}, "_", "boolean_primary", "_", {"literal":")"}], "postprocess": d => d[2]},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
-    {"name": "side", "symbols": ["field", {"literal":":"}, "_", "query"], "postprocess": field},
+    {"name": "side", "symbols": ["field", {"literal":":"}, "_", "query"], "postprocess":  (data) => {
+          const field = {
+            name: data[0].name,
+            path: data[0].name.split('.').filter(Boolean),
+            quoted: data[0].quoted,
+            quotes: data[0].quotes,
+            location: data[0].location,
+          };
+        
+          if (!data[0].quotes) {
+            delete field.quotes;
+          }
+        
+          return {
+            field,
+            ...data[3]
+          }
+        } },
     {"name": "side", "symbols": ["query"], "postprocess": d => ({field: {name: '<implicit>'}, ...d[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, location) => ({name: data[0] + data[1].join(''), quoted: false, location})},
-    {"name": "field", "symbols": ["sqstring"], "postprocess": (data, location) => ({name: data[0], quoted: true, quotes: 'single', location})},
-    {"name": "field", "symbols": ["dqstring"], "postprocess": (data, location) => ({name: data[0], quoted: true, quotes: 'double', location})},
-    {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": d => ({quoted: false, query: d[2], relationalOperator: d[0][0]})},
-    {"name": "query", "symbols": ["decimal"], "postprocess": d => ({quoted: false, query: d.join('')})},
-    {"name": "query", "symbols": ["regex"], "postprocess": d => ({quoted: false, regex: true, query: d.join('')})},
-    {"name": "query", "symbols": ["range"], "postprocess": id},
-    {"name": "query", "symbols": ["unquoted_value"], "postprocess": unquotedValue},
-    {"name": "query", "symbols": ["sqstring"], "postprocess": d => ({quoted: true, quotes: 'single', query: d.join('')})},
-    {"name": "query", "symbols": ["dqstring"], "postprocess": d => ({quoted: true, quotes: 'double', query: d.join('')})},
+    {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location})},
+    {"name": "field", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location})},
+    {"name": "field", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location})},
+    {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": d => ({expression: {type: 'LiteralExpression', quoted: false, value: d[2]}, type: 'Condition', relationalOperator: d[0][0]})},
+    {"name": "query", "symbols": ["decimal"], "postprocess": d => ({type: 'Condition', expression: {type: 'LiteralExpression', quoted: false, value: d.join('')}})},
+    {"name": "query", "symbols": ["regex"], "postprocess": d => ({type: 'Condition', expression: {type: 'RegexExpression', value: d.join('')}})},
+    {"name": "query", "symbols": ["range"], "postprocess": d => d[0]},
+    {"name": "query", "symbols": ["unquoted_value"], "postprocess":  (data, location, reject) => {
+          let value = data.join('');
+        
+          if (value === 'true') {
+            value = true;
+          } else if (value === 'false') {
+            value = false;
+          } else if (value === 'null') {
+            value = null;
+          }
+        
+          return {
+            type: 'Condition',
+            expression: {
+              type: 'LiteralExpression',
+              quoted: false,
+              value
+            },
+          };
+        } },
+    {"name": "query", "symbols": ["sqstring"], "postprocess": d => ({type: 'Condition', expression: {type: 'LiteralExpression', quoted: true, quotes: 'single', value: d.join('')}})},
+    {"name": "query", "symbols": ["dqstring"], "postprocess": d => ({type: 'Condition', expression: {type: 'LiteralExpression', quoted: true, quotes: 'double', value: d.join('')}})},
     {"name": "range$string$1", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
     {"name": "range", "symbols": [{"literal":"["}, "_", "decimal", "_", "range$string$1", "_", "decimal", "_", {"literal":"]"}], "postprocess": range(true, true)},
     {"name": "range$string$2", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},

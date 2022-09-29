@@ -7,25 +7,48 @@ export type Range = {
 
 export type RelationalOperator = '<' | '<=' | '=' | '>' | '>=';
 
-export type ParserAst = {
-  field: {
-    name: string,
-    path?: readonly string[],
-    quoted: 'boolean',
-    quotes?: 'double' | 'single',
-  },
-  left?: ParserAst,
-  operand?: ParserAst,
-  operator?: 'AND' | 'NOT' | 'OR',
-  query?: string,
+type Field = {
+  name: string,
+  path?: readonly string[],
+  quoted: 'boolean',
+  quotes?: 'double' | 'single',
+};
+
+type RegexExpression = {
+  type: 'RegexExpression',
+  value: string,
+};
+
+type RangeExpression = {
+  range: Range,
+  type: 'RangeExpression',
+};
+
+type LiteralExpression = {
   quoted?: boolean,
   quotes?: 'double' | 'single',
-  range?: Range,
-  regex?: boolean,
-  relationalOperator?: RelationalOperator,
-  right?: ParserAst,
-  test?: InternalTest,
+  type: 'LiteralExpression',
+  value: string,
 };
+
+type Expression = LiteralExpression | RangeExpression | RegexExpression;
+
+type Condition = {
+  expression: Expression,
+  field: Field,
+  relationalOperator?: RelationalOperator,
+  test?: InternalTest,
+  type: 'Condition',
+};
+
+type ConditionGroup = {
+  left: ParserAst,
+  operator: 'AND' | 'NOT' | 'OR',
+  right: ParserAst,
+  type: 'ConditionGroup',
+};
+
+export type ParserAst = Condition | ConditionGroup;
 
 export type HydratedAst = ParserAst & {
   getValue?: (subject: unknown) => unknown,

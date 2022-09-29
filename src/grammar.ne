@@ -8,6 +8,7 @@ main -> expr {% id %}
 @{%
 const opExpr = (operator) => {
   return d => ({
+    type: 'ConditionGroup',
     operator: operator,
     left: d[0],
     right: d[2]
@@ -21,48 +22,22 @@ const notOp = (d) => {
   };
 }
 
-const unquotedValue = (d, location, reject) => {
-  let query = d.join('');
-
-  if (query === 'true') {
-    query = true;
-  } else if (query === 'false') {
-    query = false;
-  } else if (query === 'null') {
-    query = null;
-  }
-
-  return {
-    quoted: false,
-    query,
-  };
-}
-
 const range = ( minInclusive, maxInclusive) => {
   return (d) => {
     return {
-      range: {
-        min: d[2],
-        minInclusive,
-        maxInclusive,
-        max: d[6],
+      type: 'Condition',
+      expression: {
+        type: 'RangeExpression',
+        range: {
+          min: d[2],
+          minInclusive,
+          maxInclusive,
+          max: d[6],
+        }
       }
     }
   };
 }
-
-const field = d => {
-  return {
-    field: {
-      name: d[0].name,
-      path: d[0].name.split('.').filter(Boolean),
-      quoted: d[0].quoted,
-      quotes: d[0].quotes,
-      location: d[0].location,
-    },
-    ...d[3]
-  }
-};
 %}
 
 # Adapted from js-sql-parser
@@ -95,22 +70,58 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field ":" _ query {% field %}
+    field ":" _ query {% (data) => {
+    const field = {
+      name: data[0].name,
+      path: data[0].name.split('.').filter(Boolean),
+      quoted: data[0].quoted,
+      quotes: data[0].quotes,
+      location: data[0].location,
+    };
+
+    if (!data[0].quotes) {
+      delete field.quotes;
+    }
+
+    return {
+      field,
+      ...data[3]
+    }
+  } %}
   | query {% d => ({field: {name: '<implicit>'}, ...d[0]}) %}
 
 field ->
-    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, location) => ({name: data[0] + data[1].join(''), quoted: false, location}) %}
-  | sqstring {% (data, location) => ({name: data[0], quoted: true, quotes: 'single', location}) %}
-  | dqstring {% (data, location) => ({name: data[0], quoted: true, quotes: 'double', location}) %}
+    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location}) %}
+  | sqstring {% (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location}) %}
+  | dqstring {% (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location}) %}
 
 query ->
-    relational_operator _ decimal {% d => ({quoted: false, query: d[2], relationalOperator: d[0][0]}) %}
-  | decimal {% d => ({quoted: false, query: d.join('')}) %}
-  | regex {% d => ({quoted: false, regex: true, query: d.join('')}) %}
-  | range {% id %}
-  | unquoted_value {% unquotedValue %}
-  | sqstring {% d => ({quoted: true, quotes: 'single', query: d.join('')}) %}
-  | dqstring {% d => ({quoted: true, quotes: 'double', query: d.join('')}) %}
+    relational_operator _ decimal {% d => ({expression: {type: 'LiteralExpression', quoted: false, value: d[2]}, type: 'Condition', relationalOperator: d[0][0]}) %}
+  | decimal {% d => ({type: 'Condition', expression: {type: 'LiteralExpression', quoted: false, value: d.join('')}}) %}
+  | regex {% d => ({type: 'Condition', expression: {type: 'RegexExpression', value: d.join('')}}) %}
+  | range {% d => d[0] %}
+  | unquoted_value {% (data, location, reject) => {
+    let value = data.join('');
+
+    if (value === 'true') {
+      value = true;
+    } else if (value === 'false') {
+      value = false;
+    } else if (value === 'null') {
+      value = null;
+    }
+
+    return {
+      type: 'Condition',
+      expression: {
+        type: 'LiteralExpression',
+        quoted: false,
+        value
+      },
+    };
+  } %}
+  | sqstring {% d => ({type: 'Condition', expression: {type: 'LiteralExpression', quoted: true, quotes: 'single', value: d.join('')}}) %}
+  | dqstring {% d => ({type: 'Condition', expression: {type: 'LiteralExpression', quoted: true, quotes: 'double', value: d.join('')}}) %}
 
 range ->
     "[" _ decimal _ "TO" _ decimal _ "]" {% range(true, true) %}
