@@ -16,6 +16,7 @@ Lightweight and performant Lucene-like parser and search engine.
   * [Range matching](#range-matching)
   * [Wildcard matching](#wildcard-matching)
   * [Logical Operators](#logical-operators)
+* [Serializer](#serializer)
 * [Compatibility with Lucene](#compatibility-with-lucene)
 * [Recipes](#recipes)
   * [Handling syntax errors](#handling-syntax-errors)
@@ -235,6 +236,37 @@ Search for either the phrase "foo bar" in the `name` field AND the phrase "quick
 
 ```rb
 (name:"foo bar" AND bio:"quick fox") OR name:fox
+```
+
+## Serializer
+
+Serializer allows to convert Liqe tokens back to the original search query.
+
+```ts
+import {
+  parse,
+  serialize,
+} from 'liqe';
+
+const tokens = parse('foo:bar');
+
+// {
+//   expression: {
+//     quoted: false,
+//     type: 'LiteralExpression',
+//     value: 'bar',
+//   },
+//   field: {
+//     location: 0,
+//     name: 'foo',
+//     path: ['foo'],
+//     quoted: false,
+//   },
+//   type: 'Condition',
+// }
+
+serialize(tokens);
+// 'foo:bar'
 ```
 
 ## Compatibility with Lucene

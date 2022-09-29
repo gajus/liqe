@@ -18,3 +18,6 @@ export {
   LiqeError,
   SyntaxError,
 } from './errors';
+export {
+  serialize,
+} from './serialize';
