@@ -221,6 +221,8 @@ test('$foo:baz', testQuery, {
 test('"foo bar":baz', testQuery, {
   field: {
     name: 'foo bar',
+    quoted: true,
+    quotes: 'double',
   },
   query: 'baz',
 });
@@ -228,6 +230,8 @@ test('"foo bar":baz', testQuery, {
 test('\'foo bar\':baz', testQuery, {
   field: {
     name: 'foo bar',
+    quoted: true,
+    quotes: 'single',
   },
   query: 'baz',
 });

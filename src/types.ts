@@ -11,6 +11,8 @@ export type ParserAst = {
   field: {
     name: string,
     path?: readonly string[],
+    quoted: 'boolean',
+    quotes?: 'double' | 'single',
   },
   left?: ParserAst,
   operand?: ParserAst,
