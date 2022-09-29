@@ -234,7 +234,7 @@ export const internalFilter = <T extends Object>(
     });
   }
 
-  if (ast.operator === 'NOT' && ast.operand) {
+  if (ast.type === 'Operand' && ast.operator === 'NOT' && ast.operand) {
     const removeRows = internalFilter(
       ast.operand,
       rows,
@@ -264,7 +264,6 @@ export const internalFilter = <T extends Object>(
     throw new Error('Expected right to be defined.');
   }
 
-  // TODO rename to logical expression
   if (ast.type !== 'ConditionGroup') {
     throw new Error('Expected a condition group.');
   }

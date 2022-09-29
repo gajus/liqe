@@ -30,13 +30,13 @@ test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery)
 
 test('foo:bar', testQuery);
 
-test.skip('foo:   bar', testQuery);
+test.skip('foo: bar', testQuery);
 
 test('foo:123', testQuery);
 
 test('foo:=123', testQuery);
 
-test.skip('foo:=   123', testQuery);
+test.skip('foo:= 123', testQuery);
 
 test('foo:=-123', testQuery);
 
@@ -66,11 +66,11 @@ test('foo:\'bar\'', testQuery);
 
 test.skip('foo:bar baz:qux', testQuery);
 
-test.skip('foo:bar AND baz:qux', testQuery);
+test('foo:bar AND baz:qux', testQuery);
 
 test('(foo:bar AND baz:qux)', testQuery);
 
-test.skip('(foo:bar) AND (baz:qux)', testQuery);
+test('(foo:bar) AND (baz:qux)', testQuery);
 
 test.skip('NOT (foo:bar AND baz:qux)', testQuery);
 
@@ -80,13 +80,13 @@ test.skip('NOT (foo:bar)', testQuery);
 
 test('(foo:bar AND NOT baz:qux)', testQuery);
 
-test.skip('foo:bar AND baz:qux AND quuz:corge', testQuery);
+test('foo:bar AND baz:qux AND quuz:corge', testQuery);
 
 test('((foo:bar AND baz:qux) AND quuz:corge)', testQuery);
 
-test.skip('(foo:bar)', testQuery);
+test('(foo:bar)', testQuery);
 
-test.skip('((foo:bar))', testQuery);
+test('((foo:bar))', testQuery);
 
 test.skip('( foo:bar )', testQuery);
 

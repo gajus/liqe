@@ -95,24 +95,24 @@ two_op_expr ->
 
 pre_two_op_implicit_expr ->
     two_op_expr {% d => d[0] %}
-  | "(" _ two_op_expr _ ")" {% d => d[2] %}
+  | "(" _ two_op_expr _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 post_one_op_implicit_expr ->
     one_op_expr {% d => d[0] %}
-  | "(" _ one_op_expr _ ")" {% d => d[2] %}
+  | "(" _ one_op_expr _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 pre_two_op_expr ->
     two_op_expr __ {% d => d[0] %}
-  | "(" _ two_op_expr _ ")" {% d => d[2] %}
+  | "(" _ two_op_expr _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 one_op_expr ->
-    "(" _ two_op_expr _ ")" {% d => d[2] %}
+    "(" _ two_op_expr _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[2]}) %}
 	|	"NOT" post_boolean_primary {% notOp %}
   | boolean_primary {% d => d[0] %}
 
 post_one_op_expr ->
     __ one_op_expr {% d => d[1] %}
-  | "(" _ one_op_expr _ ")" {% d => d[2] %}
+  | "(" _ one_op_expr _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 operator ->
     "OR" {% (data, location) => ({location, type: 'OR'}) %}
@@ -122,7 +122,7 @@ boolean_primary ->
   side {% id %}
 
 post_boolean_primary ->
-    "(" _ boolean_primary _ ")" {% d => d[2] %}
+    "(" _ boolean_primary _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[2]}) %}
   | __ boolean_primary {% d => d[1] %}
 
 side ->

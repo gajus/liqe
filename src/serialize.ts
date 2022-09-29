@@ -64,6 +64,10 @@ const serializeCondition = (ast: HydratedAst) => {
 };
 
 export const serialize = (ast: HydratedAst): string => {
+  if (ast.type === 'ParenthesizedExpression') {
+    return `(${serialize(ast.expression)})`;
+  }
+
   if (ast.type === 'Condition') {
     return serializeCondition(ast);
   }
@@ -73,7 +77,7 @@ export const serialize = (ast: HydratedAst): string => {
     const operator = ast.operator.type;
     const right = serialize(ast.right);
 
-    return `(${left} ${operator} ${right})`;
+    return `${left} ${operator} ${right}`;
   }
 
   if (ast.type === 'Operand') {
