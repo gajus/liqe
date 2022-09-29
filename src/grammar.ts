@@ -238,8 +238,12 @@ const grammar: Grammar = {
     {"name": "query", "symbols": ["decimal"], "postprocess": (data, location) => ({type: 'Condition', expression: {location, type: 'LiteralExpression', quoted: false, value: data.join('')}})},
     {"name": "query", "symbols": ["regex"], "postprocess": (data, location) => ({type: 'Condition', expression: {location, type: 'RegexExpression', value: data.join('')}})},
     {"name": "query", "symbols": ["range"], "postprocess": (data) => data[0]},
-    {"name": "query", "symbols": ["unquoted_value"], "postprocess":  (data, location) => {
+    {"name": "query", "symbols": ["unquoted_value"], "postprocess":  (data, location, reject) => {
           const value = data.join('');
+        
+          if (data[0] === 'AND' || data[0] === 'OR' || data[0] === 'NOT') {
+            return reject;
+          }
           
           let normalizedValue;
         
