@@ -6,7 +6,7 @@
 [![Canonical Code Style](https://img.shields.io/badge/code%20style-canonical-blue.svg?style=flat-square)](https://github.com/gajus/canonical)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kuizinas.svg?style=social&label=Follow)](https://twitter.com/kuizinas)
 
-Lightweight and performant Lucene-like parser and search engine.
+Lightweight and performant Lucene-like parser, serializer and search engine.
 
 * [Usage](#usage)
 * [Query Syntax](#query-syntax)

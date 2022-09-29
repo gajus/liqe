@@ -19,7 +19,7 @@
     "nearley": "^2.20.1",
     "ts-error": "^1.0.6"
   },
-  "description": "Lightweight and performant Lucene-like parser and search engine.",
+  "description": "Lightweight and performant Lucene-like parser, serializer and search engine.",
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/node": "^16.10.9",
