@@ -16,16 +16,19 @@ export type Field = {
 };
 
 export type RegexExpression = {
+  location: number,
   type: 'RegexExpression',
   value: string,
 };
 
 export type RangeExpression = {
+  location: number,
   range: Range,
   type: 'RangeExpression',
 };
 
 export type LiteralExpression = {
+  location: number,
   quoted?: boolean,
   quotes?: 'double' | 'single',
   type: 'LiteralExpression',

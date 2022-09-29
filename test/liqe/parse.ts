@@ -27,6 +27,7 @@ test('error describes offset', (t) => {
 
 test('foo', testQuery, {
   expression: {
+    location: 0,
     quoted: false,
     type: 'LiteralExpression',
     value: 'foo',
@@ -40,6 +41,7 @@ test('foo', testQuery, {
 test.skip('foo bar', testQuery, {
   left: {
     expression: {
+      location: 0,
       quoted: false,
       value: 'foo',
     },
@@ -51,6 +53,7 @@ test.skip('foo bar', testQuery, {
   operator: 'AND',
   right: {
     expression: {
+      location: 4,
       quoted: false,
       value: 'bar',
     },
@@ -64,6 +67,7 @@ test.skip('foo bar', testQuery, {
 
 test('foo_bar', testQuery, {
   expression: {
+    location: 0,
     quoted: false,
     type: 'LiteralExpression',
     value: 'foo_bar',
@@ -76,6 +80,7 @@ test('foo_bar', testQuery, {
 
 test('"foo"', testQuery, {
   expression: {
+    location: 0,
     quoted: true,
     quotes: 'double',
     type: 'LiteralExpression',
@@ -89,6 +94,7 @@ test('"foo"', testQuery, {
 
 test('\'foo\'', testQuery, {
   expression: {
+    location: 0,
     quoted: true,
     quotes: 'single',
     type: 'LiteralExpression',
@@ -102,6 +108,7 @@ test('\'foo\'', testQuery, {
 
 test('/foo/', testQuery, {
   expression: {
+    location: 0,
     type: 'RegexExpression',
     value: '/foo/',
   },
@@ -113,6 +120,7 @@ test('/foo/', testQuery, {
 
 test('/foo/ui', testQuery, {
   expression: {
+    location: 0,
     type: 'RegexExpression',
     value: '/foo/ui',
   },
@@ -124,6 +132,7 @@ test('/foo/ui', testQuery, {
 
 test('/\\s/', testQuery, {
   expression: {
+    location: 0,
     type: 'RegexExpression',
     value: '/\\s/',
   },
@@ -135,6 +144,7 @@ test('/\\s/', testQuery, {
 
 test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, {
   expression: {
+    location: 0,
     type: 'RegexExpression',
     value: '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
   },
@@ -146,6 +156,7 @@ test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery,
 
 test('foo:bar', testQuery, {
   expression: {
+    location: 4,
     quoted: false,
     type: 'LiteralExpression',
     value: 'bar',
@@ -159,8 +170,9 @@ test('foo:bar', testQuery, {
   type: 'Condition',
 });
 
-test('foo:   bar', testQuery, {
+test('foo: bar', testQuery, {
   expression: {
+    location: 5,
     quoted: false,
     type: 'LiteralExpression',
     value: 'bar',
@@ -176,6 +188,7 @@ test('foo:   bar', testQuery, {
 
 test('foo:123', testQuery, {
   expression: {
+    location: 4,
     quoted: false,
     type: 'LiteralExpression',
     value: '123',
@@ -191,6 +204,7 @@ test('foo:123', testQuery, {
 
 test('foo:=123', testQuery, {
   expression: {
+    location: 5,
     quoted: false,
     type: 'LiteralExpression',
     value: 123,
@@ -205,8 +219,9 @@ test('foo:=123', testQuery, {
   type: 'Condition',
 });
 
-test('foo:=   123', testQuery, {
+test('foo:= 123', testQuery, {
   expression: {
+    location: 6,
     quoted: false,
     type: 'LiteralExpression',
     value: 123,
@@ -223,6 +238,7 @@ test('foo:=   123', testQuery, {
 
 test('foo:=-123', testQuery, {
   expression: {
+    location: 5,
     quoted: false,
     type: 'LiteralExpression',
     value: -123,
@@ -239,6 +255,7 @@ test('foo:=-123', testQuery, {
 
 test('foo:=123.4', testQuery, {
   expression: {
+    location: 5,
     quoted: false,
     type: 'LiteralExpression',
     value: 123.4,
@@ -255,6 +272,7 @@ test('foo:=123.4', testQuery, {
 
 test('foo:>=123', testQuery, {
   expression: {
+    location: 5,
     quoted: false,
     type: 'LiteralExpression',
     value: 123,
@@ -271,6 +289,7 @@ test('foo:>=123', testQuery, {
 
 test('foo:true', testQuery, {
   expression: {
+    location: 4,
     quoted: false,
     type: 'LiteralExpression',
     value: true,
@@ -286,6 +305,7 @@ test('foo:true', testQuery, {
 
 test('foo:false', testQuery, {
   expression: {
+    location: 4,
     quoted: false,
     type: 'LiteralExpression',
     value: false,
@@ -301,6 +321,7 @@ test('foo:false', testQuery, {
 
 test('foo:null', testQuery, {
   expression: {
+    location: 4,
     quoted: false,
     type: 'LiteralExpression',
     value: null,
@@ -316,6 +337,7 @@ test('foo:null', testQuery, {
 
 test('foo.bar:baz', testQuery, {
   expression: {
+    location: 8,
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
@@ -334,6 +356,7 @@ test('foo.bar:baz', testQuery, {
 
 test('foo_bar:baz', testQuery, {
   expression: {
+    location: 8,
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
@@ -349,6 +372,7 @@ test('foo_bar:baz', testQuery, {
 
 test('$foo:baz', testQuery, {
   expression: {
+    location: 5,
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
@@ -364,6 +388,7 @@ test('$foo:baz', testQuery, {
 
 test('"foo bar":baz', testQuery, {
   expression: {
+    location: 10,
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
@@ -380,6 +405,7 @@ test('"foo bar":baz', testQuery, {
 
 test('\'foo bar\':baz', testQuery, {
   expression: {
+    location: 10,
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
@@ -396,6 +422,7 @@ test('\'foo bar\':baz', testQuery, {
 
 test('foo:"bar"', testQuery, {
   expression: {
+    location: 4,
     quoted: true,
     quotes: 'double',
     type: 'LiteralExpression',
@@ -412,6 +439,7 @@ test('foo:"bar"', testQuery, {
 
 test('foo:\'bar\'', testQuery, {
   expression: {
+    location: 4,
     quoted: true,
     quotes: 'single',
     type: 'LiteralExpression',
@@ -429,6 +457,7 @@ test('foo:\'bar\'', testQuery, {
 test.skip('foo:bar baz:qux', testQuery, {
   left: {
     expression: {
+      location: 4,
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
@@ -443,6 +472,7 @@ test.skip('foo:bar baz:qux', testQuery, {
   operator: 'AND',
   right: {
     expression: {
+      location: 12,
       quoted: false,
       type: 'LiteralExpression',
       value: 'qux',
@@ -460,6 +490,7 @@ test.skip('foo:bar baz:qux', testQuery, {
 test('foo:bar AND baz:qux', testQuery, {
   left: {
     expression: {
+      location: 4,
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
@@ -475,6 +506,7 @@ test('foo:bar AND baz:qux', testQuery, {
   operator: 'AND',
   right: {
     expression: {
+      location: 16,
       quoted: false,
       type: 'LiteralExpression',
       value: 'qux',
@@ -493,6 +525,7 @@ test('foo:bar AND baz:qux', testQuery, {
 test('(foo:bar) AND (baz:qux)', testQuery, {
   left: {
     expression: {
+      location: 5,
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
@@ -508,6 +541,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
   operator: 'AND',
   right: {
     expression: {
+      location: 19,
       quoted: false,
       type: 'LiteralExpression',
       value: 'qux',
@@ -526,6 +560,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
 test('(foo:bar AND baz:qux)', testQuery, {
   left: {
     expression: {
+      location: 5,
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
@@ -541,6 +576,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
   operator: 'AND',
   right: {
     expression: {
+      location: 17,
       quoted: false,
       type: 'LiteralExpression',
       value: 'qux',
@@ -560,6 +596,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
   operand: {
     left: {
       expression: {
+        location: 9,
         quoted: false,
         type: 'LiteralExpression',
         value: 'bar',
@@ -574,6 +611,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
     operator: 'AND',
     right: {
       expression: {
+        location: 21,
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
@@ -594,6 +632,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
 test('NOT foo:bar', testQuery, {
   operand: {
     expression: {
+      location: 8,
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
@@ -613,6 +652,7 @@ test('NOT foo:bar', testQuery, {
 test('foo:bar AND NOT baz:qux', testQuery, {
   left: {
     expression: {
+      location: 4,
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
@@ -629,6 +669,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
   right: {
     operand: {
       expression: {
+        location: 20,
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
@@ -651,6 +692,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
   left: {
     left: {
       expression: {
+        location: 4,
         quoted: false,
         type: 'LiteralExpression',
         value: 'bar',
@@ -666,6 +708,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     operator: 'AND',
     right: {
       expression: {
+        location: 16,
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
@@ -683,6 +726,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
   operator: 'AND',
   right: {
     expression: {
+      location: 29,
       quoted: false,
       type: 'LiteralExpression',
       value: 'corge',
@@ -700,6 +744,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
 
 test('(foo:bar)', testQuery, {
   expression: {
+    location: 5,
     quoted: false,
     type: 'LiteralExpression',
     value: 'bar',
@@ -715,6 +760,7 @@ test('(foo:bar)', testQuery, {
 
 test('((foo:bar))', testQuery, {
   expression: {
+    location: 6,
     quoted: false,
     type: 'LiteralExpression',
     value: 'bar',
@@ -730,6 +776,7 @@ test('((foo:bar))', testQuery, {
 
 test('( foo:bar )', testQuery, {
   expression: {
+    location: 6,
     quoted: false,
     type: 'LiteralExpression',
     value: 'bar',
@@ -746,6 +793,7 @@ test('( foo:bar )', testQuery, {
 test('(foo:bar OR baz:qux)', testQuery, {
   left: {
     expression: {
+      location: 5,
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
@@ -761,6 +809,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
   operator: 'OR',
   right: {
     expression: {
+      location: 16,
       quoted: false,
       type: 'LiteralExpression',
       value: 'qux',
@@ -779,6 +828,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
 test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
   left: {
     expression: {
+      location: 4,
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
@@ -795,6 +845,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
   right: {
     left: {
       expression: {
+        location: 16,
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
@@ -810,6 +861,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
     operator: 'OR',
     right: {
       expression: {
+        location: 28,
         quoted: false,
         type: 'LiteralExpression',
         value: 'corge',
@@ -831,6 +883,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
   left: {
     left: {
       expression: {
+        location: 5,
         quoted: false,
         type: 'LiteralExpression',
         value: 'bar',
@@ -846,6 +899,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
     operator: 'OR',
     right: {
       expression: {
+        location: 16,
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
@@ -863,6 +917,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
   operator: 'OR',
   right: {
     expression: {
+      location: 29,
       quoted: false,
       type: 'LiteralExpression',
       value: 'corge',
@@ -880,6 +935,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
 
 test('[1 TO 2]', testQuery, {
   expression: {
+    location: 0,
     range: {
       max: 2,
       maxInclusive: true,
@@ -896,6 +952,7 @@ test('[1 TO 2]', testQuery, {
 
 test('{1 TO 2]', testQuery, {
   expression: {
+    location: 0,
     range: {
       max: 2,
       maxInclusive: true,
@@ -912,6 +969,7 @@ test('{1 TO 2]', testQuery, {
 
 test('[1 TO 2}', testQuery, {
   expression: {
+    location: 0,
     range: {
       max: 2,
       maxInclusive: false,
@@ -928,6 +986,7 @@ test('[1 TO 2}', testQuery, {
 
 test('{1 TO 2}', testQuery, {
   expression: {
+    location: 0,
     range: {
       max: 2,
       maxInclusive: false,

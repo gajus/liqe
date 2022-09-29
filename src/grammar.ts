@@ -22,16 +22,17 @@ const notOp = (d) => {
 }
 
 const range = ( minInclusive, maxInclusive) => {
-  return (d) => {
+  return (data, location) => {
     return {
       type: 'Condition',
       expression: {
+        location,
         type: 'RangeExpression',
         range: {
-          min: d[2],
+          min: data[2],
           minInclusive,
           maxInclusive,
-          max: d[6],
+          max: data[6],
         }
       }
     }
@@ -68,13 +69,6 @@ interface Grammar {
 const grammar: Grammar = {
   Lexer: undefined,
   ParserRules: [
-    {"name": "_$ebnf$1", "symbols": []},
-    {"name": "_$ebnf$1", "symbols": ["_$ebnf$1", "wschar"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "_", "symbols": ["_$ebnf$1"], "postprocess": function(d) {return null;}},
-    {"name": "__$ebnf$1", "symbols": ["wschar"]},
-    {"name": "__$ebnf$1", "symbols": ["__$ebnf$1", "wschar"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "__", "symbols": ["__$ebnf$1"], "postprocess": function(d) {return null;}},
-    {"name": "wschar", "symbols": [/[ \t\n\v\f]/], "postprocess": id},
     {"name": "dqstring$ebnf$1", "symbols": []},
     {"name": "dqstring$ebnf$1", "symbols": ["dqstring$ebnf$1", "dstrchar"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "dqstring", "symbols": [{"literal":"\""}, "dqstring$ebnf$1", {"literal":"\""}], "postprocess": function(d) {return d[1].join(""); }},
@@ -187,6 +181,13 @@ const grammar: Grammar = {
         }
         },
     {"name": "main", "symbols": ["expr"], "postprocess": id},
+    {"name": "_$ebnf$1", "symbols": []},
+    {"name": "_$ebnf$1", "symbols": ["_$ebnf$1", "wschar"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "_", "symbols": ["_$ebnf$1"], "postprocess": function(d) {return d[0].length;}},
+    {"name": "__$ebnf$1", "symbols": ["wschar"]},
+    {"name": "__$ebnf$1", "symbols": ["__$ebnf$1", "wschar"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "__", "symbols": ["__$ebnf$1"], "postprocess": function(d) {return d[0].length;}},
+    {"name": "wschar", "symbols": [/[ \t\n\v\f]/], "postprocess": id},
     {"name": "expr", "symbols": ["two_op_expr"], "postprocess": id},
     {"name": "two_op_expr$string$1", "symbols": [{"literal":"O"}, {"literal":"R"}], "postprocess": (d) => d.join('')},
     {"name": "two_op_expr", "symbols": ["pre_two_op_expr", "two_op_expr$string$1", "post_one_op_expr"], "postprocess": opExpr('OR')},
@@ -228,11 +229,11 @@ const grammar: Grammar = {
     {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location})},
     {"name": "field", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location})},
     {"name": "field", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location})},
-    {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": d => ({expression: {type: 'LiteralExpression', quoted: false, value: d[2]}, type: 'Condition', relationalOperator: d[0][0]})},
-    {"name": "query", "symbols": ["decimal"], "postprocess": d => ({type: 'Condition', expression: {type: 'LiteralExpression', quoted: false, value: d.join('')}})},
-    {"name": "query", "symbols": ["regex"], "postprocess": d => ({type: 'Condition', expression: {type: 'RegexExpression', value: d.join('')}})},
-    {"name": "query", "symbols": ["range"], "postprocess": d => d[0]},
-    {"name": "query", "symbols": ["unquoted_value"], "postprocess":  (data, location, reject) => {
+    {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": (data, location) => {return {expression: {location: location + data[1] + 1, type: 'LiteralExpression', quoted: false, value: data[2]}, type: 'Condition', relationalOperator: data[0][0]}}},
+    {"name": "query", "symbols": ["decimal"], "postprocess": (data, location) => ({type: 'Condition', expression: {location, type: 'LiteralExpression', quoted: false, value: data.join('')}})},
+    {"name": "query", "symbols": ["regex"], "postprocess": (data, location) => ({type: 'Condition', expression: {location, type: 'RegexExpression', value: data.join('')}})},
+    {"name": "query", "symbols": ["range"], "postprocess": (data) => data[0]},
+    {"name": "query", "symbols": ["unquoted_value"], "postprocess":  (data, location) => {
           const value = data.join('');
           
           let normalizedValue;
@@ -250,14 +251,15 @@ const grammar: Grammar = {
           return {
             type: 'Condition',
             expression: {
+              location,
               type: 'LiteralExpression',
               quoted: false,
               value: normalizedValue
             },
           };
         } },
-    {"name": "query", "symbols": ["sqstring"], "postprocess": d => ({type: 'Condition', expression: {type: 'LiteralExpression', quoted: true, quotes: 'single', value: d.join('')}})},
-    {"name": "query", "symbols": ["dqstring"], "postprocess": d => ({type: 'Condition', expression: {type: 'LiteralExpression', quoted: true, quotes: 'double', value: d.join('')}})},
+    {"name": "query", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'Condition', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
+    {"name": "query", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'Condition', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
     {"name": "range$string$1", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
     {"name": "range", "symbols": [{"literal":"["}, "_", "decimal", "_", "range$string$1", "_", "decimal", "_", {"literal":"]"}], "postprocess": range(true, true)},
     {"name": "range$string$2", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
