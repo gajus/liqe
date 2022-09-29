@@ -129,6 +129,7 @@ post_boolean_primary ->
 side ->
     field ":" _ query {% (data) => {
     const field = {
+      type: 'Field',
       name: data[0].name,
       path: data[0].name.split('.').filter(Boolean),
       quoted: data[0].quoted,
@@ -145,7 +146,7 @@ side ->
       ...data[3]
     }
   } %}
-  | query {% d => ({field: {name: '<implicit>'}, ...d[0]}) %}
+  | query {% d => ({field: {type: 'ImplicitField'}, ...d[0]}) %}
 
 field ->
     [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location}) %}

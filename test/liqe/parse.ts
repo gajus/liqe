@@ -38,7 +38,7 @@ test('foo', testQuery, {
     value: 'foo',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -52,7 +52,7 @@ test('(foo)', testQuery, {
       value: 'foo',
     },
     field: {
-      name: '<implicit>',
+      type: 'ImplicitField',
     },
     type: 'Condition',
   },
@@ -68,7 +68,7 @@ test('foo bar', testQuery, {
       value: 'foo',
     },
     field: {
-      name: '<implicit>',
+      type: 'ImplicitField',
     },
     type: 'Condition',
   },
@@ -84,7 +84,7 @@ test('foo bar', testQuery, {
       value: 'bar',
     },
     field: {
-      name: '<implicit>',
+      type: 'ImplicitField',
     },
     type: 'Condition',
   },
@@ -99,7 +99,7 @@ test('foo_bar', testQuery, {
     value: 'foo_bar',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -113,7 +113,7 @@ test('"foo"', testQuery, {
     value: 'foo',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -127,7 +127,7 @@ test('\'foo\'', testQuery, {
     value: 'foo',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -139,7 +139,7 @@ test('/foo/', testQuery, {
     value: '/foo/',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -151,7 +151,7 @@ test('/foo/ui', testQuery, {
     value: '/foo/ui',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -163,7 +163,7 @@ test('/\\s/', testQuery, {
     value: '/\\s/',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -175,7 +175,7 @@ test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery,
     value: '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -192,6 +192,7 @@ test('foo:bar', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -208,6 +209,7 @@ test('foo: bar', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -224,6 +226,7 @@ test('foo:123', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -240,6 +243,7 @@ test('foo:=123', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   relationalOperator: '=',
   type: 'Condition',
@@ -257,6 +261,7 @@ test('foo:= 123', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   relationalOperator: '=',
   type: 'Condition',
@@ -274,6 +279,7 @@ test('foo:=-123', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   relationalOperator: '=',
   type: 'Condition',
@@ -291,6 +297,7 @@ test('foo:=123.4', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   relationalOperator: '=',
   type: 'Condition',
@@ -308,6 +315,7 @@ test('foo:>=123', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   relationalOperator: '>=',
   type: 'Condition',
@@ -325,6 +333,7 @@ test('foo:true', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -341,6 +350,7 @@ test('foo:false', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -357,6 +367,7 @@ test('foo:null', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -376,6 +387,7 @@ test('foo.bar:baz', testQuery, {
       'bar',
     ],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -392,6 +404,7 @@ test('foo_bar:baz', testQuery, {
     name: 'foo_bar',
     path: ['foo_bar'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -408,6 +421,7 @@ test('$foo:baz', testQuery, {
     name: '$foo',
     path: ['$foo'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -425,6 +439,7 @@ test('"foo bar":baz', testQuery, {
     path: ['foo bar'],
     quoted: true,
     quotes: 'double',
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -442,6 +457,7 @@ test('\'foo bar\':baz', testQuery, {
     path: ['foo bar'],
     quoted: true,
     quotes: 'single',
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -459,6 +475,7 @@ test('foo:"bar"', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -476,6 +493,7 @@ test('foo:\'bar\'', testQuery, {
     name: 'foo',
     path: ['foo'],
     quoted: false,
+    type: 'Field',
   },
   type: 'Condition',
 });
@@ -493,6 +511,7 @@ test('foo:bar baz:qux', testQuery, {
       name: 'foo',
       path: ['foo'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -512,6 +531,7 @@ test('foo:bar baz:qux', testQuery, {
       name: 'baz',
       path: ['baz'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -531,6 +551,7 @@ test('foo:bar AND baz:qux', testQuery, {
       name: 'foo',
       path: ['foo'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -551,6 +572,7 @@ test('foo:bar AND baz:qux', testQuery, {
       name: 'baz',
       path: ['baz'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -571,6 +593,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         name: 'foo',
         path: ['foo'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -594,6 +617,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         name: 'baz',
         path: ['baz'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -616,6 +640,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
         name: 'foo',
         path: ['foo'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -636,6 +661,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
         name: 'baz',
         path: ['baz'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -657,6 +683,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
         name: 'foo',
         path: ['foo'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -675,6 +702,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
         name: 'baz',
         path: ['baz'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -697,6 +725,7 @@ test('NOT foo:bar', testQuery, {
       name: 'foo',
       path: ['foo'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -717,6 +746,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       name: 'foo',
       path: ['foo'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -738,6 +768,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
         name: 'baz',
         path: ['baz'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -761,6 +792,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         name: 'foo',
         path: ['foo'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -781,6 +813,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         name: 'baz',
         path: ['baz'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -803,6 +836,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       name: 'quuz',
       path: ['quuz'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -822,6 +856,7 @@ test('(foo:bar)', testQuery, {
       name: 'foo',
       path: ['foo'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -842,6 +877,7 @@ test('((foo:bar))', testQuery, {
         name: 'foo',
         path: ['foo'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -863,6 +899,7 @@ test('( foo:bar )', testQuery, {
       name: 'foo',
       path: ['foo'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -883,6 +920,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
         name: 'foo',
         path: ['foo'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -903,6 +941,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
         name: 'baz',
         path: ['baz'],
         quoted: false,
+        type: 'Field',
       },
       type: 'Condition',
     },
@@ -924,6 +963,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       name: 'foo',
       path: ['foo'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -946,6 +986,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           name: 'baz',
           path: ['baz'],
           quoted: false,
+          type: 'Field',
         },
         type: 'Condition',
       },
@@ -966,6 +1007,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           name: 'quuz',
           path: ['quuz'],
           quoted: false,
+          type: 'Field',
         },
         type: 'Condition',
       },
@@ -991,6 +1033,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           name: 'foo',
           path: ['foo'],
           quoted: false,
+          type: 'Field',
         },
         type: 'Condition',
       },
@@ -1011,6 +1054,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           name: 'baz',
           path: ['baz'],
           quoted: false,
+          type: 'Field',
         },
         type: 'Condition',
       },
@@ -1035,6 +1079,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       name: 'quuz',
       path: ['quuz'],
       quoted: false,
+      type: 'Field',
     },
     type: 'Condition',
   },
@@ -1053,7 +1098,7 @@ test('[1 TO 2]', testQuery, {
     type: 'RangeExpression',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -1070,7 +1115,7 @@ test('{1 TO 2]', testQuery, {
     type: 'RangeExpression',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -1087,7 +1132,7 @@ test('[1 TO 2}', testQuery, {
     type: 'RangeExpression',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });
@@ -1104,7 +1149,7 @@ test('{1 TO 2}', testQuery, {
     type: 'RangeExpression',
   },
   field: {
-    name: '<implicit>',
+    type: 'ImplicitField',
   },
   type: 'Condition',
 });

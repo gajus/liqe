@@ -14,7 +14,9 @@ if (isOptionalChainingSupported()) {
     const parserAst = {
       field: {
         name: '.foo',
+        type: 'Field',
       },
+      type: 'Condition',
     } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
@@ -25,20 +27,22 @@ if (isOptionalChainingSupported()) {
   test('adds getValue when field is a safe path (recursive)', (t) => {
     const parserAst = {
       field: {
-        name: '<implicit>',
+        type: 'ImplicitField',
       },
       left: {
         field: {
-          name: '<implicit>',
+          type: 'ImplicitField',
         },
         right: {
           field: {
-            name: '<implicit>',
+            type: 'ImplicitField',
           },
           operand: {
             field: {
               name: '.foo',
+              type: 'Field',
             },
+            type: 'Condition',
           },
         },
       },
@@ -53,6 +57,7 @@ if (isOptionalChainingSupported()) {
     const parserAst = {
       field: {
         name: 'foo',
+        type: 'Field',
       },
     } as HydratedAst;
 
@@ -65,7 +70,9 @@ if (isOptionalChainingSupported()) {
     const parserAst = {
       field: {
         name: '.foo',
+        type: 'Field',
       },
+      type: 'Condition',
     } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
@@ -77,7 +84,9 @@ if (isOptionalChainingSupported()) {
     const parserAst = {
       field: {
         name: '.foo.bar.baz',
+        type: 'Field',
       },
+      type: 'Condition',
     } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
@@ -89,6 +98,7 @@ if (isOptionalChainingSupported()) {
     const parserAst = {
       field: {
         name: '.foo.bar.baz',
+        type: 'Field',
       },
     } as HydratedAst;
 

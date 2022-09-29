@@ -11,17 +11,18 @@ export {
   test,
 } from './test';
 export {
-  HydratedAst as LiqeQuery,
-  Highlight,
-  FieldToken,
-  RegexExpressionToken,
-  RangeExpressionToken,
-  LiteralExpressionToken,
-  Expression,
-  ConditionToken,
   ConditionGroupToken,
+  ConditionToken,
+  Expression,
+  FieldToken,
+  Highlight,
+  HydratedAst as LiqeQuery,
+  ImplicitFieldToken,
+  LiteralExpressionToken,
   OperandToken,
   OperatorToken,
+  RangeExpressionToken,
+  RegexExpressionToken,
 } from './types';
 export {
   LiqeError,

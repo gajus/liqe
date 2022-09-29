@@ -145,6 +145,39 @@ const testField = <T extends Object>(
     ast.test = createValueTest(ast);
   }
 
+  if (ast.field.type === 'ImplicitField') {
+    let foundMatch = false;
+
+    for (const fieldName in row) {
+      if (testValue(
+        {
+          ...ast,
+          field: {
+            location: -1,
+            name: fieldName,
+            quoted: true,
+            type: 'Field',
+          },
+        },
+        row[fieldName],
+        resultFast,
+        [
+          ...path,
+          fieldName,
+        ],
+        highlights,
+      )) {
+        if (resultFast) {
+          return true;
+        }
+
+        foundMatch = true;
+      }
+    }
+
+    return foundMatch;
+  }
+
   if (ast.field.name in row) {
     return testValue(
       ast,
@@ -181,35 +214,6 @@ const testField = <T extends Object>(
       ast.field.path,
       highlights,
     );
-  } else if (ast.field.name === '<implicit>') {
-    let foundMatch = false;
-
-    for (const fieldName in row) {
-      if (testValue(
-        {
-          ...ast,
-          field: {
-            ...ast.field,
-            name: fieldName,
-          },
-        },
-        row[fieldName],
-        resultFast,
-        [
-          ...path,
-          fieldName,
-        ],
-        highlights,
-      )) {
-        if (resultFast) {
-          return true;
-        }
-
-        foundMatch = true;
-      }
-    }
-
-    return foundMatch;
   } else {
     return false;
   }
@@ -228,7 +232,7 @@ export const internalFilter = <T extends Object>(
         row,
         ast,
         resultFast,
-        ast.field.name === '<implicit>' ? path : [...path, ast.field.name],
+        ast.field.type === 'ImplicitField' ? path : [...path, ast.field.name],
         highlights,
       );
     });

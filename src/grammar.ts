@@ -146,6 +146,7 @@ const grammar: Grammar = {
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
     {"name": "side", "symbols": ["field", {"literal":":"}, "_", "query"], "postprocess":  (data) => {
           const field = {
+            type: 'Field',
             name: data[0].name,
             path: data[0].name.split('.').filter(Boolean),
             quoted: data[0].quoted,
@@ -162,7 +163,7 @@ const grammar: Grammar = {
             ...data[3]
           }
         } },
-    {"name": "side", "symbols": ["query"], "postprocess": d => ({field: {name: '<implicit>'}, ...d[0]})},
+    {"name": "side", "symbols": ["query"], "postprocess": d => ({field: {type: 'ImplicitField'}, ...d[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location})},

@@ -7,12 +7,17 @@ export type Range = {
 
 export type RelationalOperator = '<' | '<=' | '=' | '>' | '>=';
 
+export type ImplicitFieldToken = {
+  type: 'ImplicitField',
+};
+
 export type FieldToken = {
   location: number,
   name: string,
   path?: readonly string[],
   quoted: boolean,
   quotes?: 'double' | 'single',
+  type: 'Field',
 };
 
 export type RegexExpressionToken = {
@@ -51,7 +56,7 @@ export type ImplicitOperatorToken = {
 
 export type ConditionToken = {
   expression: Expression,
-  field: FieldToken,
+  field: FieldToken | ImplicitFieldToken,
   relationalOperator?: RelationalOperator,
   test?: InternalTest,
   type: 'Condition',

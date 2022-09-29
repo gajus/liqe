@@ -52,7 +52,7 @@ const serializeCondition = (ast: HydratedAst) => {
     expression,
   } = ast;
 
-  if (field.name === '<implicit>') {
+  if (field.type === 'ImplicitField') {
     return serializeExpression(expression);
   }
 
