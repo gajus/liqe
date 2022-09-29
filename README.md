@@ -153,6 +153,9 @@ height:{100 TO 200}
 name:foo AND height:=100
 name:foo OR name:bar
 
+# implicit AND operator
+name:foo height:=100
+
 # grouping
 name:foo AND (bio:bar OR bio:baz)
 ```
