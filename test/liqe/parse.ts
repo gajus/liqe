@@ -65,6 +65,7 @@ test('"foo"', testQuery, {
   },
   query: 'foo',
   quoted: true,
+  quotes: 'double',
 });
 
 test('\'foo\'', testQuery, {
@@ -73,6 +74,7 @@ test('\'foo\'', testQuery, {
   },
   query: 'foo',
   quoted: true,
+  quotes: 'single',
 });
 
 test('/foo/', testQuery, {

@@ -17,6 +17,7 @@ export type ParserAst = {
   operator?: 'AND' | 'NOT' | 'OR',
   query?: string,
   quoted?: boolean,
+  quotes?: 'double' | 'single',
   range?: Range,
   regex?: boolean,
   relationalOperator?: RelationalOperator,

@@ -106,8 +106,8 @@ query ->
   | regex {% d => ({quoted: false, regex: true, query: d.join('')}) %}
   | range {% id %}
   | unquoted_value {% unquotedValue %}
-  | sqstring {% d => ({quoted: true, query: d.join('')}) %}
-  | dqstring {% d => ({quoted: true, query: d.join('')}) %}
+  | sqstring {% d => ({quoted: true, quotes: 'single', query: d.join('')}) %}
+  | dqstring {% d => ({quoted: true, quotes: 'double', query: d.join('')}) %}
 
 range ->
     "[" _ decimal _ "TO" _ decimal _ "]" {% range(true, true) %}
