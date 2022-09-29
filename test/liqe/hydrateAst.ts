@@ -9,7 +9,9 @@ import {
 if (isOptionalChainingSupported()) {
   test('adds getValue when field is a safe path', (t) => {
     const parserAst = {
-      field: '.foo',
+      field: {
+        name: '.foo',
+      },
     };
 
     const hydratedAst = hydrateAst(parserAst);
@@ -19,13 +21,21 @@ if (isOptionalChainingSupported()) {
 
   test('adds getValue when field is a safe path (recursive)', (t) => {
     const parserAst = {
-      field: '<implicit>',
+      field: {
+        name: '<implicit>',
+      },
       left: {
-        field: '<implicit>',
+        field: {
+          name: '<implicit>',
+        },
         right: {
-          field: '<implicit>',
+          field: {
+            name: '<implicit>',
+          },
           operand: {
-            field: '.foo',
+            field: {
+              name: '.foo',
+            },
           },
         },
       },
@@ -33,12 +43,14 @@ if (isOptionalChainingSupported()) {
 
     const hydratedAst = hydrateAst(parserAst);
 
-    t.true('getValue' in hydratedAst!.left!.right!.operand!);
+    t.true('getValue' in (hydratedAst?.left?.right?.operand ?? {}));
   });
 
   test('does not add getValue if path is unsafe', (t) => {
     const parserAst = {
-      field: 'foo',
+      field: {
+        name: 'foo',
+      },
     };
 
     const hydratedAst = hydrateAst(parserAst);
@@ -48,7 +60,9 @@ if (isOptionalChainingSupported()) {
 
   test('getValue accesses existing value', (t) => {
     const parserAst = {
-      field: '.foo',
+      field: {
+        name: '.foo',
+      },
     };
 
     const hydratedAst = hydrateAst(parserAst);
@@ -58,7 +72,9 @@ if (isOptionalChainingSupported()) {
 
   test('getValue accesses existing value (deep)', (t) => {
     const parserAst = {
-      field: '.foo.bar.baz',
+      field: {
+        name: '.foo.bar.baz',
+      },
     };
 
     const hydratedAst = hydrateAst(parserAst);
@@ -68,7 +84,9 @@ if (isOptionalChainingSupported()) {
 
   test('returns undefined if path does not resolve', (t) => {
     const parserAst = {
-      field: '.foo.bar.baz',
+      field: {
+        name: '.foo.bar.baz',
+      },
     };
 
     const hydratedAst = hydrateAst(parserAst);

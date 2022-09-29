@@ -53,8 +53,10 @@ const range = ( minInclusive, maxInclusive) => {
 
 const field = d => {
   return {
-    field: d[0],
-    fieldPath: d[0].split('.').filter(Boolean),
+    field: {
+      name: d[0].name,
+      path: d[0].name.split('.').filter(Boolean),
+    },
     ...d[3]
   }
 };
@@ -91,12 +93,12 @@ post_boolean_primary ->
 
 side ->
     field ":" _ query {% field %}
-  | query {% d => ({field: '<implicit>', ...d[0]}) %}
+  | query {% d => ({field: {name: '<implicit>'}, ...d[0]}) %}
 
 field ->
-    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% d => d[0] + d[1].join('') %}
-  | sqstring {% id %}
-  | dqstring {% id %}
+    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% d => ({name: d[0] + d[1].join('')}) %}
+  | sqstring {% d => ({name: d[0]}) %}
+  | dqstring {% d => ({name: d[0]}) %}
 
 query ->
     relational_operator _ decimal {% d => ({quoted: false, query: d[2], relationalOperator: d[0][0]}) %}

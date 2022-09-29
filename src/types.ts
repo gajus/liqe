@@ -8,8 +8,10 @@ export type Range = {
 export type RelationalOperator = '<' | '<=' | '=' | '>' | '>=';
 
 export type ParserAst = {
-  field: string,
-  fieldPath?: readonly string[],
+  field: {
+    name: string,
+    path?: readonly string[],
+  },
   left?: ParserAst,
   operand?: ParserAst,
   operator?: 'AND' | 'NOT' | 'OR',

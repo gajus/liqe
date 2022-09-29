@@ -51,8 +51,10 @@ const range = ( minInclusive, maxInclusive) => {
 
 const field = d => {
   return {
-    field: d[0],
-    fieldPath: d[0].split('.').filter(Boolean),
+    field: {
+      name: d[0].name,
+      path: d[0].name.split('.').filter(Boolean),
+    },
     ...d[3]
   }
 };
@@ -224,12 +226,12 @@ const grammar: Grammar = {
     {"name": "post_boolean_primary", "symbols": [{"literal":"("}, "_", "boolean_primary", "_", {"literal":")"}], "postprocess": d => d[2]},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
     {"name": "side", "symbols": ["field", {"literal":":"}, "_", "query"], "postprocess": field},
-    {"name": "side", "symbols": ["query"], "postprocess": d => ({field: '<implicit>', ...d[0]})},
+    {"name": "side", "symbols": ["query"], "postprocess": d => ({field: {name: '<implicit>'}, ...d[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": d => d[0] + d[1].join('')},
-    {"name": "field", "symbols": ["sqstring"], "postprocess": id},
-    {"name": "field", "symbols": ["dqstring"], "postprocess": id},
+    {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": d => ({name: d[0] + d[1].join('')})},
+    {"name": "field", "symbols": ["sqstring"], "postprocess": d => ({name: d[0]})},
+    {"name": "field", "symbols": ["dqstring"], "postprocess": d => ({name: d[0]})},
     {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": d => ({quoted: false, query: d[2], relationalOperator: d[0][0]})},
     {"name": "query", "symbols": ["decimal"], "postprocess": d => ({quoted: false, query: d.join('')})},
     {"name": "query", "symbols": ["regex"], "postprocess": d => ({quoted: false, regex: true, query: d.join('')})},

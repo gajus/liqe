@@ -24,10 +24,10 @@ export const hydrateAst = (subject: ParserAst): HydratedAst => {
 
   if (
     optionalChainingIsSupported &&
-    typeof subject.field === 'string' &&
-    isSafePath(subject.field)
+    typeof subject.field?.name === 'string' &&
+    isSafePath(subject.field.name)
   ) {
-    newSubject.getValue = new Function('subject', createGetValueFunctionBody(subject.field)) as (subject: unknown) => unknown;
+    newSubject.getValue = new Function('subject', createGetValueFunctionBody(subject.field.name)) as (subject: unknown) => unknown;
   }
 
   if (subject.left) {

@@ -128,26 +128,26 @@ const testField = <T extends Object>(
     ast.test = createValueTest(ast);
   }
 
-  if (ast.field in row) {
+  if (ast.field.name in row) {
     return testValue(
       ast,
-      row[ast.field],
+      row[ast.field.name],
       resultFast,
       path,
       highlights,
     );
-  } else if (optionalChainingIsSupported && ast.getValue && ast.fieldPath) {
+  } else if (optionalChainingIsSupported && ast.getValue && ast.field.path) {
     return testValue(
       ast,
       ast.getValue(row),
       resultFast,
-      ast.fieldPath,
+      ast.field.path,
       highlights,
     );
-  } else if (ast.fieldPath) {
+  } else if (ast.field.path) {
     let value = row;
 
-    for (const key of ast.fieldPath) {
+    for (const key of ast.field.path) {
       if (typeof value !== 'object' || value === null) {
         return false;
       } else if (key in value) {
@@ -161,23 +161,26 @@ const testField = <T extends Object>(
       ast,
       value,
       resultFast,
-      ast.fieldPath,
+      ast.field.path,
       highlights,
     );
-  } else if (ast.field === '<implicit>') {
+  } else if (ast.field.name === '<implicit>') {
     let foundMatch = false;
 
-    for (const field in row) {
+    for (const fieldName in row) {
       if (testValue(
         {
           ...ast,
-          field,
+          field: {
+            ...ast.field,
+            name: fieldName,
+          },
         },
-        row[field],
+        row[fieldName],
         resultFast,
         [
           ...path,
-          field,
+          fieldName,
         ],
         highlights,
       )) {
@@ -208,7 +211,7 @@ export const internalFilter = <T extends Object>(
         row,
         ast,
         resultFast,
-        ast.field === '<implicit>' ? path : [...path, ast.field],
+        ast.field.name === '<implicit>' ? path : [...path, ast.field.name],
         highlights,
       );
     });
