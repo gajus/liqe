@@ -8,6 +8,7 @@ export type Range = {
 export type RelationalOperator = '<' | '<=' | '=' | '>' | '>=';
 
 export type Field = {
+  location: number,
   name: string,
   path?: readonly string[],
   quoted: 'boolean',

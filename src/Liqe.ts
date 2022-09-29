@@ -13,6 +13,14 @@ export {
 export {
   HydratedAst as Query,
   Highlight,
+  Field,
+  RegexExpression,
+  RangeExpression,
+  LiteralExpression,
+  Expression,
+  Condition,
+  ConditionGroup,
+  Operand,
 } from './types';
 export {
   LiqeError,
