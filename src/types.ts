@@ -38,6 +38,7 @@ export type LiteralExpressionToken = {
 export type Expression = LiteralExpressionToken | RangeExpressionToken | RegexExpressionToken;
 
 export type OperatorToken = {
+  location: number,
   type: 'AND' | 'OR',
 };
 
