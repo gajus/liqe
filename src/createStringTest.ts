@@ -44,6 +44,10 @@ export const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
     return createRegexTest(regexCache, expression.value);
   }
 
+  if (typeof expression.value !== 'string') {
+    throw new TypeError('Expected a string.');
+  }
+
   if (expression.value.includes('*') && expression.quoted === false) {
     return createRegexTest(regexCache, String(convertWildcardToRegex(expression.value)) + (expression.quoted ? 'u' : 'ui'));
   } else {

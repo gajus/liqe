@@ -14,7 +14,6 @@ import type {
   HydratedAst,
   InternalHighlight,
   InternalTest,
-  Range,
 } from './types';
 
 const optionalChainingIsSupported = isOptionalChainingSupported();
@@ -103,6 +102,10 @@ const testValue = (
     }
 
     return foundMatch;
+  }
+
+  if (ast.type !== 'Condition') {
+    throw new Error('Expected a condition.');
   }
 
   if (!ast.test) {

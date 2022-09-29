@@ -588,6 +588,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
     type: 'ConditionGroup',
   },
   operator: 'NOT',
+  type: 'Operand',
 });
 
 test('NOT foo:bar', testQuery, {
@@ -606,6 +607,7 @@ test('NOT foo:bar', testQuery, {
     type: 'Condition',
   },
   operator: 'NOT',
+  type: 'Operand',
 });
 
 test('foo:bar AND NOT baz:qux', testQuery, {
@@ -640,6 +642,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       type: 'Condition',
     },
     operator: 'NOT',
+    type: 'Operand',
   },
   type: 'ConditionGroup',
 });

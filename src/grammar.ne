@@ -17,6 +17,7 @@ const opExpr = (operator) => {
 
 const notOp = (d) => {
   return {
+    type: 'Operand',
     operator: 'NOT',
     operand: d[1]
   };
@@ -101,14 +102,18 @@ query ->
   | regex {% d => ({type: 'Condition', expression: {type: 'RegexExpression', value: d.join('')}}) %}
   | range {% d => d[0] %}
   | unquoted_value {% (data, location, reject) => {
-    let value = data.join('');
+    const value = data.join('');
+    
+    let normalizedValue;
 
     if (value === 'true') {
-      value = true;
+      normalizedValue = true;
     } else if (value === 'false') {
-      value = false;
+      normalizedValue = false;
     } else if (value === 'null') {
-      value = null;
+      normalizedValue = null;
+    } else {
+      normalizedValue = value;
     }
 
     return {
@@ -116,7 +121,7 @@ query ->
       expression: {
         type: 'LiteralExpression',
         quoted: false,
-        value
+        value: normalizedValue
       },
     };
   } %}

@@ -5,6 +5,9 @@ import {
 import {
   isOptionalChainingSupported,
 } from '../../src/isOptionalChainingSupported';
+import type {
+  HydratedAst,
+} from '../../src/types';
 
 if (isOptionalChainingSupported()) {
   test('adds getValue when field is a safe path', (t) => {
@@ -12,7 +15,7 @@ if (isOptionalChainingSupported()) {
       field: {
         name: '.foo',
       },
-    };
+    } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -39,7 +42,7 @@ if (isOptionalChainingSupported()) {
           },
         },
       },
-    };
+    } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -51,7 +54,7 @@ if (isOptionalChainingSupported()) {
       field: {
         name: 'foo',
       },
-    };
+    } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -63,7 +66,7 @@ if (isOptionalChainingSupported()) {
       field: {
         name: '.foo',
       },
-    };
+    } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -75,7 +78,7 @@ if (isOptionalChainingSupported()) {
       field: {
         name: '.foo.bar.baz',
       },
-    };
+    } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -87,7 +90,7 @@ if (isOptionalChainingSupported()) {
       field: {
         name: '.foo.bar.baz',
       },
-    };
+    } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
 
