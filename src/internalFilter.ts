@@ -268,8 +268,8 @@ export const internalFilter = <T extends Object>(
     throw new Error('Expected right to be defined.');
   }
 
-  if (ast.type !== 'ConditionGroup') {
-    throw new Error('Expected a condition group.');
+  if (ast.type !== 'LogicalExpressionGroup') {
+    throw new Error('Expected a logical expression group.');
   }
 
   if (ast.operator.operator === 'OR') {

@@ -72,7 +72,7 @@ export const serialize = (ast: HydratedAst): string => {
     return serializeCondition(ast);
   }
 
-  if (ast.type === 'ConditionGroup') {
+  if (ast.type === 'LogicalExpressionGroup') {
     const left = serialize(ast.left);
     const operator = ast.operator.type === 'Operator' ? ` ${ast.operator.operator} ` : ' ';
     const right = serialize(ast.right);

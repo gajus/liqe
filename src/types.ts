@@ -62,11 +62,11 @@ export type ConditionToken = {
   type: 'Condition',
 };
 
-export type ConditionGroupToken = {
+export type LogicalExpressionGroupToken = {
   left: ParserAst,
   operator: ImplicitOperatorToken | OperatorToken,
   right: ParserAst,
-  type: 'ConditionGroup',
+  type: 'LogicalExpressionGroup',
 };
 
 export type OperandToken = {
@@ -80,7 +80,7 @@ export type ParenthesizedExpressionToken = {
   type: 'ParenthesizedExpression',
 };
 
-export type ParserAst = ConditionGroupToken | ConditionToken | OperandToken | ParenthesizedExpressionToken;
+export type ParserAst = ConditionToken | LogicalExpressionGroupToken | OperandToken | ParenthesizedExpressionToken;
 
 export type HydratedAst = ParserAst & {
   getValue?: (subject: unknown) => unknown,

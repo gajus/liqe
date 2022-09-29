@@ -88,7 +88,7 @@ test('foo bar', testQuery, {
     },
     type: 'Condition',
   },
-  type: 'ConditionGroup',
+  type: 'LogicalExpressionGroup',
 });
 
 test('foo_bar', testQuery, {
@@ -535,7 +535,7 @@ test('foo:bar baz:qux', testQuery, {
     },
     type: 'Condition',
   },
-  type: 'ConditionGroup',
+  type: 'LogicalExpressionGroup',
 });
 
 test('foo:bar AND baz:qux', testQuery, {
@@ -576,7 +576,7 @@ test('foo:bar AND baz:qux', testQuery, {
     },
     type: 'Condition',
   },
-  type: 'ConditionGroup',
+  type: 'LogicalExpressionGroup',
 });
 
 test('(foo:bar) AND (baz:qux)', testQuery, {
@@ -623,7 +623,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
     },
     type: 'ParenthesizedExpression',
   },
-  type: 'ConditionGroup',
+  type: 'LogicalExpressionGroup',
 });
 
 test('(foo:bar AND baz:qux)', testQuery, {
@@ -665,7 +665,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
       },
       type: 'Condition',
     },
-    type: 'ConditionGroup',
+    type: 'LogicalExpressionGroup',
   },
   type: 'ParenthesizedExpression',
 });
@@ -706,7 +706,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
       },
       type: 'Condition',
     },
-    type: 'ConditionGroup',
+    type: 'LogicalExpressionGroup',
   },
   operator: 'NOT',
   type: 'Operand',
@@ -775,7 +775,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
     operator: 'NOT',
     type: 'Operand',
   },
-  type: 'ConditionGroup',
+  type: 'LogicalExpressionGroup',
 });
 
 test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
@@ -817,7 +817,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       },
       type: 'Condition',
     },
-    type: 'ConditionGroup',
+    type: 'LogicalExpressionGroup',
   },
   operator: {
     location: 20,
@@ -840,7 +840,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     },
     type: 'Condition',
   },
-  type: 'ConditionGroup',
+  type: 'LogicalExpressionGroup',
 });
 
 test('(foo:bar)', testQuery, {
@@ -945,7 +945,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
       },
       type: 'Condition',
     },
-    type: 'ConditionGroup',
+    type: 'LogicalExpressionGroup',
   },
   type: 'ParenthesizedExpression',
 });
@@ -1011,11 +1011,11 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
         },
         type: 'Condition',
       },
-      type: 'ConditionGroup',
+      type: 'LogicalExpressionGroup',
     },
     type: 'ParenthesizedExpression',
   },
-  type: 'ConditionGroup',
+  type: 'LogicalExpressionGroup',
 });
 
 test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
@@ -1058,7 +1058,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
         },
         type: 'Condition',
       },
-      type: 'ConditionGroup',
+      type: 'LogicalExpressionGroup',
     },
     type: 'ParenthesizedExpression',
   },
@@ -1083,7 +1083,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
     },
     type: 'Condition',
   },
-  type: 'ConditionGroup',
+  type: 'LogicalExpressionGroup',
 });
 
 test('[1 TO 2]', testQuery, {

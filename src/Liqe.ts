@@ -11,7 +11,7 @@ export {
   test,
 } from './test';
 export {
-  ConditionGroupToken,
+  LogicalExpressionGroupToken,
   ConditionToken,
   Expression,
   FieldToken,
