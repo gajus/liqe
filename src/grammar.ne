@@ -1,6 +1,4 @@
 @preprocessor typescript
-@builtin "string.ne"
-@builtin "number.ne"
 
 main -> expr {% id %}
 
@@ -9,6 +7,42 @@ _  -> wschar:* {% function(d) {return d[0].length;} %}
 __ -> wschar:+ {% function(d) {return d[0].length;} %}
 
 wschar -> [ \t\n\v\f] {% id %}
+
+# Numbers
+decimal -> "-":? [0-9]:+ ("." [0-9]:+):? {%
+    function(d) {
+        return parseFloat(
+            (d[0] || "") +
+            d[1].join("") +
+            (d[2] ? "."+d[2][1].join("") : "")
+        );
+    }
+%}
+
+# Double-quoted string
+dqstring -> "\"" dstrchar:* "\"" {% function(d) {return d[1].join(""); } %}
+sqstring -> "'"  sstrchar:* "'"  {% function(d) {return d[1].join(""); } %}
+
+dstrchar -> [^\\"\n] {% id %}
+    | "\\" strescape {%
+    function(d) {
+        return JSON.parse("\""+d.join("")+"\"");
+    }
+%}
+
+sstrchar -> [^\\'\n] {% id %}
+    | "\\" strescape
+        {% function(d) { return JSON.parse("\""+d.join("")+"\""); } %}
+    | "\\'"
+        {% function(d) {return "'"; } %}
+
+strescape -> ["\\/bfnrt] {% id %}
+    | "u" [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] {%
+    function(d) {
+        return d.join("");
+    }
+%}
+
 
 @{%
 const opExpr = (operator) => {
@@ -54,7 +88,16 @@ expr -> two_op_expr {% id %}
 two_op_expr ->
     pre_two_op_expr "OR" post_one_op_expr {% opExpr('OR') %}
   | pre_two_op_expr "AND" post_one_op_expr {% opExpr('AND') %}
+  | pre_two_op_implicit_expr " " post_one_op_implicit_expr {% opExpr('AND') %}
 	| one_op_expr {% d => d[0] %}
+
+pre_two_op_implicit_expr ->
+    two_op_expr {% d => d[0] %}
+  | "(" _ two_op_expr _ ")" {% d => d[2] %}
+
+post_one_op_implicit_expr ->
+    one_op_expr {% d => d[0] %}
+  | "(" _ one_op_expr _ ")" {% d => d[2] %}
 
 pre_two_op_expr ->
     two_op_expr __ {% d => d[0] %}
@@ -107,8 +150,12 @@ query ->
   | decimal {% (data, location) => ({type: 'Condition', expression: {location, type: 'LiteralExpression', quoted: false, value: data.join('')}}) %}
   | regex {% (data, location) => ({type: 'Condition', expression: {location, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}
-  | unquoted_value {% (data, location) => {
+  | unquoted_value {% (data, location, reject) => {
     const value = data.join('');
+
+    if (data[0] === 'AND' || data[0] === 'OR' || data[0] === 'NOT') {
+      return reject;
+    }
     
     let normalizedValue;
 

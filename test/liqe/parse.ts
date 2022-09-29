@@ -16,7 +16,7 @@ const testQuery = (t, expectedAst) => {
 
 test('error describes offset', (t) => {
   const error = t.throws<SyntaxError>(() => {
-    parse('foo bar');
+    parse('foo &');
   })!;
 
   t.true(error instanceof SyntaxError);
@@ -38,11 +38,12 @@ test('foo', testQuery, {
   type: 'Condition',
 });
 
-test.skip('foo bar', testQuery, {
+test('foo bar', testQuery, {
   left: {
     expression: {
       location: 0,
       quoted: false,
+      type: 'LiteralExpression',
       value: 'foo',
     },
     field: {
@@ -55,6 +56,7 @@ test.skip('foo bar', testQuery, {
     expression: {
       location: 4,
       quoted: false,
+      type: 'LiteralExpression',
       value: 'bar',
     },
     field: {
@@ -454,7 +456,7 @@ test('foo:\'bar\'', testQuery, {
   type: 'Condition',
 });
 
-test.skip('foo:bar baz:qux', testQuery, {
+test('foo:bar baz:qux', testQuery, {
   left: {
     expression: {
       location: 4,
@@ -463,6 +465,7 @@ test.skip('foo:bar baz:qux', testQuery, {
       value: 'bar',
     },
     field: {
+      location: 0,
       name: 'foo',
       path: ['foo'],
       quoted: false,
@@ -478,6 +481,7 @@ test.skip('foo:bar baz:qux', testQuery, {
       value: 'qux',
     },
     field: {
+      location: 8,
       name: 'baz',
       path: ['baz'],
       quoted: false,
