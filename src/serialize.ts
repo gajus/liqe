@@ -42,9 +42,9 @@ const serializeExpression = (expression: Expression) => {
   throw new Error('Unexpected AST type.');
 };
 
-const serializeCondition = (ast: HydratedAst) => {
-  if (ast.type !== 'Condition') {
-    throw new Error('Expected a condition.');
+const serializeLogicalExpression = (ast: HydratedAst) => {
+  if (ast.type !== 'LogicalExpression') {
+    throw new Error('Expected a logical expression.');
   }
 
   const {
@@ -68,8 +68,8 @@ export const serialize = (ast: HydratedAst): string => {
     return `(${serialize(ast.expression)})`;
   }
 
-  if (ast.type === 'Condition') {
-    return serializeCondition(ast);
+  if (ast.type === 'LogicalExpression') {
+    return serializeLogicalExpression(ast);
   }
 
   if (ast.type === 'LogicalExpressionGroup') {

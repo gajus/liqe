@@ -40,7 +40,7 @@ test('foo', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('(foo)', testQuery, {
@@ -54,7 +54,7 @@ test('(foo)', testQuery, {
     field: {
       type: 'ImplicitField',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   type: 'ParenthesizedExpression',
 });
@@ -70,7 +70,7 @@ test('foo bar', testQuery, {
     field: {
       type: 'ImplicitField',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   operator: {
     operator: 'AND',
@@ -86,7 +86,7 @@ test('foo bar', testQuery, {
     field: {
       type: 'ImplicitField',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   type: 'LogicalExpressionGroup',
 });
@@ -101,7 +101,7 @@ test('foo_bar', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('"foo"', testQuery, {
@@ -115,7 +115,7 @@ test('"foo"', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('\'foo\'', testQuery, {
@@ -129,7 +129,7 @@ test('\'foo\'', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('/foo/', testQuery, {
@@ -141,7 +141,7 @@ test('/foo/', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('/foo/ui', testQuery, {
@@ -153,7 +153,7 @@ test('/foo/ui', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('/\\s/', testQuery, {
@@ -165,7 +165,7 @@ test('/\\s/', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, {
@@ -177,7 +177,7 @@ test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery,
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:bar', testQuery, {
@@ -194,7 +194,7 @@ test('foo:bar', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo: bar', testQuery, {
@@ -211,7 +211,7 @@ test('foo: bar', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:123', testQuery, {
@@ -228,7 +228,7 @@ test('foo:123', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:=123', testQuery, {
@@ -246,7 +246,7 @@ test('foo:=123', testQuery, {
     type: 'Field',
   },
   relationalOperator: '=',
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:= 123', testQuery, {
@@ -264,7 +264,7 @@ test('foo:= 123', testQuery, {
     type: 'Field',
   },
   relationalOperator: '=',
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:=-123', testQuery, {
@@ -282,7 +282,7 @@ test('foo:=-123', testQuery, {
     type: 'Field',
   },
   relationalOperator: '=',
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:=123.4', testQuery, {
@@ -300,7 +300,7 @@ test('foo:=123.4', testQuery, {
     type: 'Field',
   },
   relationalOperator: '=',
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:>=123', testQuery, {
@@ -318,7 +318,7 @@ test('foo:>=123', testQuery, {
     type: 'Field',
   },
   relationalOperator: '>=',
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:true', testQuery, {
@@ -335,7 +335,7 @@ test('foo:true', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:false', testQuery, {
@@ -352,7 +352,7 @@ test('foo:false', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:null', testQuery, {
@@ -369,7 +369,7 @@ test('foo:null', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo.bar:baz', testQuery, {
@@ -389,7 +389,7 @@ test('foo.bar:baz', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo_bar:baz', testQuery, {
@@ -406,7 +406,7 @@ test('foo_bar:baz', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('$foo:baz', testQuery, {
@@ -423,7 +423,7 @@ test('$foo:baz', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('"foo bar":baz', testQuery, {
@@ -441,7 +441,7 @@ test('"foo bar":baz', testQuery, {
     quotes: 'double',
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('\'foo bar\':baz', testQuery, {
@@ -459,7 +459,7 @@ test('\'foo bar\':baz', testQuery, {
     quotes: 'single',
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:"bar"', testQuery, {
@@ -477,7 +477,7 @@ test('foo:"bar"', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:\'bar\'', testQuery, {
@@ -495,7 +495,7 @@ test('foo:\'bar\'', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('foo:bar baz:qux', testQuery, {
@@ -513,7 +513,7 @@ test('foo:bar baz:qux', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   operator: {
     operator: 'AND',
@@ -533,7 +533,7 @@ test('foo:bar baz:qux', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   type: 'LogicalExpressionGroup',
 });
@@ -553,7 +553,7 @@ test('foo:bar AND baz:qux', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   operator: {
     location: 8,
@@ -574,7 +574,7 @@ test('foo:bar AND baz:qux', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   type: 'LogicalExpressionGroup',
 });
@@ -595,7 +595,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     type: 'ParenthesizedExpression',
   },
@@ -619,7 +619,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     type: 'ParenthesizedExpression',
   },
@@ -642,7 +642,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     operator: {
       location: 9,
@@ -663,7 +663,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     type: 'LogicalExpressionGroup',
   },
@@ -685,7 +685,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     operator: {
       operator: 'AND',
@@ -704,7 +704,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     type: 'LogicalExpressionGroup',
   },
@@ -727,7 +727,7 @@ test('NOT foo:bar', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   operator: 'NOT',
   type: 'Operand',
@@ -748,7 +748,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   operator: {
     location: 8,
@@ -770,7 +770,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     operator: 'NOT',
     type: 'Operand',
@@ -794,7 +794,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     operator: {
       location: 8,
@@ -815,7 +815,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     type: 'LogicalExpressionGroup',
   },
@@ -838,7 +838,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   type: 'LogicalExpressionGroup',
 });
@@ -858,7 +858,7 @@ test('(foo:bar)', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   type: 'ParenthesizedExpression',
 });
@@ -879,7 +879,7 @@ test('((foo:bar))', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     type: 'ParenthesizedExpression',
   },
@@ -901,7 +901,7 @@ test('( foo:bar )', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   type: 'ParenthesizedExpression',
 });
@@ -922,7 +922,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     operator: {
       location: 9,
@@ -943,7 +943,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
-      type: 'Condition',
+      type: 'LogicalExpression',
     },
     type: 'LogicalExpressionGroup',
   },
@@ -965,7 +965,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   operator: {
     location: 8,
@@ -988,7 +988,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           quoted: false,
           type: 'Field',
         },
-        type: 'Condition',
+        type: 'LogicalExpression',
       },
       operator: {
         location: 20,
@@ -1009,7 +1009,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           quoted: false,
           type: 'Field',
         },
-        type: 'Condition',
+        type: 'LogicalExpression',
       },
       type: 'LogicalExpressionGroup',
     },
@@ -1035,7 +1035,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           quoted: false,
           type: 'Field',
         },
-        type: 'Condition',
+        type: 'LogicalExpression',
       },
       operator: {
         location: 9,
@@ -1056,7 +1056,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           quoted: false,
           type: 'Field',
         },
-        type: 'Condition',
+        type: 'LogicalExpression',
       },
       type: 'LogicalExpressionGroup',
     },
@@ -1081,7 +1081,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       quoted: false,
       type: 'Field',
     },
-    type: 'Condition',
+    type: 'LogicalExpression',
   },
   type: 'LogicalExpressionGroup',
 });
@@ -1100,7 +1100,7 @@ test('[1 TO 2]', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('{1 TO 2]', testQuery, {
@@ -1117,7 +1117,7 @@ test('{1 TO 2]', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('[1 TO 2}', testQuery, {
@@ -1134,7 +1134,7 @@ test('[1 TO 2}', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });
 
 test('{1 TO 2}', testQuery, {
@@ -1151,5 +1151,5 @@ test('{1 TO 2}', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  type: 'Condition',
+  type: 'LogicalExpression',
 });

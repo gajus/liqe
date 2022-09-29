@@ -56,7 +56,7 @@ const notOp = (d) => {
 const range = ( minInclusive, maxInclusive) => {
   return (data, location) => {
     return {
-      type: 'Condition',
+      type: 'LogicalExpression',
       expression: {
         location,
         type: 'RangeExpression',
@@ -154,9 +154,9 @@ field ->
   | dqstring {% (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location}) %}
 
 query ->
-    relational_operator _ decimal {% (data, location) => {return {expression: {location: location + data[1] + 1, type: 'LiteralExpression', quoted: false, value: data[2]}, type: 'Condition', relationalOperator: data[0][0]}} %}
-  | decimal {% (data, location) => ({type: 'Condition', expression: {location, type: 'LiteralExpression', quoted: false, value: data.join('')}}) %}
-  | regex {% (data, location) => ({type: 'Condition', expression: {location, type: 'RegexExpression', value: data.join('')}}) %}
+    relational_operator _ decimal {% (data, location) => {return {expression: {location: location + data[1] + 1, type: 'LiteralExpression', quoted: false, value: data[2]}, type: 'LogicalExpression', relationalOperator: data[0][0]}} %}
+  | decimal {% (data, location) => ({type: 'LogicalExpression', expression: {location, type: 'LiteralExpression', quoted: false, value: data.join('')}}) %}
+  | regex {% (data, location) => ({type: 'LogicalExpression', expression: {location, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}
   | unquoted_value {% (data, location, reject) => {
     const value = data.join('');
@@ -178,7 +178,7 @@ query ->
     }
 
     return {
-      type: 'Condition',
+      type: 'LogicalExpression',
       expression: {
         location,
         type: 'LiteralExpression',
@@ -187,8 +187,8 @@ query ->
       },
     };
   } %}
-  | sqstring {% (data, location) => ({type: 'Condition', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}}) %}
-  | dqstring {% (data, location) => ({type: 'Condition', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
+  | sqstring {% (data, location) => ({type: 'LogicalExpression', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}}) %}
+  | dqstring {% (data, location) => ({type: 'LogicalExpression', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
 
 range ->
     "[" _ decimal _ "TO" _ decimal _ "]" {% range(true, true) %}

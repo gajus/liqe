@@ -12,7 +12,7 @@ export {
 } from './test';
 export {
   LogicalExpressionGroupToken,
-  ConditionToken,
+  LogicalExpressionToken,
   Expression,
   FieldToken,
   Highlight,

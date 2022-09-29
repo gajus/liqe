@@ -282,7 +282,7 @@ const tokens = parse('foo:bar');
 //     path: ['foo'],
 //     quoted: false,
 //   },
-//   type: 'Condition',
+//   type: 'LogicalExpression',
 // }
 
 serialize(tokens);

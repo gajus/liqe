@@ -28,8 +28,8 @@ const createRegexTest = (regexCache: RegExpCache, regex: string) => {
 };
 
 export const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
-  if (ast.type !== 'Condition') {
-    throw new Error('Expected a condition.');
+  if (ast.type !== 'LogicalExpression') {
+    throw new Error('Expected a logical expression.');
   }
 
   const {
