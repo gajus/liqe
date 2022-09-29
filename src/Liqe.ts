@@ -13,7 +13,7 @@ export {
 export {
   LogicalExpressionGroupToken,
   LogicalExpressionToken,
-  Expression,
+  ExpressionToken,
   FieldToken,
   Highlight,
   HydratedAst as LiqeQuery,

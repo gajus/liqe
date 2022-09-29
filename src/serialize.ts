@@ -1,5 +1,5 @@
 import type {
-  Expression,
+  ExpressionToken,
   HydratedAst,
 } from './types';
 
@@ -15,7 +15,7 @@ const quote = (value: string, quotes: 'double' | 'single') => {
   return value;
 };
 
-const serializeExpression = (expression: Expression) => {
+const serializeExpression = (expression: ExpressionToken) => {
   if (expression.type === 'LiteralExpression') {
     if (expression.quotes && typeof expression.value === 'string') {
       return quote(expression.value, expression.quotes);

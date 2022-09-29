@@ -40,7 +40,7 @@ export type LiteralExpressionToken = {
   value: boolean | string | null,
 };
 
-export type Expression = LiteralExpressionToken | RangeExpressionToken | RegexExpressionToken;
+export type ExpressionToken = LiteralExpressionToken | RangeExpressionToken | RegexExpressionToken;
 
 export type OperatorToken = {
   location: number,
@@ -55,7 +55,7 @@ export type ImplicitOperatorToken = {
 };
 
 export type LogicalExpressionToken = {
-  expression: Expression,
+  expression: ExpressionToken,
   field: FieldToken | ImplicitFieldToken,
   relationalOperator?: RelationalOperator,
   test?: InternalTest,
