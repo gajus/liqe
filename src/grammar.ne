@@ -48,7 +48,9 @@ strescape -> ["\\/bfnrt] {% id %}
 const opExpr = (operator) => {
   return d => ({
     type: 'ConditionGroup',
-    operator: operator,
+    operator: {
+      type: operator,
+    },
     left: d[0],
     right: d[2]
   });

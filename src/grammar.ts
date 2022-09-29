@@ -7,7 +7,9 @@ function id(d: any[]): any { return d[0]; }
 const opExpr = (operator) => {
   return d => ({
     type: 'ConditionGroup',
-    operator: operator,
+    operator: {
+      type: operator,
+    },
     left: d[0],
     right: d[2]
   });

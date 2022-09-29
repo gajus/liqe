@@ -21,6 +21,7 @@ export {
   Condition,
   ConditionGroup,
   Operand,
+  Operator,
 } from './types';
 export {
   LiqeError,

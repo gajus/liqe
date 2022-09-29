@@ -264,7 +264,12 @@ export const internalFilter = <T extends Object>(
     throw new Error('Expected right to be defined.');
   }
 
-  if (ast.operator === 'OR') {
+  // TODO rename to logical expression
+  if (ast.type !== 'ConditionGroup') {
+    throw new Error('Expected a condition group.');
+  }
+
+  if (ast.operator.type === 'OR') {
     const rightRows = internalFilter(
       ast.right,
       rows,
@@ -279,7 +284,7 @@ export const internalFilter = <T extends Object>(
         ...rightRows,
       ]),
     );
-  } else if (ast.operator === 'AND') {
+  } else if (ast.operator.type === 'AND') {
     return internalFilter(
       ast.right,
       leftRows,

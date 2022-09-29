@@ -37,6 +37,10 @@ export type LiteralExpression = {
 
 export type Expression = LiteralExpression | RangeExpression | RegexExpression;
 
+export type Operator = {
+  type: 'AND' | 'OR',
+};
+
 export type Condition = {
   expression: Expression,
   field: Field,
@@ -47,7 +51,7 @@ export type Condition = {
 
 export type ConditionGroup = {
   left: ParserAst,
-  operator: 'AND' | 'NOT' | 'OR',
+  operator: Operator,
   right: ParserAst,
   type: 'ConditionGroup',
 };
