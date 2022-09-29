@@ -18,6 +18,7 @@ Lightweight and performant Lucene-like parser, serializer and search engine.
   * [Wildcard matching](#wildcard-matching)
   * [Logical Operators](#logical-operators)
 * [Serializer](#serializer)
+* [AST](#ast)
 * [Compatibility with Lucene](#compatibility-with-lucene)
 * [Recipes](#recipes)
   * [Handling syntax errors](#handling-syntax-errors)
@@ -28,7 +29,7 @@ Lightweight and performant Lucene-like parser, serializer and search engine.
 
 Originally built Liqe to enable [Roarr](https://github.com/gajus/roarr) log filtering via [cli](https://github.com/gajus/roarr-cli#filtering-logs). I have since been polishing this project as a hobby/intellectual exercise. I've seen it being adopted by [various](https://github.com/gajus/liqe/network/dependents) CLI and web applications that require advanced search. To my knowledge, it is currently the most complete Lucene-like syntax parser and serializer in JavaScript, as well as a compatible in-memory search engine.
 
-liqe use cases include:
+Liqe use cases include:
 
 * parsing search queries
 * serialized parsed queries
@@ -288,6 +289,26 @@ const tokens = parse('foo:bar');
 serialize(tokens);
 // 'foo:bar'
 ```
+
+## AST
+
+```ts
+import {
+  type LogicalExpressionGroupToken,
+  type LogicalExpressionToken,
+  type FieldToken,
+  type ImplicitFieldToken,
+  type LiteralExpressionToken,
+  type OperandToken,
+  type OperatorToken,
+  type RangeExpressionToken,
+  type RegexExpressionToken,
+} from 'liqe';
+```
+
+There are 9 AST tokens that describe a parsed Liqe query.
+
+If you are building a serializer, then you must implement all of them for the complete coverage of all possible query inputs. Refer to the [built-in serializer](./src/serialize.ts) for an example.
 
 ## Compatibility with Lucene
 
