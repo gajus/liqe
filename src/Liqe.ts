@@ -11,7 +11,7 @@ export {
   test,
 } from './test';
 export {
-  HydratedAst as Query,
+  HydratedAst as LiqeQuery,
   Highlight,
   FieldToken,
   RegexExpressionToken,
