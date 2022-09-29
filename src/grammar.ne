@@ -58,6 +58,7 @@ const field = d => {
       path: d[0].name.split('.').filter(Boolean),
       quoted: d[0].quoted,
       quotes: d[0].quotes,
+      location: d[0].location,
     },
     ...d[3]
   }
@@ -98,9 +99,9 @@ side ->
   | query {% d => ({field: {name: '<implicit>'}, ...d[0]}) %}
 
 field ->
-    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% d => ({name: d[0] + d[1].join(''), quoted: false}) %}
-  | sqstring {% d => ({name: d[0], quoted: true, quotes: 'single'}) %}
-  | dqstring {% d => ({name: d[0], quoted: true, quotes: 'double'}) %}
+    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, location) => ({name: data[0] + data[1].join(''), quoted: false, location}) %}
+  | sqstring {% (data, location) => ({name: data[0], quoted: true, quotes: 'single', location}) %}
+  | dqstring {% (data, location) => ({name: data[0], quoted: true, quotes: 'double', location}) %}
 
 query ->
     relational_operator _ decimal {% d => ({quoted: false, query: d[2], relationalOperator: d[0][0]}) %}

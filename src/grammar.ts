@@ -56,6 +56,7 @@ const field = d => {
       path: d[0].name.split('.').filter(Boolean),
       quoted: d[0].quoted,
       quotes: d[0].quotes,
+      location: d[0].location,
     },
     ...d[3]
   }
@@ -231,9 +232,9 @@ const grammar: Grammar = {
     {"name": "side", "symbols": ["query"], "postprocess": d => ({field: {name: '<implicit>'}, ...d[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": d => ({name: d[0] + d[1].join(''), quoted: false})},
-    {"name": "field", "symbols": ["sqstring"], "postprocess": d => ({name: d[0], quoted: true, quotes: 'single'})},
-    {"name": "field", "symbols": ["dqstring"], "postprocess": d => ({name: d[0], quoted: true, quotes: 'double'})},
+    {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, location) => ({name: data[0] + data[1].join(''), quoted: false, location})},
+    {"name": "field", "symbols": ["sqstring"], "postprocess": (data, location) => ({name: data[0], quoted: true, quotes: 'single', location})},
+    {"name": "field", "symbols": ["dqstring"], "postprocess": (data, location) => ({name: data[0], quoted: true, quotes: 'double', location})},
     {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": d => ({quoted: false, query: d[2], relationalOperator: d[0][0]})},
     {"name": "query", "symbols": ["decimal"], "postprocess": d => ({quoted: false, query: d.join('')})},
     {"name": "query", "symbols": ["regex"], "postprocess": d => ({quoted: false, regex: true, query: d.join('')})},

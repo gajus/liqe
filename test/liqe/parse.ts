@@ -195,6 +195,7 @@ test('foo:null', testQuery, {
 
 test('foo.bar:baz', testQuery, {
   field: {
+    location: 0,
     name: 'foo.bar',
     path: [
       'foo',
@@ -206,6 +207,7 @@ test('foo.bar:baz', testQuery, {
 
 test('foo_bar:baz', testQuery, {
   field: {
+    location: 0,
     name: 'foo_bar',
   },
   query: 'baz',
@@ -213,6 +215,7 @@ test('foo_bar:baz', testQuery, {
 
 test('$foo:baz', testQuery, {
   field: {
+    location: 0,
     name: '$foo',
   },
   query: 'baz',
@@ -220,6 +223,7 @@ test('$foo:baz', testQuery, {
 
 test('"foo bar":baz', testQuery, {
   field: {
+    location: 0,
     name: 'foo bar',
     quoted: true,
     quotes: 'double',
@@ -229,6 +233,7 @@ test('"foo bar":baz', testQuery, {
 
 test('\'foo bar\':baz', testQuery, {
   field: {
+    location: 0,
     name: 'foo bar',
     quoted: true,
     quotes: 'single',
