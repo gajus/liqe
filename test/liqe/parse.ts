@@ -38,11 +38,12 @@ test('foo', testQuery, {
   type: 'Condition',
 });
 
-test.skip('foo bar', testQuery, {
+test('foo bar', testQuery, {
   left: {
     expression: {
       location: 0,
       quoted: false,
+      type: 'LiteralExpression',
       value: 'foo',
     },
     field: {
@@ -55,6 +56,7 @@ test.skip('foo bar', testQuery, {
     expression: {
       location: 4,
       quoted: false,
+      type: 'LiteralExpression',
       value: 'bar',
     },
     field: {
