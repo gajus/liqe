@@ -68,7 +68,8 @@ test('foo bar', testQuery, {
     type: 'Condition',
   },
   operator: {
-    type: 'AND',
+    operator: 'AND',
+    type: 'ImplicitOperator',
   },
   right: {
     expression: {
@@ -491,7 +492,8 @@ test('foo:bar baz:qux', testQuery, {
     type: 'Condition',
   },
   operator: {
-    type: 'AND',
+    operator: 'AND',
+    type: 'ImplicitOperator',
   },
   right: {
     expression: {
@@ -529,7 +531,8 @@ test('foo:bar AND baz:qux', testQuery, {
   },
   operator: {
     location: 8,
-    type: 'AND',
+    operator: 'AND',
+    type: 'Operator',
   },
   right: {
     expression: {
@@ -570,7 +573,8 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
   },
   operator: {
     location: 10,
-    type: 'AND',
+    operator: 'AND',
+    type: 'Operator',
   },
   right: {
     expression: {
@@ -612,7 +616,8 @@ test('(foo:bar AND baz:qux)', testQuery, {
     },
     operator: {
       location: 9,
-      type: 'AND',
+      operator: 'AND',
+      type: 'Operator',
     },
     right: {
       expression: {
@@ -651,7 +656,8 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
       type: 'Condition',
     },
     operator: {
-      type: 'AND',
+      operator: 'AND',
+      type: 'Operator',
     },
     right: {
       expression: {
@@ -711,7 +717,8 @@ test('foo:bar AND NOT baz:qux', testQuery, {
   },
   operator: {
     location: 8,
-    type: 'AND',
+    operator: 'AND',
+    type: 'Operator',
   },
   right: {
     operand: {
@@ -754,7 +761,8 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     },
     operator: {
       location: 8,
-      type: 'AND',
+      operator: 'AND',
+      type: 'Operator',
     },
     right: {
       expression: {
@@ -775,7 +783,8 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
   },
   operator: {
     location: 20,
-    type: 'AND',
+    operator: 'AND',
+    type: 'Operator',
   },
   right: {
     expression: {
@@ -874,7 +883,8 @@ test('(foo:bar OR baz:qux)', testQuery, {
     },
     operator: {
       location: 9,
-      type: 'OR',
+      operator: 'OR',
+      type: 'Operator',
     },
     right: {
       expression: {
@@ -914,7 +924,8 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
   },
   operator: {
     location: 8,
-    type: 'OR',
+    operator: 'OR',
+    type: 'Operator',
   },
   right: {
     expression: {
@@ -935,7 +946,8 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       },
       operator: {
         location: 20,
-        type: 'OR',
+        operator: 'OR',
+        type: 'Operator',
       },
       right: {
         expression: {
@@ -979,7 +991,8 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       },
       operator: {
         location: 9,
-        type: 'OR',
+        operator: 'OR',
+        type: 'Operator',
       },
       right: {
         expression: {
@@ -1002,7 +1015,8 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
   },
   operator: {
     location: 21,
-    type: 'OR',
+    operator: 'OR',
+    type: 'Operator',
   },
   right: {
     expression: {

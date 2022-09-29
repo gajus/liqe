@@ -268,7 +268,7 @@ export const internalFilter = <T extends Object>(
     throw new Error('Expected a condition group.');
   }
 
-  if (ast.operator.type === 'OR') {
+  if (ast.operator.operator === 'OR') {
     const rightRows = internalFilter(
       ast.right,
       rows,
@@ -283,7 +283,7 @@ export const internalFilter = <T extends Object>(
         ...rightRows,
       ]),
     );
-  } else if (ast.operator.type === 'AND') {
+  } else if (ast.operator.operator === 'AND') {
     return internalFilter(
       ast.right,
       leftRows,

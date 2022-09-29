@@ -12,7 +12,7 @@ const testQuery = (t) => {
 
 test('foo', testQuery);
 
-test.skip('foo bar', testQuery);
+test('foo bar', testQuery);
 
 test('foo_bar', testQuery);
 
@@ -64,7 +64,7 @@ test('foo:"bar"', testQuery);
 
 test('foo:\'bar\'', testQuery);
 
-test.skip('foo:bar baz:qux', testQuery);
+test('foo:bar baz:qux', testQuery);
 
 test('foo:bar AND baz:qux', testQuery);
 

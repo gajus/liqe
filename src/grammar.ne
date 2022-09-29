@@ -86,7 +86,8 @@ two_op_expr ->
   | pre_two_op_implicit_expr " " post_one_op_implicit_expr {% (data) => ({
       type: 'ConditionGroup',
       operator: {
-        type: 'AND',
+        operator: 'AND',
+        type: 'ImplicitOperator'
       },
       left: data[0],
       right: data[2]
@@ -115,8 +116,8 @@ post_one_op_expr ->
   | "(" _ one_op_expr _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 operator ->
-    "OR" {% (data, location) => ({location, type: 'OR'}) %}
-  | "AND" {% (data, location) => ({location, type: 'AND'}) %}
+    "OR" {% (data, location) => ({location, operator: 'OR', type: 'Operator'}) %}
+  | "AND" {% (data, location) => ({location, operator: 'AND', type: 'Operator'}) %}
 
 boolean_primary ->
   side {% id %}

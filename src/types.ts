@@ -39,7 +39,14 @@ export type Expression = LiteralExpressionToken | RangeExpressionToken | RegexEx
 
 export type OperatorToken = {
   location: number,
-  type: 'AND' | 'OR',
+  operator: 'AND' | 'OR',
+  type: 'Operator',
+};
+
+// Implicit operators do not have a location.
+export type ImplicitOperatorToken = {
+  operator: 'AND',
+  type: 'ImplicitOperator',
 };
 
 export type ConditionToken = {
@@ -52,7 +59,7 @@ export type ConditionToken = {
 
 export type ConditionGroupToken = {
   left: ParserAst,
-  operator: OperatorToken,
+  operator: ImplicitOperatorToken | OperatorToken,
   right: ParserAst,
   type: 'ConditionGroup',
 };

@@ -74,10 +74,10 @@ export const serialize = (ast: HydratedAst): string => {
 
   if (ast.type === 'ConditionGroup') {
     const left = serialize(ast.left);
-    const operator = ast.operator.type;
+    const operator = ast.operator.type === 'Operator' ? ` ${ast.operator.operator} ` : ' ';
     const right = serialize(ast.right);
 
-    return `${left} ${operator} ${right}`;
+    return `${left}${operator}${right}`;
   }
 
   if (ast.type === 'Operand') {
