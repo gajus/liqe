@@ -8,6 +8,7 @@
 
 Lightweight and performant Lucene-like parser, serializer and search engine.
 
+* [Motivation](#motivation)
 * [Usage](#usage)
 * [Query Syntax](#query-syntax)
   * [Liqe syntax cheat sheet](#liqe-syntax-cheat-sheet)
@@ -22,6 +23,16 @@ Lightweight and performant Lucene-like parser, serializer and search engine.
   * [Handling syntax errors](#handling-syntax-errors)
   * [Highlighting matches](#highlighting-matches)
 * [Development](#development)
+
+## Motivation
+
+Originally built Liqe to enable [Roarr](https://github.com/gajus/roarr) log filtering via [cli](https://github.com/gajus/roarr-cli#filtering-logs). I have since been polishing this project as a hobby/intellectual exercise. I've seen it being adopted by [various](https://github.com/gajus/liqe/network/dependents) CLI and web applications that require advanced search. To my knowledge, it is currently the most complete Lucene-like syntax parser and serializer in JavaScript, as well as a compatible in-memory search engine.
+
+liqe use cases include:
+
+* parsing search queries
+* serialized parsed queries
+* searching JSON documents using the Liqe query language
 
 ## Usage
 
@@ -93,6 +104,8 @@ test(highlight('height:180'), persons[0]);
 ```
 
 ## Query Syntax
+
+Liqe uses Liqe Query Language (LQL), which is heavily inspired by Lucene but extends it in various ways that allow a more powerful search experience.
 
 ### Liqe syntax cheat sheet
 
