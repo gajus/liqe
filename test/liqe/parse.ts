@@ -25,6 +25,11 @@ test('error describes offset', (t) => {
   t.is(error.column, 5);
 });
 
+// TODO not clear what the expected behavior is here
+// Ideally we don't want to throw an error.
+test.todo('empty query');
+test.todo('()');
+
 test('foo', testQuery, {
   expression: {
     location: 0,
