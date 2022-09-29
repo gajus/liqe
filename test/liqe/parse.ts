@@ -512,6 +512,7 @@ test('foo:bar AND baz:qux', testQuery, {
     type: 'Condition',
   },
   operator: {
+    location: 8,
     type: 'AND',
   },
   right: {
@@ -549,6 +550,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
     type: 'Condition',
   },
   operator: {
+    location: 10,
     type: 'AND',
   },
   right: {
@@ -586,6 +588,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
     type: 'Condition',
   },
   operator: {
+    location: 9,
     type: 'AND',
   },
   right: {
@@ -682,6 +685,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
     type: 'Condition',
   },
   operator: {
+    location: 8,
     type: 'AND',
   },
   right: {
@@ -724,6 +728,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       type: 'Condition',
     },
     operator: {
+      location: 8,
       type: 'AND',
     },
     right: {
@@ -744,6 +749,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     type: 'ConditionGroup',
   },
   operator: {
+    location: 20,
     type: 'AND',
   },
   right: {
@@ -829,6 +835,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
     type: 'Condition',
   },
   operator: {
+    location: 9,
     type: 'OR',
   },
   right: {
@@ -866,6 +873,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
     type: 'Condition',
   },
   operator: {
+    location: 8,
     type: 'OR',
   },
   right: {
@@ -885,6 +893,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       type: 'Condition',
     },
     operator: {
+      location: 20,
       type: 'OR',
     },
     right: {
@@ -925,6 +934,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       type: 'Condition',
     },
     operator: {
+      location: 9,
       type: 'OR',
     },
     right: {
@@ -945,6 +955,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
     type: 'ConditionGroup',
   },
   operator: {
+    location: 21,
     type: 'OR',
   },
   right: {
