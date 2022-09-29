@@ -11,7 +11,7 @@ export type FieldToken = {
   location: number,
   name: string,
   path?: readonly string[],
-  quoted: 'boolean',
+  quoted: boolean,
   quotes?: 'double' | 'single',
 };
 
