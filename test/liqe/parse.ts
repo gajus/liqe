@@ -1123,6 +1123,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
 
 test('NOT foo:bar', testQuery, {
   location: {
+    end: 3,
     start: 0,
   },
   operand: {
@@ -1161,6 +1162,7 @@ test('NOT foo:bar', testQuery, {
 
 test('-foo:bar', testQuery, {
   location: {
+    end: 1,
     start: 0,
   },
   operand: {
@@ -1199,6 +1201,7 @@ test('-foo:bar', testQuery, {
 
 test('NOT (foo:bar)', testQuery, {
   location: {
+    end: 3,
     start: 0,
   },
   operand: {
@@ -1244,6 +1247,7 @@ test('NOT (foo:bar)', testQuery, {
 
 test('NOT (foo:bar AND baz:qux)', testQuery, {
   location: {
+    end: 3,
     start: 0,
   },
   operand: {
@@ -1373,6 +1377,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
   },
   right: {
     location: {
+      end: 15,
       start: 12,
     },
     operand: {
