@@ -8,6 +8,7 @@ export type Range = {
 export type RelationalOperator = ':' | ':<' | ':<=' | ':=' | ':>' | ':>=';
 
 export type RelationalOperatorToken = {
+  location: number,
   operator: RelationalOperator,
   type: 'RelationalOperator',
 };
@@ -82,6 +83,10 @@ export type OperandToken = {
 
 export type ParenthesizedExpressionToken = {
   expression: ParserAst,
+  location: {
+    close: number,
+    open: number,
+  },
   type: 'ParenthesizedExpression',
 };
 
