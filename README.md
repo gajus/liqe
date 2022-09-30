@@ -24,6 +24,7 @@ Lightweight and performant Lucene-like parser, serializer and search engine.
   * [Handling syntax errors](#handling-syntax-errors)
   * [Highlighting matches](#highlighting-matches)
 * [Development](#development)
+* [Tutorials](#tutorials)
 
 ## Motivation
 
@@ -390,3 +391,8 @@ If you are going to modify parser, then use `npm run watch` to run compiler in w
 ### Benchmarking Changes
 
 Before making any changes, capture the current benchmark on your machine using `npm run benchmark`. Run benchmark again after making any changes. Before committing changes, ensure that performance is not negatively impacted.
+
+
+## Tutorials
+
+* [Building advanced SQL search from a user text input](https://contra.com/p/WobOBob7-building-advanced-sql-search-from-a-user-text-input)
