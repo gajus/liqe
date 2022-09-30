@@ -63,6 +63,7 @@ export type ImplicitOperatorToken = {
 export type TagExpressionToken = {
   expression: ExpressionToken,
   field: FieldToken | ImplicitFieldToken,
+  location: number,
   relationalOperator: RelationalOperatorToken,
   test?: InternalTest,
   type: 'TagExpression',

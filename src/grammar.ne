@@ -56,6 +56,7 @@ const notOp = (d) => {
 const range = ( minInclusive, maxInclusive) => {
   return (data, location) => {
     return {
+      location,
       type: 'TagExpression',
       expression: {
         location,
@@ -133,7 +134,7 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field relational_operator _ query {% (data) => {
+    field relational_operator _ query {% (data, location) => {
     const field = {
       type: 'Field',
       name: data[0].name,
@@ -148,12 +149,13 @@ side ->
     }
 
     return {
+      location,
       field,
       relationalOperator: data[1],
       ...data[3]
     }
   } %}
-  | query {% d => ({field: {type: 'ImplicitField'}, ...d[0]}) %}
+  | query {% (data, location) => ({location, field: {type: 'ImplicitField'}, ...data[0]}) %}
 
 field ->
     [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location}) %}
@@ -162,7 +164,7 @@ field ->
 
 query ->
     decimal {% (data, location) => ({type: 'TagExpression', expression: {location, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
-  | regex {% (data, location) => ({type: 'TagExpression', expression: {location, type: 'RegexExpression', value: data.join('')}}) %}
+  | regex {% (data, location) => ({location, type: 'TagExpression', expression: {location, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}
   | unquoted_value {% (data, location, reject) => {
     const value = data.join('');
@@ -214,7 +216,7 @@ regex ->
   regex_body regex_flags {% d => d.join('') %}
 
 regex_body ->
-    "/" regex_body_char:* "/" {% d => '/' + d[1].join('') + '/' %}
+    "/" regex_body_char:* "/" {% (data) => '/' + data[1].join('') + '/' %}
 
 regex_body_char ->
     [^\\] {% id %}

@@ -15,6 +15,7 @@ const notOp = (d) => {
 const range = ( minInclusive, maxInclusive) => {
   return (data, location) => {
     return {
+      location,
       type: 'TagExpression',
       expression: {
         location,
@@ -146,7 +147,7 @@ const grammar: Grammar = {
     {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
     {"name": "post_boolean_primary", "symbols": ["__", {"literal":"("}, "_", "two_op_expr", "_", {"literal":")"}], "postprocess": d => ({type: 'ParenthesizedExpression', expression: d[3]})},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
-    {"name": "side", "symbols": ["field", "relational_operator", "_", "query"], "postprocess":  (data) => {
+    {"name": "side", "symbols": ["field", "relational_operator", "_", "query"], "postprocess":  (data, location) => {
           const field = {
             type: 'Field',
             name: data[0].name,
@@ -161,19 +162,20 @@ const grammar: Grammar = {
           }
         
           return {
+            location,
             field,
             relationalOperator: data[1],
             ...data[3]
           }
         } },
-    {"name": "side", "symbols": ["query"], "postprocess": d => ({field: {type: 'ImplicitField'}, ...d[0]})},
+    {"name": "side", "symbols": ["query"], "postprocess": (data, location) => ({location, field: {type: 'ImplicitField'}, ...data[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location})},
     {"name": "field", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location})},
     {"name": "field", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location})},
     {"name": "query", "symbols": ["decimal"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}})},
-    {"name": "query", "symbols": ["regex"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location, type: 'RegexExpression', value: data.join('')}})},
+    {"name": "query", "symbols": ["regex"], "postprocess": (data, location) => ({location, type: 'TagExpression', expression: {location, type: 'RegexExpression', value: data.join('')}})},
     {"name": "query", "symbols": ["range"], "postprocess": (data) => data[0]},
     {"name": "query", "symbols": ["unquoted_value"], "postprocess":  (data, location, reject) => {
           const value = data.join('');
@@ -228,7 +230,7 @@ const grammar: Grammar = {
     {"name": "regex", "symbols": ["regex_body", "regex_flags"], "postprocess": d => d.join('')},
     {"name": "regex_body$ebnf$1", "symbols": []},
     {"name": "regex_body$ebnf$1", "symbols": ["regex_body$ebnf$1", "regex_body_char"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "regex_body", "symbols": [{"literal":"/"}, "regex_body$ebnf$1", {"literal":"/"}], "postprocess": d => '/' + d[1].join('') + '/'},
+    {"name": "regex_body", "symbols": [{"literal":"/"}, "regex_body$ebnf$1", {"literal":"/"}], "postprocess": (data) => '/' + data[1].join('') + '/'},
     {"name": "regex_body_char", "symbols": [/[^\\]/], "postprocess": id},
     {"name": "regex_body_char", "symbols": [{"literal":"\\"}, /[^\\]/], "postprocess": d => '\\' + d[1]},
     {"name": "regex_flags", "symbols": []},
