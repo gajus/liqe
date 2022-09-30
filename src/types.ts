@@ -5,7 +5,12 @@ export type Range = {
   minInclusive: boolean,
 };
 
-export type RelationalOperator = '<' | '<=' | '=' | '>' | '>=';
+export type RelationalOperator = ':' | ':<' | ':<=' | ':=' | ':>' | ':>=';
+
+export type RelationalOperatorToken = {
+  operator: RelationalOperator,
+  type: 'RelationalOperator',
+};
 
 export type ImplicitFieldToken = {
   type: 'ImplicitField',
@@ -57,7 +62,7 @@ export type ImplicitOperatorToken = {
 export type TagExpressionToken = {
   expression: ExpressionToken,
   field: FieldToken | ImplicitFieldToken,
-  relationalOperator?: RelationalOperator,
+  relationalOperator: RelationalOperatorToken,
   test?: InternalTest,
   type: 'TagExpression',
 };

@@ -194,6 +194,11 @@ test('foo:bar', testQuery, {
     quoted: false,
     type: 'Field',
   },
+  relationalOperator: {
+    location: 3,
+    operator: ':',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -211,6 +216,11 @@ test('foo: bar', testQuery, {
     quoted: false,
     type: 'Field',
   },
+  relationalOperator: {
+    location: 3,
+    operator: ':',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -219,7 +229,7 @@ test('foo:123', testQuery, {
     location: 4,
     quoted: false,
     type: 'LiteralExpression',
-    value: '123',
+    value: 123,
   },
   field: {
     location: 0,
@@ -227,6 +237,11 @@ test('foo:123', testQuery, {
     path: ['foo'],
     quoted: false,
     type: 'Field',
+  },
+  relationalOperator: {
+    location: 3,
+    operator: ':',
+    type: 'RelationalOperator',
   },
   type: 'TagExpression',
 });
@@ -245,7 +260,11 @@ test('foo:=123', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  relationalOperator: '=',
+  relationalOperator: {
+    location: 3,
+    operator: ':=',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -263,7 +282,11 @@ test('foo:= 123', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  relationalOperator: '=',
+  relationalOperator: {
+    location: 3,
+    operator: ':=',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -281,7 +304,11 @@ test('foo:=-123', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  relationalOperator: '=',
+  relationalOperator: {
+    location: 3,
+    operator: ':=',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -299,13 +326,17 @@ test('foo:=123.4', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  relationalOperator: '=',
+  relationalOperator: {
+    location: 3,
+    operator: ':=',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
 test('foo:>=123', testQuery, {
   expression: {
-    location: 5,
+    location: 6,
     quoted: false,
     type: 'LiteralExpression',
     value: 123,
@@ -317,7 +348,11 @@ test('foo:>=123', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  relationalOperator: '>=',
+  relationalOperator: {
+    location: 3,
+    operator: ':>=',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -334,6 +369,11 @@ test('foo:true', testQuery, {
     path: ['foo'],
     quoted: false,
     type: 'Field',
+  },
+  relationalOperator: {
+    location: 3,
+    operator: ':',
+    type: 'RelationalOperator',
   },
   type: 'TagExpression',
 });
@@ -352,6 +392,11 @@ test('foo:false', testQuery, {
     quoted: false,
     type: 'Field',
   },
+  relationalOperator: {
+    location: 3,
+    operator: ':',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -368,6 +413,11 @@ test('foo:null', testQuery, {
     path: ['foo'],
     quoted: false,
     type: 'Field',
+  },
+  relationalOperator: {
+    location: 3,
+    operator: ':',
+    type: 'RelationalOperator',
   },
   type: 'TagExpression',
 });
@@ -389,6 +439,11 @@ test('foo.bar:baz', testQuery, {
     quoted: false,
     type: 'Field',
   },
+  relationalOperator: {
+    location: 7,
+    operator: ':',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -406,6 +461,11 @@ test('foo_bar:baz', testQuery, {
     quoted: false,
     type: 'Field',
   },
+  relationalOperator: {
+    location: 7,
+    operator: ':',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -422,6 +482,11 @@ test('$foo:baz', testQuery, {
     path: ['$foo'],
     quoted: false,
     type: 'Field',
+  },
+  relationalOperator: {
+    location: 4,
+    operator: ':',
+    type: 'RelationalOperator',
   },
   type: 'TagExpression',
 });
@@ -441,6 +506,11 @@ test('"foo bar":baz', testQuery, {
     quotes: 'double',
     type: 'Field',
   },
+  relationalOperator: {
+    location: 9,
+    operator: ':',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -458,6 +528,11 @@ test('\'foo bar\':baz', testQuery, {
     quoted: true,
     quotes: 'single',
     type: 'Field',
+  },
+  relationalOperator: {
+    location: 9,
+    operator: ':',
+    type: 'RelationalOperator',
   },
   type: 'TagExpression',
 });
@@ -477,6 +552,11 @@ test('foo:"bar"', testQuery, {
     quoted: false,
     type: 'Field',
   },
+  relationalOperator: {
+    location: 3,
+    operator: ':',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -495,6 +575,11 @@ test('foo:\'bar\'', testQuery, {
     quoted: false,
     type: 'Field',
   },
+  relationalOperator: {
+    location: 3,
+    operator: ':',
+    type: 'RelationalOperator',
+  },
   type: 'TagExpression',
 });
 
@@ -512,6 +597,11 @@ test('foo:bar baz:qux', testQuery, {
       path: ['foo'],
       quoted: false,
       type: 'Field',
+    },
+    relationalOperator: {
+      location: 3,
+      operator: ':',
+      type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },
@@ -533,6 +623,11 @@ test('foo:bar baz:qux', testQuery, {
       quoted: false,
       type: 'Field',
     },
+    relationalOperator: {
+      location: 11,
+      operator: ':',
+      type: 'RelationalOperator',
+    },
     type: 'TagExpression',
   },
   type: 'LogicalExpression',
@@ -552,6 +647,11 @@ test('foo:bar AND baz:qux', testQuery, {
       path: ['foo'],
       quoted: false,
       type: 'Field',
+    },
+    relationalOperator: {
+      location: 3,
+      operator: ':',
+      type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },
@@ -574,6 +674,11 @@ test('foo:bar AND baz:qux', testQuery, {
       quoted: false,
       type: 'Field',
     },
+    relationalOperator: {
+      location: 15,
+      operator: ':',
+      type: 'RelationalOperator',
+    },
     type: 'TagExpression',
   },
   type: 'LogicalExpression',
@@ -594,6 +699,11 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         path: ['foo'],
         quoted: false,
         type: 'Field',
+      },
+      relationalOperator: {
+        location: 4,
+        operator: ':',
+        type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
@@ -619,6 +729,11 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
+      relationalOperator: {
+        location: 18,
+        operator: ':',
+        type: 'RelationalOperator',
+      },
       type: 'TagExpression',
     },
     type: 'ParenthesizedExpression',
@@ -642,6 +757,11 @@ test('(foo:bar AND baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
+      relationalOperator: {
+        location: 4,
+        operator: ':',
+        type: 'RelationalOperator',
+      },
       type: 'TagExpression',
     },
     operator: {
@@ -662,6 +782,11 @@ test('(foo:bar AND baz:qux)', testQuery, {
         path: ['baz'],
         quoted: false,
         type: 'Field',
+      },
+      relationalOperator: {
+        location: 16,
+        operator: ':',
+        type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
@@ -685,6 +810,11 @@ test('NOT foo:bar', testQuery, {
       quoted: false,
       type: 'Field',
     },
+    relationalOperator: {
+      location: 7,
+      operator: ':',
+      type: 'RelationalOperator',
+    },
     type: 'TagExpression',
   },
   operator: 'NOT',
@@ -706,6 +836,11 @@ test('NOT (foo:bar)', testQuery, {
         path: ['foo'],
         quoted: false,
         type: 'Field',
+      },
+      relationalOperator: {
+        location: 8,
+        operator: ':',
+        type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
@@ -732,6 +867,11 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
           quoted: false,
           type: 'Field',
         },
+        relationalOperator: {
+          location: 8,
+          operator: ':',
+          type: 'RelationalOperator',
+        },
         type: 'TagExpression',
       },
       operator: {
@@ -752,6 +892,11 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
           path: ['baz'],
           quoted: false,
           type: 'Field',
+        },
+        relationalOperator: {
+          location: 20,
+          operator: ':',
+          type: 'RelationalOperator',
         },
         type: 'TagExpression',
       },
@@ -778,6 +923,11 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       quoted: false,
       type: 'Field',
     },
+    relationalOperator: {
+      location: 3,
+      operator: ':',
+      type: 'RelationalOperator',
+    },
     type: 'TagExpression',
   },
   operator: {
@@ -799,6 +949,11 @@ test('foo:bar AND NOT baz:qux', testQuery, {
         path: ['baz'],
         quoted: false,
         type: 'Field',
+      },
+      relationalOperator: {
+        location: 19,
+        operator: ':',
+        type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
@@ -824,6 +979,11 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         quoted: false,
         type: 'Field',
       },
+      relationalOperator: {
+        location: 3,
+        operator: ':',
+        type: 'RelationalOperator',
+      },
       type: 'TagExpression',
     },
     operator: {
@@ -844,6 +1004,11 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         path: ['baz'],
         quoted: false,
         type: 'Field',
+      },
+      relationalOperator: {
+        location: 15,
+        operator: ':',
+        type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
@@ -868,6 +1033,11 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       quoted: false,
       type: 'Field',
     },
+    relationalOperator: {
+      location: 28,
+      operator: ':',
+      type: 'RelationalOperator',
+    },
     type: 'TagExpression',
   },
   type: 'LogicalExpression',
@@ -887,6 +1057,11 @@ test('(foo:bar)', testQuery, {
       path: ['foo'],
       quoted: false,
       type: 'Field',
+    },
+    relationalOperator: {
+      location: 4,
+      operator: ':',
+      type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },
@@ -908,6 +1083,11 @@ test('((foo:bar))', testQuery, {
         path: ['foo'],
         quoted: false,
         type: 'Field',
+      },
+      relationalOperator: {
+        location: 5,
+        operator: ':',
+        type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
@@ -931,6 +1111,11 @@ test('( foo:bar )', testQuery, {
       quoted: false,
       type: 'Field',
     },
+    relationalOperator: {
+      location: 5,
+      operator: ':',
+      type: 'RelationalOperator',
+    },
     type: 'TagExpression',
   },
   type: 'ParenthesizedExpression',
@@ -951,6 +1136,11 @@ test('(foo:bar OR baz:qux)', testQuery, {
         path: ['foo'],
         quoted: false,
         type: 'Field',
+      },
+      relationalOperator: {
+        location: 4,
+        operator: ':',
+        type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
@@ -973,6 +1163,11 @@ test('(foo:bar OR baz:qux)', testQuery, {
         quoted: false,
         type: 'Field',
       },
+      relationalOperator: {
+        location: 15,
+        operator: ':',
+        type: 'RelationalOperator',
+      },
       type: 'TagExpression',
     },
     type: 'LogicalExpression',
@@ -994,6 +1189,11 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       path: ['foo'],
       quoted: false,
       type: 'Field',
+    },
+    relationalOperator: {
+      location: 3,
+      operator: ':',
+      type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },
@@ -1018,6 +1218,11 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           quoted: false,
           type: 'Field',
         },
+        relationalOperator: {
+          location: 15,
+          operator: ':',
+          type: 'RelationalOperator',
+        },
         type: 'TagExpression',
       },
       operator: {
@@ -1038,6 +1243,11 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           path: ['quuz'],
           quoted: false,
           type: 'Field',
+        },
+        relationalOperator: {
+          location: 27,
+          operator: ':',
+          type: 'RelationalOperator',
         },
         type: 'TagExpression',
       },
@@ -1065,6 +1275,11 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           quoted: false,
           type: 'Field',
         },
+        relationalOperator: {
+          location: 4,
+          operator: ':',
+          type: 'RelationalOperator',
+        },
         type: 'TagExpression',
       },
       operator: {
@@ -1085,6 +1300,11 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           path: ['baz'],
           quoted: false,
           type: 'Field',
+        },
+        relationalOperator: {
+          location: 15,
+          operator: ':',
+          type: 'RelationalOperator',
         },
         type: 'TagExpression',
       },
@@ -1110,6 +1330,11 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       path: ['quuz'],
       quoted: false,
       type: 'Field',
+    },
+    relationalOperator: {
+      location: 28,
+      operator: ':',
+      type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },

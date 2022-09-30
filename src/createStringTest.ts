@@ -44,13 +44,11 @@ export const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
     return createRegexTest(regexCache, expression.value);
   }
 
-  if (typeof expression.value !== 'string') {
-    throw new TypeError('Expected a string.');
-  }
+  const value = String(expression.value);
 
-  if (expression.value.includes('*') && expression.quoted === false) {
-    return createRegexTest(regexCache, String(convertWildcardToRegex(expression.value)) + (expression.quoted ? 'u' : 'ui'));
+  if (value.includes('*') && expression.quoted === false) {
+    return createRegexTest(regexCache, String(convertWildcardToRegex(value)) + (expression.quoted ? 'u' : 'ui'));
   } else {
-    return createRegexTest(regexCache, '/(' + escapeRegexString(expression.value) + ')/' + (expression.quoted ? 'u' : 'ui'));
+    return createRegexTest(regexCache, '/(' + escapeRegexString(value) + ')/' + (expression.quoted ? 'u' : 'ui'));
   }
 };

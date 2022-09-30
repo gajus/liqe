@@ -304,11 +304,12 @@ import {
   type OperatorToken,
   type RangeExpressionToken,
   type RegexExpressionToken,
+  type RelationalOperatorToken,
   type TagExpressionToken,
 } from 'liqe';
 ```
 
-There are 9 AST tokens that describe a parsed Liqe query.
+There are 10 AST tokens that describe a parsed Liqe query.
 
 If you are building a serializer, then you must implement all of them for the complete coverage of all possible query inputs. Refer to the [built-in serializer](./src/serialize.ts) for an example.
 

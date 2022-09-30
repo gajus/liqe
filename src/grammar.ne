@@ -127,7 +127,7 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field ":" _ query {% (data) => {
+    field relational_operator _ query {% (data) => {
     const field = {
       type: 'Field',
       name: data[0].name,
@@ -143,6 +143,7 @@ side ->
 
     return {
       field,
+      relationalOperator: data[1],
       ...data[3]
     }
   } %}
@@ -154,8 +155,7 @@ field ->
   | dqstring {% (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location}) %}
 
 query ->
-    relational_operator _ decimal {% (data, location) => {return {expression: {location: location + data[1] + 1, type: 'LiteralExpression', quoted: false, value: data[2]}, type: 'TagExpression', relationalOperator: data[0][0]}} %}
-  | decimal {% (data, location) => ({type: 'TagExpression', expression: {location, type: 'LiteralExpression', quoted: false, value: data.join('')}}) %}
+    decimal {% (data, location) => ({type: 'TagExpression', expression: {location, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
   | regex {% (data, location) => ({type: 'TagExpression', expression: {location, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}
   | unquoted_value {% (data, location, reject) => {
@@ -197,11 +197,12 @@ range ->
   | "{" _ decimal _ "TO" _ decimal _ "}" {% range(false, false) %}
   
 relational_operator ->
-    "="
-  | ">"
-  | "<"
-  | ">="
-  | "<="
+    ":" {% (data, location) => ({location, type: 'RelationalOperator', operator: data[0]}) %}
+  | ":=" {% (data, location) => ({location, type: 'RelationalOperator', operator: data[0]}) %}
+  | ":>" {% (data, location) => ({location, type: 'RelationalOperator', operator: data[0]}) %}
+  | ":<" {% (data, location) => ({location, type: 'RelationalOperator', operator: data[0]}) %}
+  | ":>=" {% (data, location) => ({location, type: 'RelationalOperator', operator: data[0]}) %}
+  | ":<=" {% (data, location) => ({location, type: 'RelationalOperator', operator: data[0]}) %}
 
 regex ->
   regex_body regex_flags {% d => d.join('') %}

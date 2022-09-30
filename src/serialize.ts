@@ -57,7 +57,7 @@ const serializeTagExpression = (ast: HydratedAst) => {
   }
 
   const left = field.quotes ? quote(field.name, field.quotes) : field.name;
-  const operator = ast.relationalOperator ? ':' + ast.relationalOperator : ':';
+  const operator = ast.relationalOperator.operator;
   const right = serializeExpression(expression);
 
   return left + operator + right;

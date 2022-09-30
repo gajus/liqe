@@ -22,6 +22,7 @@ export {
   OperatorToken,
   RangeExpressionToken,
   RegexExpressionToken,
+  RelationalOperatorToken,
   TagExpressionToken,
 } from './types';
 export {

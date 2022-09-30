@@ -35,7 +35,7 @@ const createValueTest = (ast: HydratedAst): InternalTest => {
 
   const expressionValue = expression.value;
 
-  if (ast.relationalOperator) {
+  if (ast.relationalOperator && ast.relationalOperator.operator !== ':') {
     const relationalOperator = ast.relationalOperator;
 
     if (typeof expressionValue !== 'number') {
@@ -47,7 +47,7 @@ const createValueTest = (ast: HydratedAst): InternalTest => {
         return false;
       }
 
-      return testRelationalRange(expressionValue, value, relationalOperator);
+      return testRelationalRange(expressionValue, value, relationalOperator.operator);
     };
   } else if (typeof expressionValue === 'boolean') {
     return (value) => {

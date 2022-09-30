@@ -144,7 +144,7 @@ const grammar: Grammar = {
     {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
     {"name": "post_boolean_primary", "symbols": ["__", {"literal":"("}, "_", "two_op_expr", "_", {"literal":")"}], "postprocess": d => ({type: 'ParenthesizedExpression', expression: d[3]})},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
-    {"name": "side", "symbols": ["field", {"literal":":"}, "_", "query"], "postprocess":  (data) => {
+    {"name": "side", "symbols": ["field", "relational_operator", "_", "query"], "postprocess":  (data) => {
           const field = {
             type: 'Field',
             name: data[0].name,
@@ -160,6 +160,7 @@ const grammar: Grammar = {
         
           return {
             field,
+            relationalOperator: data[1],
             ...data[3]
           }
         } },
@@ -169,8 +170,7 @@ const grammar: Grammar = {
     {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location})},
     {"name": "field", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location})},
     {"name": "field", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location})},
-    {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": (data, location) => {return {expression: {location: location + data[1] + 1, type: 'LiteralExpression', quoted: false, value: data[2]}, type: 'TagExpression', relationalOperator: data[0][0]}}},
-    {"name": "query", "symbols": ["decimal"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location, type: 'LiteralExpression', quoted: false, value: data.join('')}})},
+    {"name": "query", "symbols": ["decimal"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}})},
     {"name": "query", "symbols": ["regex"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location, type: 'RegexExpression', value: data.join('')}})},
     {"name": "query", "symbols": ["range"], "postprocess": (data) => data[0]},
     {"name": "query", "symbols": ["unquoted_value"], "postprocess":  (data, location, reject) => {
@@ -212,13 +212,17 @@ const grammar: Grammar = {
     {"name": "range", "symbols": [{"literal":"["}, "_", "decimal", "_", "range$string$3", "_", "decimal", "_", {"literal":"}"}], "postprocess": range(true, false)},
     {"name": "range$string$4", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
     {"name": "range", "symbols": [{"literal":"{"}, "_", "decimal", "_", "range$string$4", "_", "decimal", "_", {"literal":"}"}], "postprocess": range(false, false)},
-    {"name": "relational_operator", "symbols": [{"literal":"="}]},
-    {"name": "relational_operator", "symbols": [{"literal":">"}]},
-    {"name": "relational_operator", "symbols": [{"literal":"<"}]},
-    {"name": "relational_operator$string$1", "symbols": [{"literal":">"}, {"literal":"="}], "postprocess": (d) => d.join('')},
-    {"name": "relational_operator", "symbols": ["relational_operator$string$1"]},
-    {"name": "relational_operator$string$2", "symbols": [{"literal":"<"}, {"literal":"="}], "postprocess": (d) => d.join('')},
-    {"name": "relational_operator", "symbols": ["relational_operator$string$2"]},
+    {"name": "relational_operator", "symbols": [{"literal":":"}], "postprocess": (data, location) => ({location, type: 'RelationalOperator', operator: data[0]})},
+    {"name": "relational_operator$string$1", "symbols": [{"literal":":"}, {"literal":"="}], "postprocess": (d) => d.join('')},
+    {"name": "relational_operator", "symbols": ["relational_operator$string$1"], "postprocess": (data, location) => ({location, type: 'RelationalOperator', operator: data[0]})},
+    {"name": "relational_operator$string$2", "symbols": [{"literal":":"}, {"literal":">"}], "postprocess": (d) => d.join('')},
+    {"name": "relational_operator", "symbols": ["relational_operator$string$2"], "postprocess": (data, location) => ({location, type: 'RelationalOperator', operator: data[0]})},
+    {"name": "relational_operator$string$3", "symbols": [{"literal":":"}, {"literal":"<"}], "postprocess": (d) => d.join('')},
+    {"name": "relational_operator", "symbols": ["relational_operator$string$3"], "postprocess": (data, location) => ({location, type: 'RelationalOperator', operator: data[0]})},
+    {"name": "relational_operator$string$4", "symbols": [{"literal":":"}, {"literal":">"}, {"literal":"="}], "postprocess": (d) => d.join('')},
+    {"name": "relational_operator", "symbols": ["relational_operator$string$4"], "postprocess": (data, location) => ({location, type: 'RelationalOperator', operator: data[0]})},
+    {"name": "relational_operator$string$5", "symbols": [{"literal":":"}, {"literal":"<"}, {"literal":"="}], "postprocess": (d) => d.join('')},
+    {"name": "relational_operator", "symbols": ["relational_operator$string$5"], "postprocess": (data, location) => ({location, type: 'RelationalOperator', operator: data[0]})},
     {"name": "regex", "symbols": ["regex_body", "regex_flags"], "postprocess": d => d.join('')},
     {"name": "regex_body$ebnf$1", "symbols": []},
     {"name": "regex_body$ebnf$1", "symbols": ["regex_body$ebnf$1", "regex_body_char"], "postprocess": (d) => d[0].concat([d[1]])},
