@@ -12,29 +12,6 @@ const notOp = (d) => {
   };
 }
 
-const range = ( minInclusive, maxInclusive) => {
-  return (data, location) => {
-    return {
-      location: {
-        start: location,
-      },
-      type: 'TagExpression',
-      expression: {
-        location: {
-          start: location,
-        },
-        type: 'RangeExpression',
-        range: {
-          min: data[2],
-          minInclusive,
-          maxInclusive,
-          max: data[6],
-        }
-      }
-    }
-  };
-}
-
 interface NearleyToken {
   value: any;
   [key: string]: any;
@@ -223,13 +200,31 @@ const grammar: Grammar = {
     {"name": "query", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
     {"name": "query", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
     {"name": "range$string$1", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
-    {"name": "range", "symbols": [{"literal":"["}, "_", "decimal", "_", "range$string$1", "_", "decimal", "_", {"literal":"]"}], "postprocess": range(true, true)},
-    {"name": "range$string$2", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
-    {"name": "range", "symbols": [{"literal":"{"}, "_", "decimal", "_", "range$string$2", "_", "decimal", "_", {"literal":"]"}], "postprocess": range(false, true)},
-    {"name": "range$string$3", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
-    {"name": "range", "symbols": [{"literal":"["}, "_", "decimal", "_", "range$string$3", "_", "decimal", "_", {"literal":"}"}], "postprocess": range(true, false)},
-    {"name": "range$string$4", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
-    {"name": "range", "symbols": [{"literal":"{"}, "_", "decimal", "_", "range$string$4", "_", "decimal", "_", {"literal":"}"}], "postprocess": range(false, false)},
+    {"name": "range", "symbols": ["range_open", "_", "decimal", "_", "range$string$1", "_", "decimal", "_", "range_close"], "postprocess":  (data, location) => {
+          return {
+            location: {
+              start: location,
+            },
+            type: 'TagExpression',
+            expression: {
+              location: {
+                start: data[0].location.start,
+                end: data[8].location.start,
+              },
+              type: 'RangeExpression',
+              range: {
+                min: data[2],
+                minInclusive: data[0].inclusive,
+                maxInclusive: data[8].inclusive,
+                max: data[6],
+              }
+            }
+          }
+        } },
+    {"name": "range_open", "symbols": [{"literal":"["}], "postprocess": (data, location) => ({location: {start: location}, inclusive: true})},
+    {"name": "range_open", "symbols": [{"literal":"{"}], "postprocess": (data, location) => ({location: {start: location}, inclusive: false})},
+    {"name": "range_close", "symbols": [{"literal":"]"}], "postprocess": (data, location) => ({location: {start: location}, inclusive: true})},
+    {"name": "range_close", "symbols": [{"literal":"}"}], "postprocess": (data, location) => ({location: {start: location}, inclusive: false})},
     {"name": "relational_operator", "symbols": [{"literal":":"}], "postprocess": (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]})},
     {"name": "relational_operator$string$1", "symbols": [{"literal":":"}, {"literal":"="}], "postprocess": (d) => d.join('')},
     {"name": "relational_operator", "symbols": ["relational_operator$string$1"], "postprocess": (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]})},

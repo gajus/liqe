@@ -1931,6 +1931,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
 test('[1 TO 2]', testQuery, {
   expression: {
     location: {
+      end: 7,
       start: 0,
     },
     range: {
@@ -1953,6 +1954,7 @@ test('[1 TO 2]', testQuery, {
 test('{1 TO 2]', testQuery, {
   expression: {
     location: {
+      end: 7,
       start: 0,
     },
     range: {
@@ -1975,6 +1977,7 @@ test('{1 TO 2]', testQuery, {
 test('[1 TO 2}', testQuery, {
   expression: {
     location: {
+      end: 7,
       start: 0,
     },
     range: {
@@ -1997,6 +2000,7 @@ test('[1 TO 2}', testQuery, {
 test('{1 TO 2}', testQuery, {
   expression: {
     location: {
+      end: 7,
       start: 0,
     },
     range: {

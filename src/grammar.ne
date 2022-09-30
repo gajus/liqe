@@ -52,29 +52,6 @@ const notOp = (d) => {
     operand: d[1]
   };
 }
-
-const range = ( minInclusive, maxInclusive) => {
-  return (data, location) => {
-    return {
-      location: {
-        start: location,
-      },
-      type: 'TagExpression',
-      expression: {
-        location: {
-          start: location,
-        },
-        type: 'RangeExpression',
-        range: {
-          min: data[2],
-          minInclusive,
-          maxInclusive,
-          max: data[6],
-        }
-      }
-    }
-  };
-}
 %}
 
 # Adapted from js-sql-parser
@@ -213,11 +190,36 @@ query ->
   | dqstring {% (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
 
 range ->
-    "[" _ decimal _ "TO" _ decimal _ "]" {% range(true, true) %}
-  | "{" _ decimal _ "TO" _ decimal _ "]" {% range(false, true) %}
-  | "[" _ decimal _ "TO" _ decimal _ "}" {% range(true, false) %}
-  | "{" _ decimal _ "TO" _ decimal _ "}" {% range(false, false) %}
-  
+    range_open _ decimal _ "TO" _ decimal _ range_close {% (data, location) => {
+    return {
+      location: {
+        start: location,
+      },
+      type: 'TagExpression',
+      expression: {
+        location: {
+          start: data[0].location.start,
+          end: data[8].location.start,
+        },
+        type: 'RangeExpression',
+        range: {
+          min: data[2],
+          minInclusive: data[0].inclusive,
+          maxInclusive: data[8].inclusive,
+          max: data[6],
+        }
+      }
+    }
+  } %}
+
+range_open ->
+  "[" {% (data, location) => ({location: {start: location}, inclusive: true}) %}
+  | "{" {% (data, location) => ({location: {start: location}, inclusive: false}) %}
+
+range_close ->
+  "]" {% (data, location) => ({location: {start: location}, inclusive: true}) %}
+  | "}" {% (data, location) => ({location: {start: location}, inclusive: false}) %}
+
 relational_operator ->
     ":" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
   | ":=" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
