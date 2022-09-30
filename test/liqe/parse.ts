@@ -914,6 +914,7 @@ test('foo:bar AND baz:qux', testQuery, {
   },
   operator: {
     location: {
+      end: 11,
       start: 8,
     },
     operator: 'AND',
@@ -995,6 +996,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
   },
   operator: {
     location: {
+      end: 13,
       start: 10,
     },
     operator: 'AND',
@@ -1077,6 +1079,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
     },
     operator: {
       location: {
+        end: 12,
         start: 9,
       },
       operator: 'AND',
@@ -1287,6 +1290,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
       },
       operator: {
         location: {
+          end: 16,
           start: 13,
         },
         operator: 'AND',
@@ -1370,6 +1374,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
   },
   operator: {
     location: {
+      end: 11,
       start: 8,
     },
     operator: 'AND',
@@ -1453,6 +1458,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     },
     operator: {
       location: {
+        end: 11,
         start: 8,
       },
       operator: 'AND',
@@ -1495,6 +1501,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
   },
   operator: {
     location: {
+      end: 23,
       start: 20,
     },
     operator: 'AND',
@@ -1691,6 +1698,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
     },
     operator: {
       location: {
+        end: 11,
         start: 9,
       },
       operator: 'OR',
@@ -1771,6 +1779,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
   },
   operator: {
     location: {
+      end: 10,
       start: 8,
     },
     operator: 'OR',
@@ -1813,6 +1822,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       },
       operator: {
         location: {
+          end: 22,
           start: 20,
         },
         operator: 'OR',
@@ -1897,6 +1907,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       },
       operator: {
         location: {
+          end: 11,
           start: 9,
         },
         operator: 'OR',
@@ -1945,6 +1956,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
   },
   operator: {
     location: {
+      end: 23,
       start: 21,
     },
     operator: 'OR',

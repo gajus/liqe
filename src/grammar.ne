@@ -112,8 +112,8 @@ parentheses_close ->
   ")" {% (data, start) => ({location: {start}}) %}
 
 boolean_operator ->
-    "OR" {% (data, start) => ({location: {start}, operator: 'OR', type: 'BooleanOperator'}) %}
-  | "AND" {% (data, start) => ({location: {start}, operator: 'AND', type: 'BooleanOperator'}) %}
+    "OR" {% (data, start) => ({location: {start, end: start + 2}, operator: 'OR', type: 'BooleanOperator'}) %}
+  | "AND" {% (data, start) => ({location: {start, end: start + 3}, operator: 'AND', type: 'BooleanOperator'}) %}
 
 boolean_primary ->
   side {% id %}
