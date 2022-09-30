@@ -32,8 +32,8 @@ Originally built Liqe to enable [Roarr](https://github.com/gajus/roarr) log filt
 Liqe use cases include:
 
 * parsing search queries
-* serialized parsed queries
-* searching JSON documents using the Liqe query language
+* serializing parsed queries
+* searching JSON documents using the Liqe query language (LQL)
 
 ## Usage
 
