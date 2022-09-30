@@ -1,12 +1,12 @@
 @preprocessor typescript
 
-main -> expr {% id %}
+main -> logical_expression {% id %}
 
 # Whitespace: `_` is optional, `__` is mandatory.
-_  -> wschar:* {% (data) => data[0].length %}
-__ -> wschar:+ {% (data) => data[0].length %}
+_  -> whitespace_character:* {% (data) => data[0].length %}
+__ -> whitespace_character:+ {% (data) => data[0].length %}
 
-wschar -> [ \t\n\v\f] {% id %}
+whitespace_character -> [ \t\n\v\f] {% id %}
 
 # Numbers
 decimal -> "-":? [0-9]:+ ("." [0-9]:+):? {%
@@ -37,12 +37,10 @@ strescape -> ["\\/bfnrt] {% id %}
     (data) => data.join('')
 %}
 
-# Adapted from js-sql-parser
-# https://github.com/justinkenel/js-sql-parse/blob/aaecf0fb0a4e700c4df07d987cf0c54a8276553b/sql.ne
-expr -> two_op_expr {% id %}
+logical_expression -> two_op_logical_expression {% id %}
 
-two_op_expr ->
-    pre_two_op_expr operator post_one_op_expr {% (data) => ({
+two_op_logical_expression ->
+    pre_two_op_logical_expression boolean_operator post_one_op_logical_expression {% (data) => ({
       type: 'LogicalExpression',
       location: {
         start: data[0].location.start,
@@ -51,7 +49,7 @@ two_op_expr ->
       left: data[0],
       right: data[2]
     }) %}
-  | pre_two_op_implicit_expr " " post_one_op_implicit_expr {% (data) => ({
+  | pre_two_op_implicit_logical_expression " " post_one_op_implicit_logical_expression {% (data) => ({
       type: 'LogicalExpression',
       location: {
         start: data[0].location.start,
@@ -63,22 +61,22 @@ two_op_expr ->
       left: data[0],
       right: data[2]
     }) %}
-	| one_op_expr {% d => d[0] %}
+	| one_op_logical_expression {% d => d[0] %}
 
-pre_two_op_implicit_expr ->
-    two_op_expr {% d => d[0] %}
-  | parentheses_open _ two_op_expr _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, }, type: 'ParenthesizedExpression', expression: d[2]}) %}
+pre_two_op_implicit_logical_expression ->
+    two_op_logical_expression {% d => d[0] %}
+  | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, }, type: 'ParenthesizedExpression', expression: d[2]}) %}
 
-post_one_op_implicit_expr ->
-    one_op_expr {% d => d[0] %}
-  | parentheses_open _ one_op_expr _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+post_one_op_implicit_logical_expression ->
+    one_op_logical_expression {% d => d[0] %}
+  | parentheses_open _ one_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
-pre_two_op_expr ->
-    two_op_expr __ {% d => d[0] %}
-  | parentheses_open _ two_op_expr _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+pre_two_op_logical_expression ->
+    two_op_logical_expression __ {% d => d[0] %}
+  | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
-one_op_expr ->
-    parentheses_open _ two_op_expr _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+one_op_logical_expression ->
+    parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 	|	"NOT" post_boolean_primary {% (data, start) => {
   return {
     type: 'UnaryOperator',
@@ -101,9 +99,9 @@ one_op_expr ->
 } %}
   | boolean_primary {% d => d[0] %}
 
-post_one_op_expr ->
-    __ one_op_expr {% d => d[1] %}
-  | parentheses_open _ one_op_expr _ parentheses_close {% d => ({location: {start: d[0].location, end: d[4].location, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+post_one_op_logical_expression ->
+    __ one_op_logical_expression {% d => d[1] %}
+  | parentheses_open _ one_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location, end: d[4].location, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 parentheses_open ->
   "(" {% (data, start) => ({location: {start}}) %}
@@ -111,7 +109,7 @@ parentheses_open ->
 parentheses_close ->
   ")" {% (data, start) => ({location: {start}}) %}
 
-operator ->
+boolean_operator ->
     "OR" {% (data, start) => ({location: {start}, operator: 'OR', type: 'BooleanOperator'}) %}
   | "AND" {% (data, start) => ({location: {start}, operator: 'AND', type: 'BooleanOperator'}) %}
 
@@ -119,11 +117,11 @@ boolean_primary ->
   side {% id %}
 
 post_boolean_primary ->
-    __ parentheses_open _ two_op_expr _ parentheses_close {% d => ({location: {start: d[1].location.start, end: d[5].location.start, }, type: 'ParenthesizedExpression', expression: d[3]}) %}
+    __ parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[1].location.start, end: d[5].location.start, }, type: 'ParenthesizedExpression', expression: d[3]}) %}
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field relational_operator _ query {% (data, start) => {
+    field relational_operator _ tag_expression {% (data, start) => {
     const field = {
       type: 'Field',
       name: data[0].name,
@@ -146,14 +144,14 @@ side ->
       ...data[3]
     }
   } %}
-  | query {% (data, start) => ({location: {start}, field: {type: 'ImplicitField'}, ...data[0]}) %}
+  | tag_expression {% (data, start) => ({location: {start}, field: {type: 'ImplicitField'}, ...data[0]}) %}
 
 field ->
     [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start}}) %}
   | sqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start}}) %}
   | dqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start}}) %}
 
-query ->
+tag_expression ->
     decimal {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
   | regex {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}

@@ -34,14 +34,14 @@ interface Grammar {
 const grammar: Grammar = {
   Lexer: undefined,
   ParserRules: [
-    {"name": "main", "symbols": ["expr"], "postprocess": id},
+    {"name": "main", "symbols": ["logical_expression"], "postprocess": id},
     {"name": "_$ebnf$1", "symbols": []},
-    {"name": "_$ebnf$1", "symbols": ["_$ebnf$1", "wschar"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "_$ebnf$1", "symbols": ["_$ebnf$1", "whitespace_character"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "_", "symbols": ["_$ebnf$1"], "postprocess": (data) => data[0].length},
-    {"name": "__$ebnf$1", "symbols": ["wschar"]},
-    {"name": "__$ebnf$1", "symbols": ["__$ebnf$1", "wschar"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "__$ebnf$1", "symbols": ["whitespace_character"]},
+    {"name": "__$ebnf$1", "symbols": ["__$ebnf$1", "whitespace_character"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "__", "symbols": ["__$ebnf$1"], "postprocess": (data) => data[0].length},
-    {"name": "wschar", "symbols": [/[ \t\n\v\f]/], "postprocess": id},
+    {"name": "whitespace_character", "symbols": [/[ \t\n\v\f]/], "postprocess": id},
     {"name": "decimal$ebnf$1", "symbols": [{"literal":"-"}], "postprocess": id},
     {"name": "decimal$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "decimal$ebnf$2", "symbols": [/[0-9]/]},
@@ -76,8 +76,8 @@ const grammar: Grammar = {
     {"name": "strescape", "symbols": [{"literal":"u"}, /[a-fA-F0-9]/, /[a-fA-F0-9]/, /[a-fA-F0-9]/, /[a-fA-F0-9]/], "postprocess": 
         (data) => data.join('')
         },
-    {"name": "expr", "symbols": ["two_op_expr"], "postprocess": id},
-    {"name": "two_op_expr", "symbols": ["pre_two_op_expr", "operator", "post_one_op_expr"], "postprocess":  (data) => ({
+    {"name": "logical_expression", "symbols": ["two_op_logical_expression"], "postprocess": id},
+    {"name": "two_op_logical_expression", "symbols": ["pre_two_op_logical_expression", "boolean_operator", "post_one_op_logical_expression"], "postprocess":  (data) => ({
           type: 'LogicalExpression',
           location: {
             start: data[0].location.start,
@@ -86,7 +86,7 @@ const grammar: Grammar = {
           left: data[0],
           right: data[2]
         }) },
-    {"name": "two_op_expr", "symbols": ["pre_two_op_implicit_expr", {"literal":" "}, "post_one_op_implicit_expr"], "postprocess":  (data) => ({
+    {"name": "two_op_logical_expression", "symbols": ["pre_two_op_implicit_logical_expression", {"literal":" "}, "post_one_op_implicit_logical_expression"], "postprocess":  (data) => ({
           type: 'LogicalExpression',
           location: {
             start: data[0].location.start,
@@ -98,16 +98,16 @@ const grammar: Grammar = {
           left: data[0],
           right: data[2]
         }) },
-    {"name": "two_op_expr", "symbols": ["one_op_expr"], "postprocess": d => d[0]},
-    {"name": "pre_two_op_implicit_expr", "symbols": ["two_op_expr"], "postprocess": d => d[0]},
-    {"name": "pre_two_op_implicit_expr", "symbols": ["parentheses_open", "_", "two_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, }, type: 'ParenthesizedExpression', expression: d[2]})},
-    {"name": "post_one_op_implicit_expr", "symbols": ["one_op_expr"], "postprocess": d => d[0]},
-    {"name": "post_one_op_implicit_expr", "symbols": ["parentheses_open", "_", "one_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]})},
-    {"name": "pre_two_op_expr", "symbols": ["two_op_expr", "__"], "postprocess": d => d[0]},
-    {"name": "pre_two_op_expr", "symbols": ["parentheses_open", "_", "two_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]})},
-    {"name": "one_op_expr", "symbols": ["parentheses_open", "_", "two_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]})},
-    {"name": "one_op_expr$string$1", "symbols": [{"literal":"N"}, {"literal":"O"}, {"literal":"T"}], "postprocess": (d) => d.join('')},
-    {"name": "one_op_expr", "symbols": ["one_op_expr$string$1", "post_boolean_primary"], "postprocess":  (data, start) => {
+    {"name": "two_op_logical_expression", "symbols": ["one_op_logical_expression"], "postprocess": d => d[0]},
+    {"name": "pre_two_op_implicit_logical_expression", "symbols": ["two_op_logical_expression"], "postprocess": d => d[0]},
+    {"name": "pre_two_op_implicit_logical_expression", "symbols": ["parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, }, type: 'ParenthesizedExpression', expression: d[2]})},
+    {"name": "post_one_op_implicit_logical_expression", "symbols": ["one_op_logical_expression"], "postprocess": d => d[0]},
+    {"name": "post_one_op_implicit_logical_expression", "symbols": ["parentheses_open", "_", "one_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]})},
+    {"name": "pre_two_op_logical_expression", "symbols": ["two_op_logical_expression", "__"], "postprocess": d => d[0]},
+    {"name": "pre_two_op_logical_expression", "symbols": ["parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]})},
+    {"name": "one_op_logical_expression", "symbols": ["parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]})},
+    {"name": "one_op_logical_expression$string$1", "symbols": [{"literal":"N"}, {"literal":"O"}, {"literal":"T"}], "postprocess": (d) => d.join('')},
+    {"name": "one_op_logical_expression", "symbols": ["one_op_logical_expression$string$1", "post_boolean_primary"], "postprocess":  (data, start) => {
           return {
             type: 'UnaryOperator',
             operator: 'NOT',
@@ -117,7 +117,7 @@ const grammar: Grammar = {
             }
           };
         } },
-    {"name": "one_op_expr", "symbols": [{"literal":"-"}, "boolean_primary"], "postprocess":  (data, start) => {
+    {"name": "one_op_logical_expression", "symbols": [{"literal":"-"}, "boolean_primary"], "postprocess":  (data, start) => {
           return {
             type: 'UnaryOperator',
             operator: '-',
@@ -127,19 +127,19 @@ const grammar: Grammar = {
             }
           };
         } },
-    {"name": "one_op_expr", "symbols": ["boolean_primary"], "postprocess": d => d[0]},
-    {"name": "post_one_op_expr", "symbols": ["__", "one_op_expr"], "postprocess": d => d[1]},
-    {"name": "post_one_op_expr", "symbols": ["parentheses_open", "_", "one_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location, end: d[4].location, },type: 'ParenthesizedExpression', expression: d[2]})},
+    {"name": "one_op_logical_expression", "symbols": ["boolean_primary"], "postprocess": d => d[0]},
+    {"name": "post_one_op_logical_expression", "symbols": ["__", "one_op_logical_expression"], "postprocess": d => d[1]},
+    {"name": "post_one_op_logical_expression", "symbols": ["parentheses_open", "_", "one_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location, end: d[4].location, },type: 'ParenthesizedExpression', expression: d[2]})},
     {"name": "parentheses_open", "symbols": [{"literal":"("}], "postprocess": (data, start) => ({location: {start}})},
     {"name": "parentheses_close", "symbols": [{"literal":")"}], "postprocess": (data, start) => ({location: {start}})},
-    {"name": "operator$string$1", "symbols": [{"literal":"O"}, {"literal":"R"}], "postprocess": (d) => d.join('')},
-    {"name": "operator", "symbols": ["operator$string$1"], "postprocess": (data, start) => ({location: {start}, operator: 'OR', type: 'BooleanOperator'})},
-    {"name": "operator$string$2", "symbols": [{"literal":"A"}, {"literal":"N"}, {"literal":"D"}], "postprocess": (d) => d.join('')},
-    {"name": "operator", "symbols": ["operator$string$2"], "postprocess": (data, start) => ({location: {start}, operator: 'AND', type: 'BooleanOperator'})},
+    {"name": "boolean_operator$string$1", "symbols": [{"literal":"O"}, {"literal":"R"}], "postprocess": (d) => d.join('')},
+    {"name": "boolean_operator", "symbols": ["boolean_operator$string$1"], "postprocess": (data, start) => ({location: {start}, operator: 'OR', type: 'BooleanOperator'})},
+    {"name": "boolean_operator$string$2", "symbols": [{"literal":"A"}, {"literal":"N"}, {"literal":"D"}], "postprocess": (d) => d.join('')},
+    {"name": "boolean_operator", "symbols": ["boolean_operator$string$2"], "postprocess": (data, start) => ({location: {start}, operator: 'AND', type: 'BooleanOperator'})},
     {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
-    {"name": "post_boolean_primary", "symbols": ["__", "parentheses_open", "_", "two_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[1].location.start, end: d[5].location.start, }, type: 'ParenthesizedExpression', expression: d[3]})},
+    {"name": "post_boolean_primary", "symbols": ["__", "parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[1].location.start, end: d[5].location.start, }, type: 'ParenthesizedExpression', expression: d[3]})},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
-    {"name": "side", "symbols": ["field", "relational_operator", "_", "query"], "postprocess":  (data, start) => {
+    {"name": "side", "symbols": ["field", "relational_operator", "_", "tag_expression"], "postprocess":  (data, start) => {
           const field = {
             type: 'Field',
             name: data[0].name,
@@ -162,16 +162,16 @@ const grammar: Grammar = {
             ...data[3]
           }
         } },
-    {"name": "side", "symbols": ["query"], "postprocess": (data, start) => ({location: {start}, field: {type: 'ImplicitField'}, ...data[0]})},
+    {"name": "side", "symbols": ["tag_expression"], "postprocess": (data, start) => ({location: {start}, field: {type: 'ImplicitField'}, ...data[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start}})},
     {"name": "field", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start}})},
     {"name": "field", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start}})},
-    {"name": "query", "symbols": ["decimal"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}})},
-    {"name": "query", "symbols": ["regex"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'RegexExpression', value: data.join('')}})},
-    {"name": "query", "symbols": ["range"], "postprocess": (data) => data[0]},
-    {"name": "query", "symbols": ["unquoted_value"], "postprocess":  (data, start, reject) => {
+    {"name": "tag_expression", "symbols": ["decimal"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}})},
+    {"name": "tag_expression", "symbols": ["regex"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'RegexExpression', value: data.join('')}})},
+    {"name": "tag_expression", "symbols": ["range"], "postprocess": (data) => data[0]},
+    {"name": "tag_expression", "symbols": ["unquoted_value"], "postprocess":  (data, start, reject) => {
           const value = data.join('');
         
           if (data[0] === 'AND' || data[0] === 'OR' || data[0] === 'NOT') {
@@ -202,8 +202,8 @@ const grammar: Grammar = {
             },
           };
         } },
-    {"name": "query", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
-    {"name": "query", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
+    {"name": "tag_expression", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
+    {"name": "tag_expression", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
     {"name": "range$string$1", "symbols": [{"literal":" "}, {"literal":"T"}, {"literal":"O"}, {"literal":" "}], "postprocess": (d) => d.join('')},
     {"name": "range", "symbols": ["range_open", "decimal", "range$string$1", "decimal", "range_close"], "postprocess":  (data, start) => {
           return {
