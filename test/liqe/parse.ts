@@ -71,7 +71,7 @@ test('(foo)', testQuery, {
     type: 'TagExpression',
   },
   location: {
-    end: 4,
+    end: 5,
     start: 0,
   },
   type: 'ParenthesizedExpression',
@@ -1103,13 +1103,13 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
       type: 'TagExpression',
     },
     location: {
-      end: 8,
+      end: 9,
       start: 0,
     },
     type: 'ParenthesizedExpression',
   },
   location: {
-    end: 22,
+    end: 23,
     start: 0,
   },
   operator: {
@@ -1156,7 +1156,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
       type: 'TagExpression',
     },
     location: {
-      end: 22,
+      end: 23,
       start: 14,
     },
     type: 'ParenthesizedExpression',
@@ -1249,7 +1249,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
     type: 'LogicalExpression',
   },
   location: {
-    end: 20,
+    end: 21,
     start: 0,
   },
   type: 'ParenthesizedExpression',
@@ -1382,7 +1382,7 @@ test('NOT (foo:bar)', testQuery, {
       type: 'TagExpression',
     },
     location: {
-      end: 12,
+      end: 13,
       start: 4,
     },
     type: 'ParenthesizedExpression',
@@ -1481,7 +1481,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
       type: 'LogicalExpression',
     },
     location: {
-      end: 24,
+      end: 25,
       start: 4,
     },
     type: 'ParenthesizedExpression',
@@ -1751,7 +1751,7 @@ test('(foo:bar)', testQuery, {
     type: 'TagExpression',
   },
   location: {
-    end: 8,
+    end: 9,
     start: 0,
   },
   type: 'ParenthesizedExpression',
@@ -1794,13 +1794,13 @@ test('((foo:bar))', testQuery, {
       type: 'TagExpression',
     },
     location: {
-      end: 9,
+      end: 10,
       start: 1,
     },
     type: 'ParenthesizedExpression',
   },
   location: {
-    end: 10,
+    end: 11,
     start: 0,
   },
   type: 'ParenthesizedExpression',
@@ -1842,7 +1842,7 @@ test('( foo:bar )', testQuery, {
     type: 'TagExpression',
   },
   location: {
-    end: 10,
+    end: 11,
     start: 0,
   },
   type: 'ParenthesizedExpression',
@@ -1933,7 +1933,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
     type: 'LogicalExpression',
   },
   location: {
-    end: 19,
+    end: 20,
     start: 0,
   },
   type: 'ParenthesizedExpression',
@@ -1975,7 +1975,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
     type: 'TagExpression',
   },
   location: {
-    end: 33,
+    end: 34,
     start: 0,
   },
   operator: {
@@ -2071,7 +2071,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       type: 'LogicalExpression',
     },
     location: {
-      end: 33,
+      end: 34,
       start: 11,
     },
     type: 'ParenthesizedExpression',
@@ -2165,7 +2165,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       type: 'LogicalExpression',
     },
     location: {
-      end: 19,
+      end: 20,
       start: 0,
     },
     type: 'ParenthesizedExpression',
@@ -2309,4 +2309,60 @@ test('{1 TO 2}', testQuery, {
     start: 0,
   },
   type: 'TagExpression',
+});
+
+test('( foo OR bar AND baz )', testQuery, {
+  expression: {
+    left: {
+      left: {
+        expression: {
+          location: {end: 5, start: 2},
+          quoted: false,
+          type: 'LiteralExpression',
+          value: 'foo',
+        },
+        field: {type: 'ImplicitField'},
+        location: {end: 5, start: 2},
+        type: 'TagExpression',
+      },
+      location: {end: 12, start: 2},
+      operator: {
+        location: {end: 8, start: 6},
+        operator: 'OR',
+        type: 'BooleanOperator',
+      },
+      right: {
+        expression: {
+          location: {end: 12, start: 9},
+          quoted: false,
+          type: 'LiteralExpression',
+          value: 'bar',
+        },
+        field: {type: 'ImplicitField'},
+        location: {end: 12, start: 9},
+        type: 'TagExpression',
+      },
+      type: 'LogicalExpression',
+    },
+    location: {end: 20, start: 2},
+    operator: {
+      location: {end: 16, start: 13},
+      operator: 'AND',
+      type: 'BooleanOperator',
+    },
+    right: {
+      expression: {
+        location: {end: 20, start: 17},
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'baz',
+      },
+      field: {type: 'ImplicitField'},
+      location: {end: 20, start: 17},
+      type: 'TagExpression',
+    },
+    type: 'LogicalExpression',
+  },
+  location: {end: 22, start: 0},
+  type: 'ParenthesizedExpression',
 });

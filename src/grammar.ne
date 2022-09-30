@@ -67,18 +67,18 @@ two_op_logical_expression ->
 
 pre_two_op_implicit_logical_expression ->
     two_op_logical_expression {% d => d[0] %}
-  | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, }, type: 'ParenthesizedExpression', expression: d[2]}) %}
+  | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, }, type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 post_one_op_implicit_logical_expression ->
     one_op_logical_expression {% d => d[0] %}
-  | parentheses_open _ one_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+  | parentheses_open _ one_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 pre_two_op_logical_expression ->
     two_op_logical_expression __ {% d => d[0] %}
-  | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+  | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 one_op_logical_expression ->
-    parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+    parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 	|	"NOT" post_boolean_primary {% (data, start) => {
   return {
     type: 'UnaryOperator',
@@ -105,7 +105,7 @@ one_op_logical_expression ->
 
 post_one_op_logical_expression ->
     __ one_op_logical_expression {% d => d[1] %}
-  | parentheses_open _ one_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location, end: d[4].location, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+  | parentheses_open _ one_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location, end: d[4].location + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 parentheses_open ->
   "(" {% (data, start) => ({location: {start}}) %}
@@ -121,7 +121,7 @@ boolean_primary ->
   side {% id %}
 
 post_boolean_primary ->
-    __ parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[1].location.start, end: d[5].location.start, }, type: 'ParenthesizedExpression', expression: d[3]}) %}
+    __ parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[1].location.start, end: d[5].location.start + 1, }, type: 'ParenthesizedExpression', expression: d[3]}) %}
   | __ boolean_primary {% d => d[1] %}
 
 side ->
