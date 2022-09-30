@@ -73,7 +73,7 @@ export type ImplicitBooleanOperatorToken = {
 };
 
 export type TokenLocation = {
-  end?: number,
+  end: number,
   start: number,
 };
 
