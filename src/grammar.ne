@@ -140,6 +140,7 @@ side ->
     return {
       location: {
         start,
+        end: data[3].expression.location.end,
       },
       field,
       operator: data[1],

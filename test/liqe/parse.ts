@@ -285,6 +285,7 @@ test('foo:bar', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 7,
     start: 0,
   },
   operator: {
@@ -319,6 +320,7 @@ test('foo: bar', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 8,
     start: 0,
   },
   operator: {
@@ -353,6 +355,7 @@ test('foo:123', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 7,
     start: 0,
   },
   operator: {
@@ -387,6 +390,7 @@ test('foo:=123', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 8,
     start: 0,
   },
   operator: {
@@ -421,6 +425,7 @@ test('foo:= 123', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 9,
     start: 0,
   },
   operator: {
@@ -455,6 +460,7 @@ test('foo:=-123', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 9,
     start: 0,
   },
   operator: {
@@ -489,6 +495,7 @@ test('foo:=123.4', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 10,
     start: 0,
   },
   operator: {
@@ -523,6 +530,7 @@ test('foo:>=123', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 9,
     start: 0,
   },
   operator: {
@@ -557,6 +565,7 @@ test('foo:true', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 8,
     start: 0,
   },
   operator: {
@@ -591,6 +600,7 @@ test('foo:false', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 9,
     start: 0,
   },
   operator: {
@@ -625,6 +635,7 @@ test('foo:null', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 8,
     start: 0,
   },
   operator: {
@@ -662,6 +673,7 @@ test('foo.bar:baz', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 11,
     start: 0,
   },
   operator: {
@@ -696,6 +708,7 @@ test('foo_bar:baz', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 11,
     start: 0,
   },
   operator: {
@@ -730,6 +743,7 @@ test('$foo:baz', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 8,
     start: 0,
   },
   operator: {
@@ -765,6 +779,7 @@ test('"foo bar":baz', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 13,
     start: 0,
   },
   operator: {
@@ -800,6 +815,7 @@ test('\'foo bar\':baz', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 13,
     start: 0,
   },
   operator: {
@@ -835,6 +851,7 @@ test('foo:"bar"', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 9,
     start: 0,
   },
   operator: {
@@ -870,6 +887,7 @@ test('foo:\'bar\'', testQuery, {
     type: 'Field',
   },
   location: {
+    end: 9,
     start: 0,
   },
   operator: {
@@ -905,6 +923,7 @@ test('foo:bar baz:qux', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 7,
       start: 0,
     },
     operator: {
@@ -945,6 +964,7 @@ test('foo:bar baz:qux', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 15,
       start: 8,
     },
     operator: {
@@ -982,6 +1002,7 @@ test('foo:bar AND baz:qux', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 7,
       start: 0,
     },
     operator: {
@@ -1026,6 +1047,7 @@ test('foo:bar AND baz:qux', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 19,
       start: 12,
     },
     operator: {
@@ -1064,6 +1086,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 8,
         start: 1,
       },
       operator: {
@@ -1115,6 +1138,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 22,
         start: 15,
       },
       operator: {
@@ -1159,6 +1183,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 8,
         start: 1,
       },
       operator: {
@@ -1203,6 +1228,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 20,
         start: 13,
       },
       operator: {
@@ -1250,6 +1276,7 @@ test('NOT foo:bar', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 11,
       start: 4,
     },
     operator: {
@@ -1292,6 +1319,7 @@ test('-foo:bar', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 8,
       start: 1,
     },
     operator: {
@@ -1335,6 +1363,7 @@ test('NOT (foo:bar)', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 12,
         start: 5,
       },
       operator: {
@@ -1385,6 +1414,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
           type: 'Field',
         },
         location: {
+          end: 12,
           start: 5,
         },
         operator: {
@@ -1429,6 +1459,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
           type: 'Field',
         },
         location: {
+          end: 24,
           start: 17,
         },
         operator: {
@@ -1475,6 +1506,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 7,
       start: 0,
     },
     operator: {
@@ -1524,6 +1556,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 23,
         start: 16,
       },
       operator: {
@@ -1565,6 +1598,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 7,
         start: 0,
       },
       operator: {
@@ -1609,6 +1643,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 19,
         start: 12,
       },
       operator: {
@@ -1655,6 +1690,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 34,
       start: 24,
     },
     operator: {
@@ -1692,6 +1728,7 @@ test('(foo:bar)', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 8,
       start: 1,
     },
     operator: {
@@ -1734,6 +1771,7 @@ test('((foo:bar))', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 9,
         start: 2,
       },
       operator: {
@@ -1781,6 +1819,7 @@ test('( foo:bar )', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 9,
       start: 2,
     },
     operator: {
@@ -1823,6 +1862,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 8,
         start: 1,
       },
       operator: {
@@ -1867,6 +1907,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
         type: 'Field',
       },
       location: {
+        end: 19,
         start: 12,
       },
       operator: {
@@ -1910,6 +1951,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 7,
       start: 0,
     },
     operator: {
@@ -1956,6 +1998,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           type: 'Field',
         },
         location: {
+          end: 19,
           start: 12,
         },
         operator: {
@@ -2000,6 +2043,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           type: 'Field',
         },
         location: {
+          end: 33,
           start: 23,
         },
         operator: {
@@ -2047,6 +2091,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           type: 'Field',
         },
         location: {
+          end: 8,
           start: 1,
         },
         operator: {
@@ -2091,6 +2136,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           type: 'Field',
         },
         location: {
+          end: 19,
           start: 12,
         },
         operator: {
@@ -2143,6 +2189,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       type: 'Field',
     },
     location: {
+      end: 34,
       start: 24,
     },
     operator: {
