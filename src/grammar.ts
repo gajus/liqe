@@ -37,10 +37,10 @@ const grammar: Grammar = {
     {"name": "main", "symbols": ["expr"], "postprocess": id},
     {"name": "_$ebnf$1", "symbols": []},
     {"name": "_$ebnf$1", "symbols": ["_$ebnf$1", "wschar"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "_", "symbols": ["_$ebnf$1"], "postprocess": function(d) {return d[0].length;}},
+    {"name": "_", "symbols": ["_$ebnf$1"], "postprocess": (data) => data[0].length},
     {"name": "__$ebnf$1", "symbols": ["wschar"]},
     {"name": "__$ebnf$1", "symbols": ["__$ebnf$1", "wschar"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "__", "symbols": ["__$ebnf$1"], "postprocess": function(d) {return d[0].length;}},
+    {"name": "__", "symbols": ["__$ebnf$1"], "postprocess": (data) => data[0].length},
     {"name": "wschar", "symbols": [/[ \t\n\v\f]/], "postprocess": id},
     {"name": "decimal$ebnf$1", "symbols": [{"literal":"-"}], "postprocess": id},
     {"name": "decimal$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -52,35 +52,29 @@ const grammar: Grammar = {
     {"name": "decimal$ebnf$3", "symbols": ["decimal$ebnf$3$subexpression$1"], "postprocess": id},
     {"name": "decimal$ebnf$3", "symbols": [], "postprocess": () => null},
     {"name": "decimal", "symbols": ["decimal$ebnf$1", "decimal$ebnf$2", "decimal$ebnf$3"], "postprocess": 
-        function(d) {
-            return parseFloat(
-                (d[0] || "") +
-                d[1].join("") +
-                (d[2] ? "."+d[2][1].join("") : "")
-            );
-        }
+        (data) => parseFloat(
+          (data[0] || "") +
+          data[1].join("") +
+          (data[2] ? "."+data[2][1].join("") : "")
+        )
         },
     {"name": "dqstring$ebnf$1", "symbols": []},
     {"name": "dqstring$ebnf$1", "symbols": ["dqstring$ebnf$1", "dstrchar"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "dqstring", "symbols": [{"literal":"\""}, "dqstring$ebnf$1", {"literal":"\""}], "postprocess": function(d) {return d[1].join(""); }},
+    {"name": "dqstring", "symbols": [{"literal":"\""}, "dqstring$ebnf$1", {"literal":"\""}], "postprocess": (data) => data[1].join('')},
     {"name": "sqstring$ebnf$1", "symbols": []},
     {"name": "sqstring$ebnf$1", "symbols": ["sqstring$ebnf$1", "sstrchar"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "sqstring", "symbols": [{"literal":"'"}, "sqstring$ebnf$1", {"literal":"'"}], "postprocess": function(d) {return d[1].join(""); }},
+    {"name": "sqstring", "symbols": [{"literal":"'"}, "sqstring$ebnf$1", {"literal":"'"}], "postprocess": (data) => data[1].join('')},
     {"name": "dstrchar", "symbols": [/[^\\"\n]/], "postprocess": id},
     {"name": "dstrchar", "symbols": [{"literal":"\\"}, "strescape"], "postprocess": 
-        function(d) {
-            return JSON.parse("\""+d.join("")+"\"");
-        }
+        (data) => JSON.parse("\""+data.join("")+"\"")
         },
     {"name": "sstrchar", "symbols": [/[^\\'\n]/], "postprocess": id},
-    {"name": "sstrchar", "symbols": [{"literal":"\\"}, "strescape"], "postprocess": function(d) { return JSON.parse("\""+d.join("")+"\""); }},
+    {"name": "sstrchar", "symbols": [{"literal":"\\"}, "strescape"], "postprocess": (data) => JSON.parse("\"" + data.join("") + "\"")},
     {"name": "sstrchar$string$1", "symbols": [{"literal":"\\"}, {"literal":"'"}], "postprocess": (d) => d.join('')},
-    {"name": "sstrchar", "symbols": ["sstrchar$string$1"], "postprocess": function(d) {return "'"; }},
+    {"name": "sstrchar", "symbols": ["sstrchar$string$1"], "postprocess": () => "'"},
     {"name": "strescape", "symbols": [/["\\/bfnrt]/], "postprocess": id},
     {"name": "strescape", "symbols": [{"literal":"u"}, /[a-fA-F0-9]/, /[a-fA-F0-9]/, /[a-fA-F0-9]/, /[a-fA-F0-9]/], "postprocess": 
-        function(d) {
-            return d.join("");
-        }
+        (data) => data.join('')
         },
     {"name": "expr", "symbols": ["two_op_expr"], "postprocess": id},
     {"name": "two_op_expr", "symbols": ["pre_two_op_expr", "operator", "post_one_op_expr"], "postprocess":  (data) => ({

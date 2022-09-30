@@ -3,44 +3,38 @@
 main -> expr {% id %}
 
 # Whitespace: `_` is optional, `__` is mandatory.
-_  -> wschar:* {% function(d) {return d[0].length;} %}
-__ -> wschar:+ {% function(d) {return d[0].length;} %}
+_  -> wschar:* {% (data) => data[0].length %}
+__ -> wschar:+ {% (data) => data[0].length %}
 
 wschar -> [ \t\n\v\f] {% id %}
 
 # Numbers
 decimal -> "-":? [0-9]:+ ("." [0-9]:+):? {%
-    function(d) {
-        return parseFloat(
-            (d[0] || "") +
-            d[1].join("") +
-            (d[2] ? "."+d[2][1].join("") : "")
-        );
-    }
+  (data) => parseFloat(
+    (data[0] || "") +
+    data[1].join("") +
+    (data[2] ? "."+data[2][1].join("") : "")
+  )
 %}
 
 # Double-quoted string
-dqstring -> "\"" dstrchar:* "\"" {% function(d) {return d[1].join(""); } %}
-sqstring -> "'"  sstrchar:* "'"  {% function(d) {return d[1].join(""); } %}
+dqstring -> "\"" dstrchar:* "\"" {% (data) => data[1].join('') %}
+sqstring -> "'"  sstrchar:* "'"  {% (data) => data[1].join('') %}
 
 dstrchar -> [^\\"\n] {% id %}
     | "\\" strescape {%
-    function(d) {
-        return JSON.parse("\""+d.join("")+"\"");
-    }
+    (data) => JSON.parse("\""+data.join("")+"\"")
 %}
 
 sstrchar -> [^\\'\n] {% id %}
     | "\\" strescape
-        {% function(d) { return JSON.parse("\""+d.join("")+"\""); } %}
+        {% (data) => JSON.parse("\"" + data.join("") + "\"") %}
     | "\\'"
-        {% function(d) {return "'"; } %}
+        {% () => "'" %}
 
 strescape -> ["\\/bfnrt] {% id %}
     | "u" [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] {%
-    function(d) {
-        return d.join("");
-    }
+    (data) => data.join('')
 %}
 
 # Adapted from js-sql-parser
