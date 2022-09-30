@@ -33,6 +33,7 @@ test.todo('()');
 test('foo', testQuery, {
   expression: {
     location: {
+      end: 3,
       start: 0,
     },
     quoted: false,
@@ -52,6 +53,7 @@ test('(foo)', testQuery, {
   expression: {
     expression: {
       location: {
+        end: 4,
         start: 1,
       },
       quoted: false,
@@ -77,6 +79,7 @@ test('foo bar', testQuery, {
   left: {
     expression: {
       location: {
+        end: 3,
         start: 0,
       },
       quoted: false,
@@ -101,6 +104,7 @@ test('foo bar', testQuery, {
   right: {
     expression: {
       location: {
+        end: 7,
         start: 4,
       },
       quoted: false,
@@ -121,6 +125,7 @@ test('foo bar', testQuery, {
 test('foo_bar', testQuery, {
   expression: {
     location: {
+      end: 7,
       start: 0,
     },
     quoted: false,
@@ -139,6 +144,7 @@ test('foo_bar', testQuery, {
 test('"foo"', testQuery, {
   expression: {
     location: {
+      end: 5,
       start: 0,
     },
     quoted: true,
@@ -158,6 +164,7 @@ test('"foo"', testQuery, {
 test('\'foo\'', testQuery, {
   expression: {
     location: {
+      end: 5,
       start: 0,
     },
     quoted: true,
@@ -245,6 +252,7 @@ test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery,
 test('foo:bar', testQuery, {
   expression: {
     location: {
+      end: 7,
       start: 4,
     },
     quoted: false,
@@ -253,6 +261,7 @@ test('foo:bar', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -276,6 +285,7 @@ test('foo:bar', testQuery, {
 test('foo: bar', testQuery, {
   expression: {
     location: {
+      end: 8,
       start: 5,
     },
     quoted: false,
@@ -284,6 +294,7 @@ test('foo: bar', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -307,6 +318,7 @@ test('foo: bar', testQuery, {
 test('foo:123', testQuery, {
   expression: {
     location: {
+      end: 7,
       start: 4,
     },
     quoted: false,
@@ -315,6 +327,7 @@ test('foo:123', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -338,6 +351,7 @@ test('foo:123', testQuery, {
 test('foo:=123', testQuery, {
   expression: {
     location: {
+      end: 8,
       start: 5,
     },
     quoted: false,
@@ -346,6 +360,7 @@ test('foo:=123', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -369,6 +384,7 @@ test('foo:=123', testQuery, {
 test('foo:= 123', testQuery, {
   expression: {
     location: {
+      end: 9,
       start: 6,
     },
     quoted: false,
@@ -377,6 +393,7 @@ test('foo:= 123', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -400,6 +417,7 @@ test('foo:= 123', testQuery, {
 test('foo:=-123', testQuery, {
   expression: {
     location: {
+      end: 9,
       start: 5,
     },
     quoted: false,
@@ -408,6 +426,7 @@ test('foo:=-123', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -431,6 +450,7 @@ test('foo:=-123', testQuery, {
 test('foo:=123.4', testQuery, {
   expression: {
     location: {
+      end: 10,
       start: 5,
     },
     quoted: false,
@@ -439,6 +459,7 @@ test('foo:=123.4', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -462,6 +483,7 @@ test('foo:=123.4', testQuery, {
 test('foo:>=123', testQuery, {
   expression: {
     location: {
+      end: 9,
       start: 6,
     },
     quoted: false,
@@ -470,6 +492,7 @@ test('foo:>=123', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -493,6 +516,7 @@ test('foo:>=123', testQuery, {
 test('foo:true', testQuery, {
   expression: {
     location: {
+      end: 8,
       start: 4,
     },
     quoted: false,
@@ -501,6 +525,7 @@ test('foo:true', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -524,6 +549,7 @@ test('foo:true', testQuery, {
 test('foo:false', testQuery, {
   expression: {
     location: {
+      end: 9,
       start: 4,
     },
     quoted: false,
@@ -532,6 +558,7 @@ test('foo:false', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -555,6 +582,7 @@ test('foo:false', testQuery, {
 test('foo:null', testQuery, {
   expression: {
     location: {
+      end: 8,
       start: 4,
     },
     quoted: false,
@@ -563,6 +591,7 @@ test('foo:null', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -586,6 +615,7 @@ test('foo:null', testQuery, {
 test('foo.bar:baz', testQuery, {
   expression: {
     location: {
+      end: 11,
       start: 8,
     },
     quoted: false,
@@ -594,6 +624,7 @@ test('foo.bar:baz', testQuery, {
   },
   field: {
     location: {
+      end: 7,
       start: 0,
     },
     name: 'foo.bar',
@@ -620,6 +651,7 @@ test('foo.bar:baz', testQuery, {
 test('foo_bar:baz', testQuery, {
   expression: {
     location: {
+      end: 11,
       start: 8,
     },
     quoted: false,
@@ -628,6 +660,7 @@ test('foo_bar:baz', testQuery, {
   },
   field: {
     location: {
+      end: 7,
       start: 0,
     },
     name: 'foo_bar',
@@ -651,6 +684,7 @@ test('foo_bar:baz', testQuery, {
 test('$foo:baz', testQuery, {
   expression: {
     location: {
+      end: 8,
       start: 5,
     },
     quoted: false,
@@ -659,6 +693,7 @@ test('$foo:baz', testQuery, {
   },
   field: {
     location: {
+      end: 4,
       start: 0,
     },
     name: '$foo',
@@ -682,6 +717,7 @@ test('$foo:baz', testQuery, {
 test('"foo bar":baz', testQuery, {
   expression: {
     location: {
+      end: 13,
       start: 10,
     },
     quoted: false,
@@ -690,6 +726,7 @@ test('"foo bar":baz', testQuery, {
   },
   field: {
     location: {
+      end: 9,
       start: 0,
     },
     name: 'foo bar',
@@ -714,6 +751,7 @@ test('"foo bar":baz', testQuery, {
 test('\'foo bar\':baz', testQuery, {
   expression: {
     location: {
+      end: 13,
       start: 10,
     },
     quoted: false,
@@ -722,6 +760,7 @@ test('\'foo bar\':baz', testQuery, {
   },
   field: {
     location: {
+      end: 9,
       start: 0,
     },
     name: 'foo bar',
@@ -746,6 +785,7 @@ test('\'foo bar\':baz', testQuery, {
 test('foo:"bar"', testQuery, {
   expression: {
     location: {
+      end: 9,
       start: 4,
     },
     quoted: true,
@@ -755,6 +795,7 @@ test('foo:"bar"', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -778,6 +819,7 @@ test('foo:"bar"', testQuery, {
 test('foo:\'bar\'', testQuery, {
   expression: {
     location: {
+      end: 9,
       start: 4,
     },
     quoted: true,
@@ -787,6 +829,7 @@ test('foo:\'bar\'', testQuery, {
   },
   field: {
     location: {
+      end: 3,
       start: 0,
     },
     name: 'foo',
@@ -811,6 +854,7 @@ test('foo:bar baz:qux', testQuery, {
   left: {
     expression: {
       location: {
+        end: 7,
         start: 4,
       },
       quoted: false,
@@ -819,6 +863,7 @@ test('foo:bar baz:qux', testQuery, {
     },
     field: {
       location: {
+        end: 3,
         start: 0,
       },
       name: 'foo',
@@ -848,6 +893,7 @@ test('foo:bar baz:qux', testQuery, {
   right: {
     expression: {
       location: {
+        end: 15,
         start: 12,
       },
       quoted: false,
@@ -856,6 +902,7 @@ test('foo:bar baz:qux', testQuery, {
     },
     field: {
       location: {
+        end: 11,
         start: 8,
       },
       name: 'baz',
@@ -882,6 +929,7 @@ test('foo:bar AND baz:qux', testQuery, {
   left: {
     expression: {
       location: {
+        end: 7,
         start: 4,
       },
       quoted: false,
@@ -890,6 +938,7 @@ test('foo:bar AND baz:qux', testQuery, {
     },
     field: {
       location: {
+        end: 3,
         start: 0,
       },
       name: 'foo',
@@ -923,6 +972,7 @@ test('foo:bar AND baz:qux', testQuery, {
   right: {
     expression: {
       location: {
+        end: 19,
         start: 16,
       },
       quoted: false,
@@ -931,6 +981,7 @@ test('foo:bar AND baz:qux', testQuery, {
     },
     field: {
       location: {
+        end: 15,
         start: 12,
       },
       name: 'baz',
@@ -958,6 +1009,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
     expression: {
       expression: {
         location: {
+          end: 8,
           start: 5,
         },
         quoted: false,
@@ -966,6 +1018,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
       },
       field: {
         location: {
+          end: 4,
           start: 1,
         },
         name: 'foo',
@@ -1006,6 +1059,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
     expression: {
       expression: {
         location: {
+          end: 22,
           start: 19,
         },
         quoted: false,
@@ -1014,6 +1068,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
       },
       field: {
         location: {
+          end: 18,
           start: 15,
         },
         name: 'baz',
@@ -1047,6 +1102,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
     left: {
       expression: {
         location: {
+          end: 8,
           start: 5,
         },
         quoted: false,
@@ -1055,6 +1111,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
       },
       field: {
         location: {
+          end: 4,
           start: 1,
         },
         name: 'foo',
@@ -1088,6 +1145,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
     right: {
       expression: {
         location: {
+          end: 20,
           start: 17,
         },
         quoted: false,
@@ -1096,6 +1154,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
       },
       field: {
         location: {
+          end: 16,
           start: 13,
         },
         name: 'baz',
@@ -1132,6 +1191,7 @@ test('NOT foo:bar', testQuery, {
   operand: {
     expression: {
       location: {
+        end: 11,
         start: 8,
       },
       quoted: false,
@@ -1140,6 +1200,7 @@ test('NOT foo:bar', testQuery, {
     },
     field: {
       location: {
+        end: 7,
         start: 4,
       },
       name: 'foo',
@@ -1171,6 +1232,7 @@ test('-foo:bar', testQuery, {
   operand: {
     expression: {
       location: {
+        end: 8,
         start: 5,
       },
       quoted: false,
@@ -1179,6 +1241,7 @@ test('-foo:bar', testQuery, {
     },
     field: {
       location: {
+        end: 4,
         start: 1,
       },
       name: 'foo',
@@ -1211,6 +1274,7 @@ test('NOT (foo:bar)', testQuery, {
     expression: {
       expression: {
         location: {
+          end: 12,
           start: 9,
         },
         quoted: false,
@@ -1219,6 +1283,7 @@ test('NOT (foo:bar)', testQuery, {
       },
       field: {
         location: {
+          end: 8,
           start: 5,
         },
         name: 'foo',
@@ -1258,6 +1323,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
       left: {
         expression: {
           location: {
+            end: 12,
             start: 9,
           },
           quoted: false,
@@ -1266,6 +1332,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
         },
         field: {
           location: {
+            end: 8,
             start: 5,
           },
           name: 'foo',
@@ -1299,6 +1366,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
       right: {
         expression: {
           location: {
+            end: 24,
             start: 21,
           },
           quoted: false,
@@ -1307,6 +1375,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
         },
         field: {
           location: {
+            end: 20,
             start: 17,
           },
           name: 'baz',
@@ -1342,6 +1411,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
   left: {
     expression: {
       location: {
+        end: 7,
         start: 4,
       },
       quoted: false,
@@ -1350,6 +1420,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
     },
     field: {
       location: {
+        end: 3,
         start: 0,
       },
       name: 'foo',
@@ -1388,6 +1459,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
     operand: {
       expression: {
         location: {
+          end: 23,
           start: 20,
         },
         quoted: false,
@@ -1396,6 +1468,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       },
       field: {
         location: {
+          end: 19,
           start: 16,
         },
         name: 'baz',
@@ -1426,6 +1499,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     left: {
       expression: {
         location: {
+          end: 7,
           start: 4,
         },
         quoted: false,
@@ -1434,6 +1508,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       },
       field: {
         location: {
+          end: 3,
           start: 0,
         },
         name: 'foo',
@@ -1467,6 +1542,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     right: {
       expression: {
         location: {
+          end: 19,
           start: 16,
         },
         quoted: false,
@@ -1475,6 +1551,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       },
       field: {
         location: {
+          end: 15,
           start: 12,
         },
         name: 'baz',
@@ -1510,6 +1587,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
   right: {
     expression: {
       location: {
+        end: 34,
         start: 29,
       },
       quoted: false,
@@ -1518,6 +1596,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     },
     field: {
       location: {
+        end: 28,
         start: 24,
       },
       name: 'quuz',
@@ -1544,6 +1623,7 @@ test('(foo:bar)', testQuery, {
   expression: {
     expression: {
       location: {
+        end: 8,
         start: 5,
       },
       quoted: false,
@@ -1552,6 +1632,7 @@ test('(foo:bar)', testQuery, {
     },
     field: {
       location: {
+        end: 4,
         start: 1,
       },
       name: 'foo',
@@ -1583,6 +1664,7 @@ test('((foo:bar))', testQuery, {
     expression: {
       expression: {
         location: {
+          end: 9,
           start: 6,
         },
         quoted: false,
@@ -1591,6 +1673,7 @@ test('((foo:bar))', testQuery, {
       },
       field: {
         location: {
+          end: 5,
           start: 2,
         },
         name: 'foo',
@@ -1627,6 +1710,7 @@ test('( foo:bar )', testQuery, {
   expression: {
     expression: {
       location: {
+        end: 9,
         start: 6,
       },
       quoted: false,
@@ -1635,6 +1719,7 @@ test('( foo:bar )', testQuery, {
     },
     field: {
       location: {
+        end: 5,
         start: 2,
       },
       name: 'foo',
@@ -1666,6 +1751,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
     left: {
       expression: {
         location: {
+          end: 8,
           start: 5,
         },
         quoted: false,
@@ -1674,6 +1760,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
       },
       field: {
         location: {
+          end: 4,
           start: 1,
         },
         name: 'foo',
@@ -1707,6 +1794,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
     right: {
       expression: {
         location: {
+          end: 19,
           start: 16,
         },
         quoted: false,
@@ -1715,6 +1803,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
       },
       field: {
         location: {
+          end: 15,
           start: 12,
         },
         name: 'baz',
@@ -1747,6 +1836,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
   left: {
     expression: {
       location: {
+        end: 7,
         start: 4,
       },
       quoted: false,
@@ -1755,6 +1845,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
     },
     field: {
       location: {
+        end: 3,
         start: 0,
       },
       name: 'foo',
@@ -1790,6 +1881,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       left: {
         expression: {
           location: {
+            end: 19,
             start: 16,
           },
           quoted: false,
@@ -1798,6 +1890,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
         },
         field: {
           location: {
+            end: 15,
             start: 12,
           },
           name: 'baz',
@@ -1831,6 +1924,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       right: {
         expression: {
           location: {
+            end: 33,
             start: 28,
           },
           quoted: false,
@@ -1839,6 +1933,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
         },
         field: {
           location: {
+            end: 27,
             start: 23,
           },
           name: 'quuz',
@@ -1875,6 +1970,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       left: {
         expression: {
           location: {
+            end: 8,
             start: 5,
           },
           quoted: false,
@@ -1883,6 +1979,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
         },
         field: {
           location: {
+            end: 4,
             start: 1,
           },
           name: 'foo',
@@ -1916,6 +2013,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       right: {
         expression: {
           location: {
+            end: 19,
             start: 16,
           },
           quoted: false,
@@ -1924,6 +2022,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
         },
         field: {
           location: {
+            end: 15,
             start: 12,
           },
           name: 'baz',
@@ -1965,6 +2064,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
   right: {
     expression: {
       location: {
+        end: 34,
         start: 29,
       },
       quoted: false,
@@ -1973,6 +2073,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
     },
     field: {
       location: {
+        end: 28,
         start: 24,
       },
       name: 'quuz',

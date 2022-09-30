@@ -167,10 +167,10 @@ const grammar: Grammar = {
     {"name": "side", "symbols": ["tag_expression"], "postprocess": (data, start) => ({location: {start}, field: {type: 'ImplicitField'}, ...data[0]})},
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start}})},
-    {"name": "field", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start}})},
-    {"name": "field", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start}})},
-    {"name": "tag_expression", "symbols": ["decimal"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}})},
+    {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start, end: start + (data[0] + data[1].join('')).length}})},
+    {"name": "field", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start, end: start + data[0].length + 2}})},
+    {"name": "field", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start, end: start + data[0].length + 2}})},
+    {"name": "tag_expression", "symbols": ["decimal"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}})},
     {"name": "tag_expression", "symbols": ["regex"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'RegexExpression', value: data.join('')}})},
     {"name": "tag_expression", "symbols": ["range"], "postprocess": (data) => data[0]},
     {"name": "tag_expression", "symbols": ["unquoted_value"], "postprocess":  (data, start, reject) => {
@@ -197,6 +197,7 @@ const grammar: Grammar = {
             expression: {
               location: {
                 start,
+                end: start + value.length,
               },
               type: 'LiteralExpression',
               quoted: false,
@@ -204,8 +205,8 @@ const grammar: Grammar = {
             },
           };
         } },
-    {"name": "tag_expression", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
-    {"name": "tag_expression", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
+    {"name": "tag_expression", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
+    {"name": "tag_expression", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
     {"name": "range$string$1", "symbols": [{"literal":" "}, {"literal":"T"}, {"literal":"O"}, {"literal":" "}], "postprocess": (d) => d.join('')},
     {"name": "range", "symbols": ["range_open", "decimal", "range$string$1", "decimal", "range_close"], "postprocess":  (data, start) => {
           return {

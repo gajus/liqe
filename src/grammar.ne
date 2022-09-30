@@ -149,12 +149,12 @@ side ->
   | tag_expression {% (data, start) => ({location: {start}, field: {type: 'ImplicitField'}, ...data[0]}) %}
 
 field ->
-    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start}}) %}
-  | sqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start}}) %}
-  | dqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start}}) %}
+    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start, end: start + (data[0] + data[1].join('')).length}}) %}
+  | sqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start, end: start + data[0].length + 2}}) %}
+  | dqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start, end: start + data[0].length + 2}}) %}
 
 tag_expression ->
-    decimal {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
+    decimal {% (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
   | regex {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}
   | unquoted_value {% (data, start, reject) => {
@@ -181,6 +181,7 @@ tag_expression ->
       expression: {
         location: {
           start,
+          end: start + value.length,
         },
         type: 'LiteralExpression',
         quoted: false,
@@ -188,8 +189,8 @@ tag_expression ->
       },
     };
   } %}
-  | sqstring {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}}) %}
-  | dqstring {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
+  | sqstring {% (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}}) %}
+  | dqstring {% (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
 
 range ->
     range_open decimal " TO " decimal range_close {% (data, start) => {
