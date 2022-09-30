@@ -59,7 +59,7 @@
     "watch": "npm-watch",
     "benchmark": "ts-node --transpile-only test/benchmark.ts",
     "build": "del-cli ./dist && tsc",
-    "compile-parser": "nearleyc src/grammar.ne --out ./src/grammar.ts",
+    "compile-parser": "nearleyc src/grammar.ne --out ./src/grammar.ts && sed -i '' 's/loc?: number/loc: number/g' src/grammar.ts",
     "dev": "tsc --watch",
     "lint": "eslint ./src ./test && tsc --noEmit",
     "test": "NODE_ENV=test ava --serial --verbose"

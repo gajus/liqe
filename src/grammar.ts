@@ -20,7 +20,7 @@ interface NearleyLexer {
 interface NearleyRule {
   name: string;
   symbols: NearleySymbol[];
-  postprocess?: (d: any[], loc?: number, reject?: {}) => any;
+  postprocess?: (d: any[], loc: number, reject?: {}) => any;
 };
 
 type NearleySymbol = string | { literal: any } | { test: (token: any) => boolean };
