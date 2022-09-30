@@ -45,11 +45,17 @@ export type RangeExpressionToken = {
 
 export type LiteralExpressionToken = {
   location: TokenLocation,
-  quoted?: boolean,
-  quotes?: 'double' | 'single',
   type: 'LiteralExpression',
-  value: boolean | string | null,
-};
+} & (
+  {
+    quoted: false,
+    value: boolean | string | null,
+  } | {
+    quoted: true,
+    quotes: 'double' | 'single',
+    value: string,
+  }
+);
 
 export type ExpressionToken = LiteralExpressionToken | RangeExpressionToken | RegexExpressionToken;
 

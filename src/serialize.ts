@@ -17,7 +17,7 @@ const quote = (value: string, quotes: 'double' | 'single') => {
 
 const serializeExpression = (expression: ExpressionToken) => {
   if (expression.type === 'LiteralExpression') {
-    if (expression.quotes && typeof expression.value === 'string') {
+    if (expression.quoted && typeof expression.value === 'string') {
       return quote(expression.value, expression.quotes);
     }
 
@@ -57,7 +57,7 @@ const serializeTagExpression = (ast: HydratedAst) => {
     return serializeExpression(expression);
   }
 
-  const left = field.quotes ? quote(field.name, field.quotes) : field.name;
+  const left = field.quoted ? quote(field.name, field.quotes) : field.name;
   const right = serializeExpression(expression);
 
   const patEnd = ' '.repeat(expression.location.start - (operator.location.start + operator.operator.length));

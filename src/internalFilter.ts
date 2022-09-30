@@ -158,6 +158,7 @@ const testField = <T extends Object>(
             },
             name: fieldName,
             quoted: true,
+            quotes: 'double',
             type: 'Field',
           },
         },
