@@ -81,6 +81,7 @@ const grammar: Grammar = {
           type: 'LogicalExpression',
           location: {
             start: data[0].location.start,
+            end: data[2].location.end,
           },
           operator: data[1],
           left: data[0],
@@ -90,6 +91,7 @@ const grammar: Grammar = {
           type: 'LogicalExpression',
           location: {
             start: data[0].location.start,
+            end: data[2].location.end,
           },
           operator: {
             operator: 'AND',

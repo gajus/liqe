@@ -98,6 +98,7 @@ test('foo bar', testQuery, {
     type: 'TagExpression',
   },
   location: {
+    end: 7,
     start: 0,
   },
   operator: {
@@ -937,6 +938,7 @@ test('foo:bar baz:qux', testQuery, {
     type: 'TagExpression',
   },
   location: {
+    end: 15,
     start: 0,
   },
   operator: {
@@ -1016,6 +1018,7 @@ test('foo:bar AND baz:qux', testQuery, {
     type: 'TagExpression',
   },
   location: {
+    end: 19,
     start: 0,
   },
   operator: {
@@ -1106,6 +1109,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
     type: 'ParenthesizedExpression',
   },
   location: {
+    end: 22,
     start: 0,
   },
   operator: {
@@ -1197,6 +1201,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
       type: 'TagExpression',
     },
     location: {
+      end: 20,
       start: 1,
     },
     operator: {
@@ -1428,6 +1433,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
         type: 'TagExpression',
       },
       location: {
+        end: 24,
         start: 5,
       },
       operator: {
@@ -1520,6 +1526,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
     type: 'TagExpression',
   },
   location: {
+    end: 15,
     start: 0,
   },
   operator: {
@@ -1612,6 +1619,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       type: 'TagExpression',
     },
     location: {
+      end: 19,
       start: 0,
     },
     operator: {
@@ -1659,6 +1667,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     type: 'LogicalExpression',
   },
   location: {
+    end: 34,
     start: 0,
   },
   operator: {
@@ -1876,6 +1885,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
       type: 'TagExpression',
     },
     location: {
+      end: 19,
       start: 1,
     },
     operator: {
@@ -1965,6 +1975,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
     type: 'TagExpression',
   },
   location: {
+    end: 33,
     start: 0,
   },
   operator: {
@@ -2012,6 +2023,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
         type: 'TagExpression',
       },
       location: {
+        end: 33,
         start: 12,
       },
       operator: {
@@ -2105,6 +2117,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
         type: 'TagExpression',
       },
       location: {
+        end: 19,
         start: 1,
       },
       operator: {
@@ -2158,6 +2171,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
     type: 'ParenthesizedExpression',
   },
   location: {
+    end: 34,
     start: 0,
   },
   operator: {
