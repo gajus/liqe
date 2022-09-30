@@ -76,7 +76,7 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery);
 
 test('NOT foo:bar', testQuery);
 
-test.skip('NOT (foo:bar)', testQuery);
+test('NOT (foo:bar)', testQuery);
 
 test('(foo:bar AND NOT baz:qux)', testQuery);
 

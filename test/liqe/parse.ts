@@ -670,6 +670,51 @@ test('(foo:bar AND baz:qux)', testQuery, {
   type: 'ParenthesizedExpression',
 });
 
+test('NOT foo:bar', testQuery, {
+  operand: {
+    expression: {
+      location: 8,
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
+    },
+    field: {
+      location: 4,
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+      type: 'Field',
+    },
+    type: 'TagExpression',
+  },
+  operator: 'NOT',
+  type: 'Operand',
+});
+
+test('NOT (foo:bar)', testQuery, {
+  operand: {
+    expression: {
+      expression: {
+        location: 9,
+        quoted: false,
+        type: 'LiteralExpression',
+        value: 'bar',
+      },
+      field: {
+        location: 5,
+        name: 'foo',
+        path: ['foo'],
+        quoted: false,
+        type: 'Field',
+      },
+      type: 'TagExpression',
+    },
+    type: 'ParenthesizedExpression',
+  },
+  operator: 'NOT',
+  type: 'Operand',
+});
+
 test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
   operand: {
     left: {
@@ -707,27 +752,6 @@ test.skip('NOT (foo:bar AND baz:qux)', testQuery, {
       type: 'TagExpression',
     },
     type: 'LogicalExpression',
-  },
-  operator: 'NOT',
-  type: 'Operand',
-});
-
-test('NOT foo:bar', testQuery, {
-  operand: {
-    expression: {
-      location: 8,
-      quoted: false,
-      type: 'LiteralExpression',
-      value: 'bar',
-    },
-    field: {
-      location: 4,
-      name: 'foo',
-      path: ['foo'],
-      quoted: false,
-      type: 'Field',
-    },
-    type: 'TagExpression',
   },
   operator: 'NOT',
   type: 'Operand',

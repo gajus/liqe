@@ -142,7 +142,7 @@ const grammar: Grammar = {
     {"name": "operator$string$2", "symbols": [{"literal":"A"}, {"literal":"N"}, {"literal":"D"}], "postprocess": (d) => d.join('')},
     {"name": "operator", "symbols": ["operator$string$2"], "postprocess": (data, location) => ({location, operator: 'AND', type: 'Operator'})},
     {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
-    {"name": "post_boolean_primary", "symbols": [{"literal":"("}, "_", "boolean_primary", "_", {"literal":")"}], "postprocess": d => ({type: 'ParenthesizedExpression', expression: d[2]})},
+    {"name": "post_boolean_primary", "symbols": ["__", {"literal":"("}, "_", "boolean_primary", "_", {"literal":")"}], "postprocess": d => ({type: 'ParenthesizedExpression', expression: d[3]})},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
     {"name": "side", "symbols": ["field", {"literal":":"}, "_", "query"], "postprocess":  (data) => {
           const field = {
