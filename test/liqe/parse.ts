@@ -1188,6 +1188,10 @@ test('NOT (foo:bar)', testQuery, {
       },
       type: 'TagExpression',
     },
+    location: {
+      end: 12,
+      start: 4,
+    },
     type: 'ParenthesizedExpression',
   },
   operator: 'NOT',
@@ -1268,6 +1272,10 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
         type: 'TagExpression',
       },
       type: 'LogicalExpression',
+    },
+    location: {
+      end: 24,
+      start: 4,
     },
     type: 'ParenthesizedExpression',
   },

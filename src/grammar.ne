@@ -140,7 +140,7 @@ boolean_primary ->
   side {% id %}
 
 post_boolean_primary ->
-    __ "(" _ two_op_expr _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[3]}) %}
+    __ parentheses_open _ two_op_expr _ parentheses_close {% d => ({location: {start: d[1].location.start, end: d[5].location.start, }, type: 'ParenthesizedExpression', expression: d[3]}) %}
   | __ boolean_primary {% d => d[1] %}
 
 side ->
