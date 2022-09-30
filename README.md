@@ -297,6 +297,7 @@ serialize(tokens);
 ```ts
 import {
   type BooleanOperatorToken,
+  type ComparisonOperatorToken,
   type FieldToken,
   type ImplicitBooleanOperatorToken,
   type ImplicitFieldToken,
@@ -305,7 +306,6 @@ import {
   type OperandToken,
   type RangeExpressionToken,
   type RegexExpressionToken,
-  type RelationalOperatorToken,
   type TagExpressionToken,
 } from 'liqe';
 ```

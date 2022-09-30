@@ -5,11 +5,11 @@ import {
   isOptionalChainingSupported,
 } from './isOptionalChainingSupported';
 import {
+  testComparisonRange,
+} from './testComparisonRange';
+import {
   testRange,
 } from './testRange';
-import {
-  testRelationalRange,
-} from './testRelationalRange';
 import type {
   HydratedAst,
   InternalHighlight,
@@ -35,8 +35,8 @@ const createValueTest = (ast: HydratedAst): InternalTest => {
 
   const expressionValue = expression.value;
 
-  if (ast.relationalOperator && ast.relationalOperator.operator !== ':') {
-    const relationalOperator = ast.relationalOperator;
+  if (ast.operator && ast.operator.operator !== ':') {
+    const operator = ast.operator;
 
     if (typeof expressionValue !== 'number') {
       throw new TypeError('Expected a number.');
@@ -47,7 +47,7 @@ const createValueTest = (ast: HydratedAst): InternalTest => {
         return false;
       }
 
-      return testRelationalRange(expressionValue, value, relationalOperator.operator);
+      return testComparisonRange(expressionValue, value, operator.operator);
     };
   } else if (typeof expressionValue === 'boolean') {
     return (value) => {

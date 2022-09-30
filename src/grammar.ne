@@ -163,7 +163,7 @@ side ->
         start: location,
       },
       field,
-      relationalOperator: data[1],
+      operator: data[1],
       ...data[3]
     }
   } %}
@@ -219,12 +219,12 @@ range ->
   | "{" _ decimal _ "TO" _ decimal _ "}" {% range(false, false) %}
   
 relational_operator ->
-    ":" {% (data, location) => ({location: {start: location}, type: 'RelationalOperator', operator: data[0]}) %}
-  | ":=" {% (data, location) => ({location: {start: location}, type: 'RelationalOperator', operator: data[0]}) %}
-  | ":>" {% (data, location) => ({location: {start: location}, type: 'RelationalOperator', operator: data[0]}) %}
-  | ":<" {% (data, location) => ({location: {start: location}, type: 'RelationalOperator', operator: data[0]}) %}
-  | ":>=" {% (data, location) => ({location: {start: location}, type: 'RelationalOperator', operator: data[0]}) %}
-  | ":<=" {% (data, location) => ({location: {start: location}, type: 'RelationalOperator', operator: data[0]}) %}
+    ":" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":=" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":>" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":<" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":>=" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":<=" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
 
 regex ->
   regex_body regex_flags {% d => d.join('') %}

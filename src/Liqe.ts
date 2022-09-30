@@ -23,7 +23,7 @@ export {
   OperandToken,
   RangeExpressionToken,
   RegexExpressionToken,
-  RelationalOperatorToken,
+  ComparisonOperatorToken,
   TagExpressionToken,
 } from './types';
 export {
