@@ -294,15 +294,15 @@ serialize(tokens);
 
 ```ts
 import {
-  type LogicalExpressionToken,
-  type TagExpressionToken,
   type FieldToken,
   type ImplicitFieldToken,
   type LiteralExpressionToken,
+  type LogicalExpressionToken,
   type OperandToken,
   type OperatorToken,
   type RangeExpressionToken,
   type RegexExpressionToken,
+  type TagExpressionToken,
 } from 'liqe';
 ```
 
