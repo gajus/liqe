@@ -207,7 +207,7 @@ range ->
       expression: {
         location: {
           start: data[0].location.start,
-          end: data[4].location.start,
+          end: data[4].location.start + 1,
         },
         type: 'RangeExpression',
         range: {
