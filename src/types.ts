@@ -76,6 +76,7 @@ export type TagExpressionToken = {
 
 export type LogicalExpressionToken = {
   left: ParserAst,
+  location: TokenLocation,
   operator: ImplicitOperatorToken | OperatorToken,
   right: ParserAst,
   type: 'LogicalExpression',

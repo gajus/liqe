@@ -116,12 +116,18 @@ const grammar: Grammar = {
     {"name": "expr", "symbols": ["two_op_expr"], "postprocess": id},
     {"name": "two_op_expr", "symbols": ["pre_two_op_expr", "operator", "post_one_op_expr"], "postprocess":  (data) => ({
           type: 'LogicalExpression',
+          location: {
+            start: data[0].location.start,
+          },
           operator: data[1],
           left: data[0],
           right: data[2]
         }) },
     {"name": "two_op_expr", "symbols": ["pre_two_op_implicit_expr", {"literal":" "}, "post_one_op_implicit_expr"], "postprocess":  (data) => ({
           type: 'LogicalExpression',
+          location: {
+            start: data[0].location.start,
+          },
           operator: {
             operator: 'AND',
             type: 'ImplicitOperator'

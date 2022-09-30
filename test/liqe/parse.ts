@@ -91,6 +91,9 @@ test('foo bar', testQuery, {
     },
     type: 'TagExpression',
   },
+  location: {
+    start: 0,
+  },
   operator: {
     operator: 'AND',
     type: 'ImplicitOperator',
@@ -835,6 +838,9 @@ test('foo:bar baz:qux', testQuery, {
     },
     type: 'TagExpression',
   },
+  location: {
+    start: 0,
+  },
   operator: {
     operator: 'AND',
     type: 'ImplicitOperator',
@@ -902,6 +908,9 @@ test('foo:bar AND baz:qux', testQuery, {
       type: 'RelationalOperator',
     },
     type: 'TagExpression',
+  },
+  location: {
+    start: 0,
   },
   operator: {
     location: {
@@ -981,6 +990,9 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
     },
     type: 'ParenthesizedExpression',
   },
+  location: {
+    start: 0,
+  },
   operator: {
     location: {
       start: 10,
@@ -1059,6 +1071,9 @@ test('(foo:bar AND baz:qux)', testQuery, {
         type: 'RelationalOperator',
       },
       type: 'TagExpression',
+    },
+    location: {
+      start: 1,
     },
     operator: {
       location: {
@@ -1212,6 +1227,9 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
         },
         type: 'TagExpression',
       },
+      location: {
+        start: 5,
+      },
       operator: {
         location: {
           start: 13,
@@ -1287,6 +1305,9 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       type: 'RelationalOperator',
     },
     type: 'TagExpression',
+  },
+  location: {
+    start: 0,
   },
   operator: {
     location: {
@@ -1364,6 +1385,9 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       },
       type: 'TagExpression',
     },
+    location: {
+      start: 0,
+    },
     operator: {
       location: {
         start: 8,
@@ -1402,6 +1426,9 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       type: 'TagExpression',
     },
     type: 'LogicalExpression',
+  },
+  location: {
+    start: 0,
   },
   operator: {
     location: {
@@ -1596,6 +1623,9 @@ test('(foo:bar OR baz:qux)', testQuery, {
       },
       type: 'TagExpression',
     },
+    location: {
+      start: 1,
+    },
     operator: {
       location: {
         start: 9,
@@ -1673,6 +1703,9 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
     },
     type: 'TagExpression',
   },
+  location: {
+    start: 0,
+  },
   operator: {
     location: {
       start: 8,
@@ -1711,6 +1744,9 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           type: 'RelationalOperator',
         },
         type: 'TagExpression',
+      },
+      location: {
+        start: 12,
       },
       operator: {
         location: {
@@ -1793,6 +1829,9 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
         },
         type: 'TagExpression',
       },
+      location: {
+        start: 1,
+      },
       operator: {
         location: {
           start: 9,
@@ -1837,6 +1876,9 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       start: 0,
     },
     type: 'ParenthesizedExpression',
+  },
+  location: {
+    start: 0,
   },
   operator: {
     location: {
