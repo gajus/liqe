@@ -50,6 +50,7 @@ const serializeTagExpression = (ast: HydratedAst) => {
   const {
     field,
     expression,
+    relationalOperator,
   } = ast;
 
   if (field.type === 'ImplicitField') {
@@ -57,10 +58,12 @@ const serializeTagExpression = (ast: HydratedAst) => {
   }
 
   const left = field.quotes ? quote(field.name, field.quotes) : field.name;
-  const operator = ast.relationalOperator.operator;
+  const operator = relationalOperator.operator;
   const right = serializeExpression(expression);
 
-  return left + operator + right;
+  const padRight = expression.location - (relationalOperator.location + relationalOperator.operator.length);
+
+  return left + operator + ' '.repeat(padRight) + right;
 };
 
 export const serialize = (ast: HydratedAst): string => {

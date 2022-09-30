@@ -30,13 +30,13 @@ test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery)
 
 test('foo:bar', testQuery);
 
-test.skip('foo: bar', testQuery);
+test('foo: bar', testQuery);
 
 test('foo:123', testQuery);
 
 test('foo:=123', testQuery);
 
-test.skip('foo:= 123', testQuery);
+test('foo:= 123', testQuery);
 
 test('foo:=-123', testQuery);
 
