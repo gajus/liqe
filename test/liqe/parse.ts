@@ -32,7 +32,9 @@ test.todo('()');
 
 test('foo', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 'foo',
@@ -40,14 +42,18 @@ test('foo', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('(foo)', testQuery, {
   expression: {
     expression: {
-      location: 1,
+      location: {
+        start: 1,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'foo',
@@ -55,12 +61,14 @@ test('(foo)', testQuery, {
     field: {
       type: 'ImplicitField',
     },
-    location: 1,
+    location: {
+      start: 1,
+    },
     type: 'TagExpression',
   },
   location: {
-    close: 4,
-    open: 0,
+    end: 4,
+    start: 0,
   },
   type: 'ParenthesizedExpression',
 });
@@ -68,7 +76,9 @@ test('(foo)', testQuery, {
 test('foo bar', testQuery, {
   left: {
     expression: {
-      location: 0,
+      location: {
+        start: 0,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'foo',
@@ -76,7 +86,9 @@ test('foo bar', testQuery, {
     field: {
       type: 'ImplicitField',
     },
-    location: 0,
+    location: {
+      start: 0,
+    },
     type: 'TagExpression',
   },
   operator: {
@@ -85,7 +97,9 @@ test('foo bar', testQuery, {
   },
   right: {
     expression: {
-      location: 4,
+      location: {
+        start: 4,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
@@ -93,7 +107,9 @@ test('foo bar', testQuery, {
     field: {
       type: 'ImplicitField',
     },
-    location: 4,
+    location: {
+      start: 4,
+    },
     type: 'TagExpression',
   },
   type: 'LogicalExpression',
@@ -101,7 +117,9 @@ test('foo bar', testQuery, {
 
 test('foo_bar', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 'foo_bar',
@@ -109,13 +127,17 @@ test('foo_bar', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('"foo"', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     quoted: true,
     quotes: 'double',
     type: 'LiteralExpression',
@@ -124,13 +146,17 @@ test('"foo"', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('\'foo\'', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     quoted: true,
     quotes: 'single',
     type: 'LiteralExpression',
@@ -139,79 +165,105 @@ test('\'foo\'', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('/foo/', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     type: 'RegexExpression',
     value: '/foo/',
   },
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('/foo/ui', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     type: 'RegexExpression',
     value: '/foo/ui',
   },
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('/\\s/', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     type: 'RegexExpression',
     value: '/\\s/',
   },
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     type: 'RegexExpression',
     value: '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
   },
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('foo:bar', testQuery, {
   expression: {
-    location: 4,
+    location: {
+      start: 4,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 'bar',
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -220,21 +272,29 @@ test('foo:bar', testQuery, {
 
 test('foo: bar', testQuery, {
   expression: {
-    location: 5,
+    location: {
+      start: 5,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 'bar',
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -243,21 +303,29 @@ test('foo: bar', testQuery, {
 
 test('foo:123', testQuery, {
   expression: {
-    location: 4,
+    location: {
+      start: 4,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 123,
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -266,21 +334,29 @@ test('foo:123', testQuery, {
 
 test('foo:=123', testQuery, {
   expression: {
-    location: 5,
+    location: {
+      start: 5,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 123,
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':=',
     type: 'RelationalOperator',
   },
@@ -289,21 +365,29 @@ test('foo:=123', testQuery, {
 
 test('foo:= 123', testQuery, {
   expression: {
-    location: 6,
+    location: {
+      start: 6,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 123,
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':=',
     type: 'RelationalOperator',
   },
@@ -312,21 +396,29 @@ test('foo:= 123', testQuery, {
 
 test('foo:=-123', testQuery, {
   expression: {
-    location: 5,
+    location: {
+      start: 5,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: -123,
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':=',
     type: 'RelationalOperator',
   },
@@ -335,21 +427,29 @@ test('foo:=-123', testQuery, {
 
 test('foo:=123.4', testQuery, {
   expression: {
-    location: 5,
+    location: {
+      start: 5,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 123.4,
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':=',
     type: 'RelationalOperator',
   },
@@ -358,21 +458,29 @@ test('foo:=123.4', testQuery, {
 
 test('foo:>=123', testQuery, {
   expression: {
-    location: 6,
+    location: {
+      start: 6,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 123,
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':>=',
     type: 'RelationalOperator',
   },
@@ -381,21 +489,29 @@ test('foo:>=123', testQuery, {
 
 test('foo:true', testQuery, {
   expression: {
-    location: 4,
+    location: {
+      start: 4,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: true,
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -404,21 +520,29 @@ test('foo:true', testQuery, {
 
 test('foo:false', testQuery, {
   expression: {
-    location: 4,
+    location: {
+      start: 4,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: false,
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -427,21 +551,29 @@ test('foo:false', testQuery, {
 
 test('foo:null', testQuery, {
   expression: {
-    location: 4,
+    location: {
+      start: 4,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: null,
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -450,13 +582,17 @@ test('foo:null', testQuery, {
 
 test('foo.bar:baz', testQuery, {
   expression: {
-    location: 8,
+    location: {
+      start: 8,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo.bar',
     path: [
       'foo',
@@ -465,9 +601,13 @@ test('foo.bar:baz', testQuery, {
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 7,
+    location: {
+      start: 7,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -476,21 +616,29 @@ test('foo.bar:baz', testQuery, {
 
 test('foo_bar:baz', testQuery, {
   expression: {
-    location: 8,
+    location: {
+      start: 8,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo_bar',
     path: ['foo_bar'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 7,
+    location: {
+      start: 7,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -499,21 +647,29 @@ test('foo_bar:baz', testQuery, {
 
 test('$foo:baz', testQuery, {
   expression: {
-    location: 5,
+    location: {
+      start: 5,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: '$foo',
     path: ['$foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 4,
+    location: {
+      start: 4,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -522,22 +678,30 @@ test('$foo:baz', testQuery, {
 
 test('"foo bar":baz', testQuery, {
   expression: {
-    location: 10,
+    location: {
+      start: 10,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo bar',
     path: ['foo bar'],
     quoted: true,
     quotes: 'double',
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 9,
+    location: {
+      start: 9,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -546,22 +710,30 @@ test('"foo bar":baz', testQuery, {
 
 test('\'foo bar\':baz', testQuery, {
   expression: {
-    location: 10,
+    location: {
+      start: 10,
+    },
     quoted: false,
     type: 'LiteralExpression',
     value: 'baz',
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo bar',
     path: ['foo bar'],
     quoted: true,
     quotes: 'single',
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 9,
+    location: {
+      start: 9,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -570,22 +742,30 @@ test('\'foo bar\':baz', testQuery, {
 
 test('foo:"bar"', testQuery, {
   expression: {
-    location: 4,
+    location: {
+      start: 4,
+    },
     quoted: true,
     quotes: 'double',
     type: 'LiteralExpression',
     value: 'bar',
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -594,22 +774,30 @@ test('foo:"bar"', testQuery, {
 
 test('foo:\'bar\'', testQuery, {
   expression: {
-    location: 4,
+    location: {
+      start: 4,
+    },
     quoted: true,
     quotes: 'single',
     type: 'LiteralExpression',
     value: 'bar',
   },
   field: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     name: 'foo',
     path: ['foo'],
     quoted: false,
     type: 'Field',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   relationalOperator: {
-    location: 3,
+    location: {
+      start: 3,
+    },
     operator: ':',
     type: 'RelationalOperator',
   },
@@ -619,21 +807,29 @@ test('foo:\'bar\'', testQuery, {
 test('foo:bar baz:qux', testQuery, {
   left: {
     expression: {
-      location: 4,
+      location: {
+        start: 4,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
     },
     field: {
-      location: 0,
+      location: {
+        start: 0,
+      },
       name: 'foo',
       path: ['foo'],
       quoted: false,
       type: 'Field',
     },
-    location: 0,
+    location: {
+      start: 0,
+    },
     relationalOperator: {
-      location: 3,
+      location: {
+        start: 3,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
@@ -645,21 +841,29 @@ test('foo:bar baz:qux', testQuery, {
   },
   right: {
     expression: {
-      location: 12,
+      location: {
+        start: 12,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'qux',
     },
     field: {
-      location: 8,
+      location: {
+        start: 8,
+      },
       name: 'baz',
       path: ['baz'],
       quoted: false,
       type: 'Field',
     },
-    location: 8,
+    location: {
+      start: 8,
+    },
     relationalOperator: {
-      location: 11,
+      location: {
+        start: 11,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
@@ -671,48 +875,66 @@ test('foo:bar baz:qux', testQuery, {
 test('foo:bar AND baz:qux', testQuery, {
   left: {
     expression: {
-      location: 4,
+      location: {
+        start: 4,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
     },
     field: {
-      location: 0,
+      location: {
+        start: 0,
+      },
       name: 'foo',
       path: ['foo'],
       quoted: false,
       type: 'Field',
     },
-    location: 0,
+    location: {
+      start: 0,
+    },
     relationalOperator: {
-      location: 3,
+      location: {
+        start: 3,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },
   operator: {
-    location: 8,
+    location: {
+      start: 8,
+    },
     operator: 'AND',
     type: 'Operator',
   },
   right: {
     expression: {
-      location: 16,
+      location: {
+        start: 16,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'qux',
     },
     field: {
-      location: 12,
+      location: {
+        start: 12,
+      },
       name: 'baz',
       path: ['baz'],
       quoted: false,
       type: 'Field',
     },
-    location: 12,
+    location: {
+      start: 12,
+    },
     relationalOperator: {
-      location: 15,
+      location: {
+        start: 15,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
@@ -725,63 +947,81 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
   left: {
     expression: {
       expression: {
-        location: 5,
+        location: {
+          start: 5,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'bar',
       },
       field: {
-        location: 1,
+        location: {
+          start: 1,
+        },
         name: 'foo',
         path: ['foo'],
         quoted: false,
         type: 'Field',
       },
-      location: 1,
+      location: {
+        start: 1,
+      },
       relationalOperator: {
-        location: 4,
+        location: {
+          start: 4,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
     location: {
-      close: 8,
-      open: 0,
+      end: 8,
+      start: 0,
     },
     type: 'ParenthesizedExpression',
   },
   operator: {
-    location: 10,
+    location: {
+      start: 10,
+    },
     operator: 'AND',
     type: 'Operator',
   },
   right: {
     expression: {
       expression: {
-        location: 19,
+        location: {
+          start: 19,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
       },
       field: {
-        location: 15,
+        location: {
+          start: 15,
+        },
         name: 'baz',
         path: ['baz'],
         quoted: false,
         type: 'Field',
       },
-      location: 15,
+      location: {
+        start: 15,
+      },
       relationalOperator: {
-        location: 18,
+        location: {
+          start: 18,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
     location: {
-      close: 22,
-      open: 14,
+      end: 22,
+      start: 14,
     },
     type: 'ParenthesizedExpression',
   },
@@ -792,48 +1032,66 @@ test('(foo:bar AND baz:qux)', testQuery, {
   expression: {
     left: {
       expression: {
-        location: 5,
+        location: {
+          start: 5,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'bar',
       },
       field: {
-        location: 1,
+        location: {
+          start: 1,
+        },
         name: 'foo',
         path: ['foo'],
         quoted: false,
         type: 'Field',
       },
-      location: 1,
+      location: {
+        start: 1,
+      },
       relationalOperator: {
-        location: 4,
+        location: {
+          start: 4,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
     operator: {
-      location: 9,
+      location: {
+        start: 9,
+      },
       operator: 'AND',
       type: 'Operator',
     },
     right: {
       expression: {
-        location: 17,
+        location: {
+          start: 17,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
       },
       field: {
-        location: 13,
+        location: {
+          start: 13,
+        },
         name: 'baz',
         path: ['baz'],
         quoted: false,
         type: 'Field',
       },
-      location: 13,
+      location: {
+        start: 13,
+      },
       relationalOperator: {
-        location: 16,
+        location: {
+          start: 16,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
@@ -842,8 +1100,8 @@ test('(foo:bar AND baz:qux)', testQuery, {
     type: 'LogicalExpression',
   },
   location: {
-    close: 20,
-    open: 0,
+    end: 20,
+    start: 0,
   },
   type: 'ParenthesizedExpression',
 });
@@ -851,21 +1109,29 @@ test('(foo:bar AND baz:qux)', testQuery, {
 test('NOT foo:bar', testQuery, {
   operand: {
     expression: {
-      location: 8,
+      location: {
+        start: 8,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
     },
     field: {
-      location: 4,
+      location: {
+        start: 4,
+      },
       name: 'foo',
       path: ['foo'],
       quoted: false,
       type: 'Field',
     },
-    location: 4,
+    location: {
+      start: 4,
+    },
     relationalOperator: {
-      location: 7,
+      location: {
+        start: 7,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
@@ -879,21 +1145,29 @@ test('NOT (foo:bar)', testQuery, {
   operand: {
     expression: {
       expression: {
-        location: 9,
+        location: {
+          start: 9,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'bar',
       },
       field: {
-        location: 5,
+        location: {
+          start: 5,
+        },
         name: 'foo',
         path: ['foo'],
         quoted: false,
         type: 'Field',
       },
-      location: 5,
+      location: {
+        start: 5,
+      },
       relationalOperator: {
-        location: 8,
+        location: {
+          start: 8,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
@@ -910,48 +1184,66 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
     expression: {
       left: {
         expression: {
-          location: 9,
+          location: {
+            start: 9,
+          },
           quoted: false,
           type: 'LiteralExpression',
           value: 'bar',
         },
         field: {
-          location: 5,
+          location: {
+            start: 5,
+          },
           name: 'foo',
           path: ['foo'],
           quoted: false,
           type: 'Field',
         },
-        location: 5,
+        location: {
+          start: 5,
+        },
         relationalOperator: {
-          location: 8,
+          location: {
+            start: 8,
+          },
           operator: ':',
           type: 'RelationalOperator',
         },
         type: 'TagExpression',
       },
       operator: {
-        location: 13,
+        location: {
+          start: 13,
+        },
         operator: 'AND',
         type: 'Operator',
       },
       right: {
         expression: {
-          location: 21,
+          location: {
+            start: 21,
+          },
           quoted: false,
           type: 'LiteralExpression',
           value: 'qux',
         },
         field: {
-          location: 17,
+          location: {
+            start: 17,
+          },
           name: 'baz',
           path: ['baz'],
           quoted: false,
           type: 'Field',
         },
-        location: 17,
+        location: {
+          start: 17,
+        },
         relationalOperator: {
-          location: 20,
+          location: {
+            start: 20,
+          },
           operator: ':',
           type: 'RelationalOperator',
         },
@@ -968,49 +1260,67 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
 test('foo:bar AND NOT baz:qux', testQuery, {
   left: {
     expression: {
-      location: 4,
+      location: {
+        start: 4,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
     },
     field: {
-      location: 0,
+      location: {
+        start: 0,
+      },
       name: 'foo',
       path: ['foo'],
       quoted: false,
       type: 'Field',
     },
-    location: 0,
+    location: {
+      start: 0,
+    },
     relationalOperator: {
-      location: 3,
+      location: {
+        start: 3,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },
   operator: {
-    location: 8,
+    location: {
+      start: 8,
+    },
     operator: 'AND',
     type: 'Operator',
   },
   right: {
     operand: {
       expression: {
-        location: 20,
+        location: {
+          start: 20,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
       },
       field: {
-        location: 16,
+        location: {
+          start: 16,
+        },
         name: 'baz',
         path: ['baz'],
         quoted: false,
         type: 'Field',
       },
-      location: 16,
+      location: {
+        start: 16,
+      },
       relationalOperator: {
-        location: 19,
+        location: {
+          start: 19,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
@@ -1026,48 +1336,66 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
   left: {
     left: {
       expression: {
-        location: 4,
+        location: {
+          start: 4,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'bar',
       },
       field: {
-        location: 0,
+        location: {
+          start: 0,
+        },
         name: 'foo',
         path: ['foo'],
         quoted: false,
         type: 'Field',
       },
-      location: 0,
+      location: {
+        start: 0,
+      },
       relationalOperator: {
-        location: 3,
+        location: {
+          start: 3,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
     operator: {
-      location: 8,
+      location: {
+        start: 8,
+      },
       operator: 'AND',
       type: 'Operator',
     },
     right: {
       expression: {
-        location: 16,
+        location: {
+          start: 16,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
       },
       field: {
-        location: 12,
+        location: {
+          start: 12,
+        },
         name: 'baz',
         path: ['baz'],
         quoted: false,
         type: 'Field',
       },
-      location: 12,
+      location: {
+        start: 12,
+      },
       relationalOperator: {
-        location: 15,
+        location: {
+          start: 15,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
@@ -1076,27 +1404,37 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     type: 'LogicalExpression',
   },
   operator: {
-    location: 20,
+    location: {
+      start: 20,
+    },
     operator: 'AND',
     type: 'Operator',
   },
   right: {
     expression: {
-      location: 29,
+      location: {
+        start: 29,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'corge',
     },
     field: {
-      location: 24,
+      location: {
+        start: 24,
+      },
       name: 'quuz',
       path: ['quuz'],
       quoted: false,
       type: 'Field',
     },
-    location: 24,
+    location: {
+      start: 24,
+    },
     relationalOperator: {
-      location: 28,
+      location: {
+        start: 28,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
@@ -1108,29 +1446,37 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
 test('(foo:bar)', testQuery, {
   expression: {
     expression: {
-      location: 5,
+      location: {
+        start: 5,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
     },
     field: {
-      location: 1,
+      location: {
+        start: 1,
+      },
       name: 'foo',
       path: ['foo'],
       quoted: false,
       type: 'Field',
     },
-    location: 1,
+    location: {
+      start: 1,
+    },
     relationalOperator: {
-      location: 4,
+      location: {
+        start: 4,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },
   location: {
-    close: 8,
-    open: 0,
+    end: 8,
+    start: 0,
   },
   type: 'ParenthesizedExpression',
 });
@@ -1139,35 +1485,43 @@ test('((foo:bar))', testQuery, {
   expression: {
     expression: {
       expression: {
-        location: 6,
+        location: {
+          start: 6,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'bar',
       },
       field: {
-        location: 2,
+        location: {
+          start: 2,
+        },
         name: 'foo',
         path: ['foo'],
         quoted: false,
         type: 'Field',
       },
-      location: 2,
+      location: {
+        start: 2,
+      },
       relationalOperator: {
-        location: 5,
+        location: {
+          start: 5,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
     location: {
-      close: 9,
-      open: 1,
+      end: 9,
+      start: 1,
     },
     type: 'ParenthesizedExpression',
   },
   location: {
-    close: 10,
-    open: 0,
+    end: 10,
+    start: 0,
   },
   type: 'ParenthesizedExpression',
 });
@@ -1175,29 +1529,37 @@ test('((foo:bar))', testQuery, {
 test('( foo:bar )', testQuery, {
   expression: {
     expression: {
-      location: 6,
+      location: {
+        start: 6,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
     },
     field: {
-      location: 2,
+      location: {
+        start: 2,
+      },
       name: 'foo',
       path: ['foo'],
       quoted: false,
       type: 'Field',
     },
-    location: 2,
+    location: {
+      start: 2,
+    },
     relationalOperator: {
-      location: 5,
+      location: {
+        start: 5,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },
   location: {
-    close: 10,
-    open: 0,
+    end: 10,
+    start: 0,
   },
   type: 'ParenthesizedExpression',
 });
@@ -1206,48 +1568,66 @@ test('(foo:bar OR baz:qux)', testQuery, {
   expression: {
     left: {
       expression: {
-        location: 5,
+        location: {
+          start: 5,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'bar',
       },
       field: {
-        location: 1,
+        location: {
+          start: 1,
+        },
         name: 'foo',
         path: ['foo'],
         quoted: false,
         type: 'Field',
       },
-      location: 1,
+      location: {
+        start: 1,
+      },
       relationalOperator: {
-        location: 4,
+        location: {
+          start: 4,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
       type: 'TagExpression',
     },
     operator: {
-      location: 9,
+      location: {
+        start: 9,
+      },
       operator: 'OR',
       type: 'Operator',
     },
     right: {
       expression: {
-        location: 16,
+        location: {
+          start: 16,
+        },
         quoted: false,
         type: 'LiteralExpression',
         value: 'qux',
       },
       field: {
-        location: 12,
+        location: {
+          start: 12,
+        },
         name: 'baz',
         path: ['baz'],
         quoted: false,
         type: 'Field',
       },
-      location: 12,
+      location: {
+        start: 12,
+      },
       relationalOperator: {
-        location: 15,
+        location: {
+          start: 15,
+        },
         operator: ':',
         type: 'RelationalOperator',
       },
@@ -1256,8 +1636,8 @@ test('(foo:bar OR baz:qux)', testQuery, {
     type: 'LogicalExpression',
   },
   location: {
-    close: 19,
-    open: 0,
+    end: 19,
+    start: 0,
   },
   type: 'ParenthesizedExpression',
 });
@@ -1265,28 +1645,38 @@ test('(foo:bar OR baz:qux)', testQuery, {
 test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
   left: {
     expression: {
-      location: 4,
+      location: {
+        start: 4,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'bar',
     },
     field: {
-      location: 0,
+      location: {
+        start: 0,
+      },
       name: 'foo',
       path: ['foo'],
       quoted: false,
       type: 'Field',
     },
-    location: 0,
+    location: {
+      start: 0,
+    },
     relationalOperator: {
-      location: 3,
+      location: {
+        start: 3,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
     type: 'TagExpression',
   },
   operator: {
-    location: 8,
+    location: {
+      start: 8,
+    },
     operator: 'OR',
     type: 'Operator',
   },
@@ -1294,48 +1684,66 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
     expression: {
       left: {
         expression: {
-          location: 16,
+          location: {
+            start: 16,
+          },
           quoted: false,
           type: 'LiteralExpression',
           value: 'qux',
         },
         field: {
-          location: 12,
+          location: {
+            start: 12,
+          },
           name: 'baz',
           path: ['baz'],
           quoted: false,
           type: 'Field',
         },
-        location: 12,
+        location: {
+          start: 12,
+        },
         relationalOperator: {
-          location: 15,
+          location: {
+            start: 15,
+          },
           operator: ':',
           type: 'RelationalOperator',
         },
         type: 'TagExpression',
       },
       operator: {
-        location: 20,
+        location: {
+          start: 20,
+        },
         operator: 'OR',
         type: 'Operator',
       },
       right: {
         expression: {
-          location: 28,
+          location: {
+            start: 28,
+          },
           quoted: false,
           type: 'LiteralExpression',
           value: 'corge',
         },
         field: {
-          location: 23,
+          location: {
+            start: 23,
+          },
           name: 'quuz',
           path: ['quuz'],
           quoted: false,
           type: 'Field',
         },
-        location: 23,
+        location: {
+          start: 23,
+        },
         relationalOperator: {
-          location: 27,
+          location: {
+            start: 27,
+          },
           operator: ':',
           type: 'RelationalOperator',
         },
@@ -1344,8 +1752,8 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       type: 'LogicalExpression',
     },
     location: {
-      close: 33,
-      open: 11,
+      end: 33,
+      start: 11,
     },
     type: 'ParenthesizedExpression',
   },
@@ -1357,48 +1765,66 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
     expression: {
       left: {
         expression: {
-          location: 5,
+          location: {
+            start: 5,
+          },
           quoted: false,
           type: 'LiteralExpression',
           value: 'bar',
         },
         field: {
-          location: 1,
+          location: {
+            start: 1,
+          },
           name: 'foo',
           path: ['foo'],
           quoted: false,
           type: 'Field',
         },
-        location: 1,
+        location: {
+          start: 1,
+        },
         relationalOperator: {
-          location: 4,
+          location: {
+            start: 4,
+          },
           operator: ':',
           type: 'RelationalOperator',
         },
         type: 'TagExpression',
       },
       operator: {
-        location: 9,
+        location: {
+          start: 9,
+        },
         operator: 'OR',
         type: 'Operator',
       },
       right: {
         expression: {
-          location: 16,
+          location: {
+            start: 16,
+          },
           quoted: false,
           type: 'LiteralExpression',
           value: 'qux',
         },
         field: {
-          location: 12,
+          location: {
+            start: 12,
+          },
           name: 'baz',
           path: ['baz'],
           quoted: false,
           type: 'Field',
         },
-        location: 12,
+        location: {
+          start: 12,
+        },
         relationalOperator: {
-          location: 15,
+          location: {
+            start: 15,
+          },
           operator: ':',
           type: 'RelationalOperator',
         },
@@ -1407,33 +1833,43 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       type: 'LogicalExpression',
     },
     location: {
-      close: 19,
-      open: 0,
+      end: 19,
+      start: 0,
     },
     type: 'ParenthesizedExpression',
   },
   operator: {
-    location: 21,
+    location: {
+      start: 21,
+    },
     operator: 'OR',
     type: 'Operator',
   },
   right: {
     expression: {
-      location: 29,
+      location: {
+        start: 29,
+      },
       quoted: false,
       type: 'LiteralExpression',
       value: 'corge',
     },
     field: {
-      location: 24,
+      location: {
+        start: 24,
+      },
       name: 'quuz',
       path: ['quuz'],
       quoted: false,
       type: 'Field',
     },
-    location: 24,
+    location: {
+      start: 24,
+    },
     relationalOperator: {
-      location: 28,
+      location: {
+        start: 28,
+      },
       operator: ':',
       type: 'RelationalOperator',
     },
@@ -1444,7 +1880,9 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
 
 test('[1 TO 2]', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     range: {
       max: 2,
       maxInclusive: true,
@@ -1456,13 +1894,17 @@ test('[1 TO 2]', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('{1 TO 2]', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     range: {
       max: 2,
       maxInclusive: true,
@@ -1474,13 +1916,17 @@ test('{1 TO 2]', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('[1 TO 2}', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     range: {
       max: 2,
       maxInclusive: false,
@@ -1492,13 +1938,17 @@ test('[1 TO 2}', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });
 
 test('{1 TO 2}', testQuery, {
   expression: {
-    location: 0,
+    location: {
+      start: 0,
+    },
     range: {
       max: 2,
       maxInclusive: false,
@@ -1510,6 +1960,8 @@ test('{1 TO 2}', testQuery, {
   field: {
     type: 'ImplicitField',
   },
-  location: 0,
+  location: {
+    start: 0,
+  },
   type: 'TagExpression',
 });

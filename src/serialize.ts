@@ -61,7 +61,7 @@ const serializeTagExpression = (ast: HydratedAst) => {
   const operator = relationalOperator.operator;
   const right = serializeExpression(expression);
 
-  const padRight = expression.location - (relationalOperator.location + relationalOperator.operator.length);
+  const padRight = expression.location.start - (relationalOperator.location.start + relationalOperator.operator.length);
 
   return left + operator + ' '.repeat(padRight) + right;
 };

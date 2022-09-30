@@ -153,7 +153,9 @@ const testField = <T extends Object>(
         {
           ...ast,
           field: {
-            location: -1,
+            location: {
+              start: -1,
+            },
             name: fieldName,
             quoted: true,
             type: 'Field',

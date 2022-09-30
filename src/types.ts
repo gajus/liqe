@@ -8,7 +8,7 @@ export type Range = {
 export type RelationalOperator = ':' | ':<' | ':<=' | ':=' | ':>' | ':>=';
 
 export type RelationalOperatorToken = {
-  location: number,
+  location: TokenLocation,
   operator: RelationalOperator,
   type: 'RelationalOperator',
 };
@@ -18,7 +18,7 @@ export type ImplicitFieldToken = {
 };
 
 export type FieldToken = {
-  location: number,
+  location: TokenLocation,
   name: string,
   path?: readonly string[],
   quoted: boolean,
@@ -27,19 +27,19 @@ export type FieldToken = {
 };
 
 export type RegexExpressionToken = {
-  location: number,
+  location: TokenLocation,
   type: 'RegexExpression',
   value: string,
 };
 
 export type RangeExpressionToken = {
-  location: number,
+  location: TokenLocation,
   range: Range,
   type: 'RangeExpression',
 };
 
 export type LiteralExpressionToken = {
-  location: number,
+  location: TokenLocation,
   quoted?: boolean,
   quotes?: 'double' | 'single',
   type: 'LiteralExpression',
@@ -49,7 +49,7 @@ export type LiteralExpressionToken = {
 export type ExpressionToken = LiteralExpressionToken | RangeExpressionToken | RegexExpressionToken;
 
 export type OperatorToken = {
-  location: number,
+  location: TokenLocation,
   operator: 'AND' | 'OR',
   type: 'Operator',
 };
@@ -60,10 +60,15 @@ export type ImplicitOperatorToken = {
   type: 'ImplicitOperator',
 };
 
+export type TokenLocation = {
+  end?: number,
+  start: number,
+};
+
 export type TagExpressionToken = {
   expression: ExpressionToken,
   field: FieldToken | ImplicitFieldToken,
-  location: number,
+  location: TokenLocation,
   relationalOperator: RelationalOperatorToken,
   test?: InternalTest,
   type: 'TagExpression',
@@ -84,10 +89,7 @@ export type OperandToken = {
 
 export type ParenthesizedExpressionToken = {
   expression: ParserAst,
-  location: {
-    close: number,
-    open: number,
-  },
+  location: TokenLocation,
   type: 'ParenthesizedExpression',
 };
 
