@@ -79,23 +79,23 @@ pre_two_op_expr ->
 
 one_op_expr ->
     parentheses_open _ two_op_expr _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
-	|	"NOT" post_boolean_primary {% (data, location) => {
+	|	"NOT" post_boolean_primary {% (data, start) => {
   return {
     type: 'UnaryOperator',
     operator: 'NOT',
     operand: data[1],
     location: {
-      start: location,
+      start,
     }
   };
 } %}
-  | "-" boolean_primary {% (data, location) => {
+  | "-" boolean_primary {% (data, start) => {
   return {
     type: 'UnaryOperator',
     operator: '-',
     operand: data[1],
     location: {
-      start: location,
+      start,
     }
   };
 } %}
@@ -106,14 +106,14 @@ post_one_op_expr ->
   | parentheses_open _ one_op_expr _ parentheses_close {% d => ({location: {start: d[0].location, end: d[4].location, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 parentheses_open ->
-  "(" {% (data, location) => ({location: {start: location}}) %}
+  "(" {% (data, start) => ({location: {start}}) %}
 
 parentheses_close ->
-  ")" {% (data, location) => ({location: {start: location}}) %}
+  ")" {% (data, start) => ({location: {start}}) %}
 
 operator ->
-    "OR" {% (data, location) => ({location: {start: location}, operator: 'OR', type: 'BooleanOperator'}) %}
-  | "AND" {% (data, location) => ({location: {start: location}, operator: 'AND', type: 'BooleanOperator'}) %}
+    "OR" {% (data, start) => ({location: {start}, operator: 'OR', type: 'BooleanOperator'}) %}
+  | "AND" {% (data, start) => ({location: {start}, operator: 'AND', type: 'BooleanOperator'}) %}
 
 boolean_primary ->
   side {% id %}
@@ -123,7 +123,7 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field relational_operator _ query {% (data, location) => {
+    field relational_operator _ query {% (data, start) => {
     const field = {
       type: 'Field',
       name: data[0].name,
@@ -139,25 +139,25 @@ side ->
 
     return {
       location: {
-        start: location,
+        start,
       },
       field,
       operator: data[1],
       ...data[3]
     }
   } %}
-  | query {% (data, location) => ({location: {start: location}, field: {type: 'ImplicitField'}, ...data[0]}) %}
+  | query {% (data, start) => ({location: {start}, field: {type: 'ImplicitField'}, ...data[0]}) %}
 
 field ->
-    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start: location}}) %}
-  | sqstring {% (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start: location}}) %}
-  | dqstring {% (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start: location}}) %}
+    [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start}}) %}
+  | sqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start}}) %}
+  | dqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start}}) %}
 
 query ->
-    decimal {% (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
-  | regex {% (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'RegexExpression', value: data.join('')}}) %}
+    decimal {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
+  | regex {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}
-  | unquoted_value {% (data, location, reject) => {
+  | unquoted_value {% (data, start, reject) => {
     const value = data.join('');
 
     if (data[0] === 'AND' || data[0] === 'OR' || data[0] === 'NOT') {
@@ -180,7 +180,7 @@ query ->
       type: 'TagExpression',
       expression: {
         location: {
-          start: location,
+          start,
         },
         type: 'LiteralExpression',
         quoted: false,
@@ -188,14 +188,14 @@ query ->
       },
     };
   } %}
-  | sqstring {% (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}}) %}
-  | dqstring {% (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
+  | sqstring {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}}) %}
+  | dqstring {% (data, start) => ({type: 'TagExpression', expression: {location: {start}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
 
 range ->
-    range_open decimal " TO " decimal range_close {% (data, location) => {
+    range_open decimal " TO " decimal range_close {% (data, start) => {
     return {
       location: {
-        start: location,
+        start,
       },
       type: 'TagExpression',
       expression: {
@@ -215,20 +215,20 @@ range ->
   } %}
 
 range_open ->
-  "[" {% (data, location) => ({location: {start: location}, inclusive: true}) %}
-  | "{" {% (data, location) => ({location: {start: location}, inclusive: false}) %}
+  "[" {% (data, start) => ({location: {start}, inclusive: true}) %}
+  | "{" {% (data, start) => ({location: {start}, inclusive: false}) %}
 
 range_close ->
-  "]" {% (data, location) => ({location: {start: location}, inclusive: true}) %}
-  | "}" {% (data, location) => ({location: {start: location}, inclusive: false}) %}
+  "]" {% (data, start) => ({location: {start}, inclusive: true}) %}
+  | "}" {% (data, start) => ({location: {start}, inclusive: false}) %}
 
 relational_operator ->
-    ":" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":=" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":>" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":<" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":>=" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":<=" {% (data, location) => ({location: {start: location}, type: 'ComparisonOperator', operator: data[0]}) %}
+    ":" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":=" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":>" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":<" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":>=" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
+  | ":<=" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
 
 regex ->
   regex_body regex_flags {% d => d.join('') %}
