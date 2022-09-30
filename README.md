@@ -35,7 +35,7 @@ Liqe use cases include:
 * serializing parsed queries
 * searching JSON documents using the Liqe query language (LQL)
 
-Note that the parser/serializer are completely separate from the search engine, i.e., one could implement their own filtering mechanism that uses Liqe syntax.
+Note that the Liqe AST is treated as a public API, i.e., one could implement their own search mechanism that uses Liqe query language (LQL).
 
 ## Usage
 
