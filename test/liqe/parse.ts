@@ -184,6 +184,7 @@ test('\'foo\'', testQuery, {
 test('/foo/', testQuery, {
   expression: {
     location: {
+      end: 5,
       start: 0,
     },
     type: 'RegexExpression',
@@ -201,6 +202,7 @@ test('/foo/', testQuery, {
 test('/foo/ui', testQuery, {
   expression: {
     location: {
+      end: 7,
       start: 0,
     },
     type: 'RegexExpression',
@@ -218,6 +220,7 @@ test('/foo/ui', testQuery, {
 test('/\\s/', testQuery, {
   expression: {
     location: {
+      end: 4,
       start: 0,
     },
     type: 'RegexExpression',
@@ -235,6 +238,7 @@ test('/\\s/', testQuery, {
 test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, {
   expression: {
     location: {
+      end: 55,
       start: 0,
     },
     type: 'RegexExpression',
