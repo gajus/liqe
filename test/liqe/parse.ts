@@ -1159,6 +1159,44 @@ test('NOT foo:bar', testQuery, {
   type: 'UnaryOperator',
 });
 
+test('-foo:bar', testQuery, {
+  location: {
+    start: 0,
+  },
+  operand: {
+    expression: {
+      location: {
+        start: 5,
+      },
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
+    },
+    field: {
+      location: {
+        start: 1,
+      },
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+      type: 'Field',
+    },
+    location: {
+      start: 1,
+    },
+    operator: {
+      location: {
+        start: 4,
+      },
+      operator: ':',
+      type: 'ComparisonOperator',
+    },
+    type: 'TagExpression',
+  },
+  operator: '-',
+  type: 'UnaryOperator',
+});
+
 test('NOT (foo:bar)', testQuery, {
   location: {
     start: 0,

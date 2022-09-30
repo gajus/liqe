@@ -123,6 +123,16 @@ const grammar: Grammar = {
             }
           };
         } },
+    {"name": "one_op_expr", "symbols": [{"literal":"-"}, "boolean_primary"], "postprocess":  (data, location) => {
+          return {
+            type: 'UnaryOperator',
+            operator: '-',
+            operand: data[1],
+            location: {
+              start: location,
+            }
+          };
+        } },
     {"name": "one_op_expr", "symbols": ["boolean_primary"], "postprocess": d => d[0]},
     {"name": "post_one_op_expr", "symbols": ["__", "one_op_expr"], "postprocess": d => d[1]},
     {"name": "post_one_op_expr", "symbols": ["parentheses_open", "_", "one_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location, end: d[4].location, },type: 'ParenthesizedExpression', expression: d[2]})},
@@ -249,7 +259,7 @@ const grammar: Grammar = {
     {"name": "regex_flags", "symbols": ["regex_flags$ebnf$1"], "postprocess": d => d[0].join('')},
     {"name": "unquoted_value$ebnf$1", "symbols": [/[a-zA-Z\-_*]/]},
     {"name": "unquoted_value$ebnf$1", "symbols": ["unquoted_value$ebnf$1", /[a-zA-Z\-_*]/], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "unquoted_value", "symbols": ["unquoted_value$ebnf$1"], "postprocess": d => d[0].join('')}
+    {"name": "unquoted_value", "symbols": [/[a-zA-Z_*]/, "unquoted_value$ebnf$1"], "postprocess": d => d[0] + d[1].join('')}
   ],
   ParserStart: "main",
 };

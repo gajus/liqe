@@ -160,8 +160,11 @@ height:{100 TO 200}
 name:foo AND height:=100
 name:foo OR name:bar
 
-# inverting a logical expression
+# unary operators
 NOT foo
+-foo
+NOT foo:bar
+-foo:bar
 name:foo AND NOT (bio:bar OR bio:baz)
 
 # implicit AND boolean operator

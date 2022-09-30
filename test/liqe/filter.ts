@@ -91,10 +91,13 @@ test('height:[200 TO 225}', testQuery, ['robert']);
 test('height:{220 TO 225}', testQuery, []);
 
 test('NOT David', testQuery, ['john', 'mike', 'robert', 'noah']);
+test('-David', testQuery, ['john', 'mike', 'robert', 'noah']);
 test('David OR John', testQuery, ['david', 'john', 'noah']);
 test('Noah AND John', testQuery, ['noah']);
 test('John AND NOT Noah', testQuery, ['john']);
 test('David OR NOT John', testQuery, ['david', 'mike', 'robert']);
+test('John AND -Noah', testQuery, ['john']);
+test('David OR -John', testQuery, ['david', 'mike', 'robert']);
 
 test('name:David OR John', testQuery, ['david', 'john', 'noah']);
 

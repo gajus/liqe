@@ -96,7 +96,7 @@ export const serialize = (ast: HydratedAst): string => {
   }
 
   if (ast.type === 'UnaryOperator') {
-    return ast.operator + ' ' + serialize(ast.operand);
+    return (ast.operator === 'NOT' ? 'NOT ' : ast.operator) + serialize(ast.operand);
   }
 
   throw new Error('Unexpected AST type.');

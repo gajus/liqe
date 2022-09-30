@@ -95,6 +95,16 @@ one_op_expr ->
     }
   };
 } %}
+  | "-" boolean_primary {% (data, location) => {
+  return {
+    type: 'UnaryOperator',
+    operator: '-',
+    operand: data[1],
+    location: {
+      start: location,
+    }
+  };
+} %}
   | boolean_primary {% d => d[0] %}
 
 post_one_op_expr ->
@@ -241,4 +251,4 @@ regex_flags ->
   [gmiyusd]:+ {% d => d[0].join('') %}
 
 unquoted_value ->
-  [a-zA-Z\-_*]:+ {% d => d[0].join('') %}
+  [a-zA-Z_*] [a-zA-Z\-_*]:+ {% d => d[0] + d[1].join('') %}

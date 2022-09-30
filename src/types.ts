@@ -86,7 +86,7 @@ export type LogicalExpressionToken = {
 export type UnaryOperatorToken = {
   location: TokenLocation,
   operand: ParserAst,
-  operator: 'NOT',
+  operator: '-' | 'NOT',
   type: 'UnaryOperator',
 };
 
