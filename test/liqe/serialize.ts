@@ -88,7 +88,7 @@ test('(foo:bar)', testQuery);
 
 test('((foo:bar))', testQuery);
 
-test.skip('( foo:bar )', testQuery);
+test('( foo:bar )', testQuery);
 
 test('(foo:bar OR baz:qux)', testQuery);
 
