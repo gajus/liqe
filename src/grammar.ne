@@ -98,7 +98,7 @@ two_op_expr ->
       },
       operator: {
         operator: 'AND',
-        type: 'ImplicitOperator'
+        type: 'ImplicitBooleanOperator'
       },
       left: data[0],
       right: data[2]
@@ -133,8 +133,8 @@ parentheses_close ->
   ")" {% (data, location) => ({location: {start: location}}) %}
 
 operator ->
-    "OR" {% (data, location) => ({location: {start: location}, operator: 'OR', type: 'Operator'}) %}
-  | "AND" {% (data, location) => ({location: {start: location}, operator: 'AND', type: 'Operator'}) %}
+    "OR" {% (data, location) => ({location: {start: location}, operator: 'OR', type: 'BooleanOperator'}) %}
+  | "AND" {% (data, location) => ({location: {start: location}, operator: 'AND', type: 'BooleanOperator'}) %}
 
 boolean_primary ->
   side {% id %}

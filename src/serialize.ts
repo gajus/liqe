@@ -77,7 +77,7 @@ export const serialize = (ast: HydratedAst): string => {
 
   if (ast.type === 'LogicalExpression') {
     const left = serialize(ast.left);
-    const operator = ast.operator.type === 'Operator' ? ` ${ast.operator.operator} ` : ' ';
+    const operator = ast.operator.type === 'BooleanOperator' ? ` ${ast.operator.operator} ` : ' ';
     const right = serialize(ast.right);
 
     return `${left}${operator}${right}`;

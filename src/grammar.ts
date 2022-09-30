@@ -130,7 +130,7 @@ const grammar: Grammar = {
           },
           operator: {
             operator: 'AND',
-            type: 'ImplicitOperator'
+            type: 'ImplicitBooleanOperator'
           },
           left: data[0],
           right: data[2]
@@ -151,9 +151,9 @@ const grammar: Grammar = {
     {"name": "parentheses_open", "symbols": [{"literal":"("}], "postprocess": (data, location) => ({location: {start: location}})},
     {"name": "parentheses_close", "symbols": [{"literal":")"}], "postprocess": (data, location) => ({location: {start: location}})},
     {"name": "operator$string$1", "symbols": [{"literal":"O"}, {"literal":"R"}], "postprocess": (d) => d.join('')},
-    {"name": "operator", "symbols": ["operator$string$1"], "postprocess": (data, location) => ({location: {start: location}, operator: 'OR', type: 'Operator'})},
+    {"name": "operator", "symbols": ["operator$string$1"], "postprocess": (data, location) => ({location: {start: location}, operator: 'OR', type: 'BooleanOperator'})},
     {"name": "operator$string$2", "symbols": [{"literal":"A"}, {"literal":"N"}, {"literal":"D"}], "postprocess": (d) => d.join('')},
-    {"name": "operator", "symbols": ["operator$string$2"], "postprocess": (data, location) => ({location: {start: location}, operator: 'AND', type: 'Operator'})},
+    {"name": "operator", "symbols": ["operator$string$2"], "postprocess": (data, location) => ({location: {start: location}, operator: 'AND', type: 'BooleanOperator'})},
     {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
     {"name": "post_boolean_primary", "symbols": ["__", {"literal":"("}, "_", "two_op_expr", "_", {"literal":")"}], "postprocess": d => ({type: 'ParenthesizedExpression', expression: d[3]})},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},

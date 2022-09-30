@@ -16,7 +16,7 @@ Lightweight and performant Lucene-like parser, serializer and search engine.
   * [Number matching](#number-matching)
   * [Range matching](#range-matching)
   * [Wildcard matching](#wildcard-matching)
-  * [Logical Operators](#logical-operators)
+  * [Boolean operators](#boolean-operators)
 * [Serializer](#serializer)
 * [AST](#ast)
 * [Compatibility with Lucene](#compatibility-with-lucene)
@@ -247,7 +247,7 @@ Search for any word that starts with "foo" and ends with bar in the `name` field
 name:foo*bar
 ```
 
-### Logical Operators
+### Boolean operators
 
 Search for phrase "foo bar" in the `name` field AND the phrase "quick fox" in the `bio` field.
 
@@ -296,12 +296,13 @@ serialize(tokens);
 
 ```ts
 import {
+  type BooleanOperatorToken,
   type FieldToken,
+  type ImplicitBooleanOperatorToken,
   type ImplicitFieldToken,
   type LiteralExpressionToken,
   type LogicalExpressionToken,
   type OperandToken,
-  type OperatorToken,
   type RangeExpressionToken,
   type RegexExpressionToken,
   type RelationalOperatorToken,
@@ -309,7 +310,7 @@ import {
 } from 'liqe';
 ```
 
-There are 10 AST tokens that describe a parsed Liqe query.
+There are 11 AST tokens that describe a parsed Liqe query.
 
 If you are building a serializer, then you must implement all of them for the complete coverage of all possible query inputs. Refer to the [built-in serializer](./src/serialize.ts) for an example.
 

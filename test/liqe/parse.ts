@@ -96,7 +96,7 @@ test('foo bar', testQuery, {
   },
   operator: {
     operator: 'AND',
-    type: 'ImplicitOperator',
+    type: 'ImplicitBooleanOperator',
   },
   right: {
     expression: {
@@ -843,7 +843,7 @@ test('foo:bar baz:qux', testQuery, {
   },
   operator: {
     operator: 'AND',
-    type: 'ImplicitOperator',
+    type: 'ImplicitBooleanOperator',
   },
   right: {
     expression: {
@@ -917,7 +917,7 @@ test('foo:bar AND baz:qux', testQuery, {
       start: 8,
     },
     operator: 'AND',
-    type: 'Operator',
+    type: 'BooleanOperator',
   },
   right: {
     expression: {
@@ -998,7 +998,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
       start: 10,
     },
     operator: 'AND',
-    type: 'Operator',
+    type: 'BooleanOperator',
   },
   right: {
     expression: {
@@ -1080,7 +1080,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
         start: 9,
       },
       operator: 'AND',
-      type: 'Operator',
+      type: 'BooleanOperator',
     },
     right: {
       expression: {
@@ -1235,7 +1235,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
           start: 13,
         },
         operator: 'AND',
-        type: 'Operator',
+        type: 'BooleanOperator',
       },
       right: {
         expression: {
@@ -1314,7 +1314,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       start: 8,
     },
     operator: 'AND',
-    type: 'Operator',
+    type: 'BooleanOperator',
   },
   right: {
     operand: {
@@ -1393,7 +1393,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         start: 8,
       },
       operator: 'AND',
-      type: 'Operator',
+      type: 'BooleanOperator',
     },
     right: {
       expression: {
@@ -1435,7 +1435,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       start: 20,
     },
     operator: 'AND',
-    type: 'Operator',
+    type: 'BooleanOperator',
   },
   right: {
     expression: {
@@ -1631,7 +1631,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
         start: 9,
       },
       operator: 'OR',
-      type: 'Operator',
+      type: 'BooleanOperator',
     },
     right: {
       expression: {
@@ -1711,7 +1711,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       start: 8,
     },
     operator: 'OR',
-    type: 'Operator',
+    type: 'BooleanOperator',
   },
   right: {
     expression: {
@@ -1753,7 +1753,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           start: 20,
         },
         operator: 'OR',
-        type: 'Operator',
+        type: 'BooleanOperator',
       },
       right: {
         expression: {
@@ -1837,7 +1837,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           start: 9,
         },
         operator: 'OR',
-        type: 'Operator',
+        type: 'BooleanOperator',
       },
       right: {
         expression: {
@@ -1885,7 +1885,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       start: 21,
     },
     operator: 'OR',
-    type: 'Operator',
+    type: 'BooleanOperator',
   },
   right: {
     expression: {

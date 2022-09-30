@@ -11,15 +11,16 @@ export {
   test,
 } from './test';
 export {
+  BooleanOperatorToken,
   ExpressionToken,
   FieldToken,
   Highlight,
   HydratedAst as LiqeQuery,
+  ImplicitBooleanOperatorToken,
   ImplicitFieldToken,
   LiteralExpressionToken,
   LogicalExpressionToken,
   OperandToken,
-  OperatorToken,
   RangeExpressionToken,
   RegexExpressionToken,
   RelationalOperatorToken,

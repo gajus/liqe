@@ -48,16 +48,17 @@ export type LiteralExpressionToken = {
 
 export type ExpressionToken = LiteralExpressionToken | RangeExpressionToken | RegexExpressionToken;
 
-export type OperatorToken = {
+export type BooleanOperatorToken = {
   location: TokenLocation,
   operator: 'AND' | 'OR',
-  type: 'Operator',
+  type: 'BooleanOperator',
 };
 
-// Implicit operators do not have a location.
-export type ImplicitOperatorToken = {
+// Implicit boolean operators do not have a location, e.g., "foo bar".
+// In this example, the implicit AND operator is the space between "foo" and "bar".
+export type ImplicitBooleanOperatorToken = {
   operator: 'AND',
-  type: 'ImplicitOperator',
+  type: 'ImplicitBooleanOperator',
 };
 
 export type TokenLocation = {
@@ -77,7 +78,7 @@ export type TagExpressionToken = {
 export type LogicalExpressionToken = {
   left: ParserAst,
   location: TokenLocation,
-  operator: ImplicitOperatorToken | OperatorToken,
+  operator: BooleanOperatorToken | ImplicitBooleanOperatorToken,
   right: ParserAst,
   type: 'LogicalExpression',
 };
