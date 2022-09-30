@@ -44,6 +44,7 @@ test('foo', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 3,
     start: 0,
   },
   type: 'TagExpression',
@@ -64,6 +65,7 @@ test('(foo)', testQuery, {
       type: 'ImplicitField',
     },
     location: {
+      end: 4,
       start: 1,
     },
     type: 'TagExpression',
@@ -90,6 +92,7 @@ test('foo bar', testQuery, {
       type: 'ImplicitField',
     },
     location: {
+      end: 3,
       start: 0,
     },
     type: 'TagExpression',
@@ -115,6 +118,7 @@ test('foo bar', testQuery, {
       type: 'ImplicitField',
     },
     location: {
+      end: 7,
       start: 4,
     },
     type: 'TagExpression',
@@ -136,6 +140,7 @@ test('foo_bar', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 7,
     start: 0,
   },
   type: 'TagExpression',
@@ -156,6 +161,7 @@ test('"foo"', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 5,
     start: 0,
   },
   type: 'TagExpression',
@@ -176,6 +182,7 @@ test('\'foo\'', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 5,
     start: 0,
   },
   type: 'TagExpression',
@@ -194,6 +201,7 @@ test('/foo/', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 5,
     start: 0,
   },
   type: 'TagExpression',
@@ -212,6 +220,7 @@ test('/foo/ui', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 7,
     start: 0,
   },
   type: 'TagExpression',
@@ -230,6 +239,7 @@ test('/\\s/', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 4,
     start: 0,
   },
   type: 'TagExpression',
@@ -248,6 +258,7 @@ test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery,
     type: 'ImplicitField',
   },
   location: {
+    end: 55,
     start: 0,
   },
   type: 'TagExpression',

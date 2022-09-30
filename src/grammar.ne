@@ -146,7 +146,9 @@ side ->
       ...data[3]
     }
   } %}
-  | tag_expression {% (data, start) => ({location: {start}, field: {type: 'ImplicitField'}, ...data[0]}) %}
+  | tag_expression {% (data, start) => {
+    return {location: {start, end: data[0].expression.location.end}, field: {type: 'ImplicitField'}, ...data[0]};
+  } %}
 
 field ->
     [_a-zA-Z$] [a-zA-Z\d_$.]:* {% (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start, end: start + (data[0] + data[1].join('')).length}}) %}

@@ -164,7 +164,9 @@ const grammar: Grammar = {
             ...data[3]
           }
         } },
-    {"name": "side", "symbols": ["tag_expression"], "postprocess": (data, start) => ({location: {start}, field: {type: 'ImplicitField'}, ...data[0]})},
+    {"name": "side", "symbols": ["tag_expression"], "postprocess":  (data, start) => {
+          return {location: {start, end: data[0].expression.location.end}, field: {type: 'ImplicitField'}, ...data[0]};
+        } },
     {"name": "field$ebnf$1", "symbols": []},
     {"name": "field$ebnf$1", "symbols": ["field$ebnf$1", /[a-zA-Z\d_$.]/], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start, end: start + (data[0] + data[1].join('')).length}})},
