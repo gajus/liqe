@@ -4,14 +4,6 @@
 // @ts-ignore
 function id(d: any[]): any { return d[0]; }
 
-const notOp = (d) => {
-  return {
-    type: 'Operand',
-    operator: 'NOT',
-    operand: d[1]
-  };
-}
-
 interface NearleyToken {
   value: any;
   [key: string]: any;
@@ -121,7 +113,16 @@ const grammar: Grammar = {
     {"name": "pre_two_op_expr", "symbols": ["parentheses_open", "_", "two_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]})},
     {"name": "one_op_expr", "symbols": ["parentheses_open", "_", "two_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]})},
     {"name": "one_op_expr$string$1", "symbols": [{"literal":"N"}, {"literal":"O"}, {"literal":"T"}], "postprocess": (d) => d.join('')},
-    {"name": "one_op_expr", "symbols": ["one_op_expr$string$1", "post_boolean_primary"], "postprocess": notOp},
+    {"name": "one_op_expr", "symbols": ["one_op_expr$string$1", "post_boolean_primary"], "postprocess":  (data, location) => {
+          return {
+            type: 'Operand',
+            operator: 'NOT',
+            operand: data[1],
+            location: {
+              start: location,
+            }
+          };
+        } },
     {"name": "one_op_expr", "symbols": ["boolean_primary"], "postprocess": d => d[0]},
     {"name": "post_one_op_expr", "symbols": ["__", "one_op_expr"], "postprocess": d => d[1]},
     {"name": "post_one_op_expr", "symbols": ["parentheses_open", "_", "one_op_expr", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location, end: d[4].location, },type: 'ParenthesizedExpression', expression: d[2]})},

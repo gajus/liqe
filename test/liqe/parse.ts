@@ -1122,6 +1122,9 @@ test('(foo:bar AND baz:qux)', testQuery, {
 });
 
 test('NOT foo:bar', testQuery, {
+  location: {
+    start: 0,
+  },
   operand: {
     expression: {
       location: {
@@ -1157,6 +1160,9 @@ test('NOT foo:bar', testQuery, {
 });
 
 test('NOT (foo:bar)', testQuery, {
+  location: {
+    start: 0,
+  },
   operand: {
     expression: {
       expression: {
@@ -1199,6 +1205,9 @@ test('NOT (foo:bar)', testQuery, {
 });
 
 test('NOT (foo:bar AND baz:qux)', testQuery, {
+  location: {
+    start: 0,
+  },
   operand: {
     expression: {
       left: {
@@ -1325,6 +1334,9 @@ test('foo:bar AND NOT baz:qux', testQuery, {
     type: 'BooleanOperator',
   },
   right: {
+    location: {
+      start: 12,
+    },
     operand: {
       expression: {
         location: {

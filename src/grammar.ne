@@ -43,17 +43,6 @@ strescape -> ["\\/bfnrt] {% id %}
     }
 %}
 
-
-@{%
-const notOp = (d) => {
-  return {
-    type: 'Operand',
-    operator: 'NOT',
-    operand: d[1]
-  };
-}
-%}
-
 # Adapted from js-sql-parser
 # https://github.com/justinkenel/js-sql-parse/blob/aaecf0fb0a4e700c4df07d987cf0c54a8276553b/sql.ne
 expr -> two_op_expr {% id %}
@@ -96,7 +85,16 @@ pre_two_op_expr ->
 
 one_op_expr ->
     parentheses_open _ two_op_expr _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
-	|	"NOT" post_boolean_primary {% notOp %}
+	|	"NOT" post_boolean_primary {% (data, location) => {
+  return {
+    type: 'Operand',
+    operator: 'NOT',
+    operand: data[1],
+    location: {
+      start: location,
+    }
+  };
+} %}
   | boolean_primary {% d => d[0] %}
 
 post_one_op_expr ->

@@ -84,6 +84,7 @@ export type LogicalExpressionToken = {
 };
 
 export type OperandToken = {
+  location: TokenLocation,
   operand: ParserAst,
   operator: 'NOT',
   type: 'Operand',
