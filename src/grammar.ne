@@ -86,7 +86,7 @@ one_op_logical_expression ->
     operand: data[1],
     location: {
       start,
-      end: start + 3,
+      end: data[1].location.end,
     }
   };
 } %}
@@ -97,7 +97,7 @@ one_op_logical_expression ->
     operand: data[1],
     location: {
       start,
-      end: start + 1,
+      end: data[1].location.end,
     }
   };
 } %}

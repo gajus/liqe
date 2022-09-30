@@ -58,17 +58,14 @@ const serializeTagExpression = (ast: HydratedAst) => {
   }
 
   const left = field.quoted ? quote(field.name, field.quotes) : field.name;
-  const right = serializeExpression(expression);
 
-  const patEnd = ' '.repeat(expression.location.start - (operator.location.start + operator.operator.length));
+  const patEnd = ' '.repeat(expression.location.start - operator.location.end);
 
-  return left + operator.operator + patEnd + right;
+  return left + operator.operator + patEnd + serializeExpression(expression);
 };
 
 export const serialize = (ast: HydratedAst): string => {
   if (ast.type === 'ParenthesizedExpression') {
-    const body = serialize(ast.expression);
-
     if (!('location' in ast.expression)) {
       throw new Error('Expected location in expression.');
     }
@@ -78,9 +75,9 @@ export const serialize = (ast: HydratedAst): string => {
     }
 
     const patStart = ' '.repeat(ast.expression.location.start - (ast.location.start + 1));
-    const patEnd = ' '.repeat(ast.location.end - (ast.expression.location.start + body.length));
+    const patEnd = ' '.repeat(ast.location.end - ast.expression.location.end - 1);
 
-    return `(${patStart}${body}${patEnd})`;
+    return `(${patStart}${serialize(ast.expression)}${patEnd})`;
   }
 
   if (ast.type === 'TagExpression') {

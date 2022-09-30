@@ -116,7 +116,7 @@ const grammar: Grammar = {
             operand: data[1],
             location: {
               start,
-              end: start + 3,
+              end: data[1].location.end,
             }
           };
         } },
@@ -127,7 +127,7 @@ const grammar: Grammar = {
             operand: data[1],
             location: {
               start,
-              end: start + 1,
+              end: data[1].location.end,
             }
           };
         } },

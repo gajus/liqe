@@ -1257,7 +1257,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
 
 test('NOT foo:bar', testQuery, {
   location: {
-    end: 3,
+    end: 11,
     start: 0,
   },
   operand: {
@@ -1300,7 +1300,7 @@ test('NOT foo:bar', testQuery, {
 
 test('-foo:bar', testQuery, {
   location: {
-    end: 1,
+    end: 8,
     start: 0,
   },
   operand: {
@@ -1343,7 +1343,7 @@ test('-foo:bar', testQuery, {
 
 test('NOT (foo:bar)', testQuery, {
   location: {
-    end: 3,
+    end: 13,
     start: 0,
   },
   operand: {
@@ -1393,7 +1393,7 @@ test('NOT (foo:bar)', testQuery, {
 
 test('NOT (foo:bar AND baz:qux)', testQuery, {
   location: {
-    end: 3,
+    end: 25,
     start: 0,
   },
   operand: {
@@ -1526,7 +1526,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
     type: 'TagExpression',
   },
   location: {
-    end: 15,
+    end: 23,
     start: 0,
   },
   operator: {
@@ -1539,7 +1539,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
   },
   right: {
     location: {
-      end: 15,
+      end: 23,
       start: 12,
     },
     operand: {
