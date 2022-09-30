@@ -282,15 +282,31 @@ const tokens = parse('foo:bar');
 
 // {
 //   expression: {
+//     location: {
+//       start: 4,
+//     },
 //     quoted: false,
 //     type: 'LiteralExpression',
 //     value: 'bar',
 //   },
 //   field: {
-//     location: 0,
+//     location: {
+//       start: 0,
+//     },
 //     name: 'foo',
 //     path: ['foo'],
 //     quoted: false,
+//     type: 'Field',
+//   },
+//   location: {
+//     start: 0,
+//   },
+//   operator: {
+//     location: {
+//       start: 3,
+//     },
+//     operator: ':',
+//     type: 'ComparisonOperator',
 //   },
 //   type: 'TagExpression',
 // }
