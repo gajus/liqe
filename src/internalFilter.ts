@@ -240,7 +240,7 @@ export const internalFilter = <T extends Object>(
     });
   }
 
-  if (ast.type === 'Operand' && ast.operator === 'NOT' && ast.operand) {
+  if (ast.type === 'UnaryOperator' && ast.operator === 'NOT' && ast.operand) {
     const removeRows = internalFilter(
       ast.operand,
       rows,

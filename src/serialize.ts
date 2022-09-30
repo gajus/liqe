@@ -95,7 +95,7 @@ export const serialize = (ast: HydratedAst): string => {
     return `${left}${operator}${right}`;
   }
 
-  if (ast.type === 'Operand') {
+  if (ast.type === 'UnaryOperator') {
     return ast.operator + ' ' + serialize(ast.operand);
   }
 

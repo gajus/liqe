@@ -83,11 +83,11 @@ export type LogicalExpressionToken = {
   type: 'LogicalExpression',
 };
 
-export type OperandToken = {
+export type UnaryOperatorToken = {
   location: TokenLocation,
   operand: ParserAst,
   operator: 'NOT',
-  type: 'Operand',
+  type: 'UnaryOperator',
 };
 
 export type ParenthesizedExpressionToken = {
@@ -96,7 +96,7 @@ export type ParenthesizedExpressionToken = {
   type: 'ParenthesizedExpression',
 };
 
-export type ParserAst = LogicalExpressionToken | OperandToken | ParenthesizedExpressionToken | TagExpressionToken;
+export type ParserAst = LogicalExpressionToken | ParenthesizedExpressionToken | TagExpressionToken | UnaryOperatorToken;
 
 export type HydratedAst = ParserAst & {
   getValue?: (subject: unknown) => unknown,

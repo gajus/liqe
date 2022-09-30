@@ -87,7 +87,7 @@ one_op_expr ->
     parentheses_open _ two_op_expr _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 	|	"NOT" post_boolean_primary {% (data, location) => {
   return {
-    type: 'Operand',
+    type: 'UnaryOperator',
     operator: 'NOT',
     operand: data[1],
     location: {

@@ -307,10 +307,10 @@ import {
   type ImplicitFieldToken,
   type LiteralExpressionToken,
   type LogicalExpressionToken,
-  type OperandToken,
   type RangeExpressionToken,
   type RegexExpressionToken,
   type TagExpressionToken,
+  type UnaryOperatorToken,
 } from 'liqe';
 ```
 

@@ -115,7 +115,7 @@ const grammar: Grammar = {
     {"name": "one_op_expr$string$1", "symbols": [{"literal":"N"}, {"literal":"O"}, {"literal":"T"}], "postprocess": (d) => d.join('')},
     {"name": "one_op_expr", "symbols": ["one_op_expr$string$1", "post_boolean_primary"], "postprocess":  (data, location) => {
           return {
-            type: 'Operand',
+            type: 'UnaryOperator',
             operator: 'NOT',
             operand: data[1],
             location: {

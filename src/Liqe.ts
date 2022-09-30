@@ -20,7 +20,7 @@ export {
   ImplicitFieldToken,
   LiteralExpressionToken,
   LogicalExpressionToken,
-  OperandToken,
+  UnaryOperatorToken,
   RangeExpressionToken,
   RegexExpressionToken,
   ComparisonOperatorToken,

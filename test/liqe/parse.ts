@@ -1156,7 +1156,7 @@ test('NOT foo:bar', testQuery, {
     type: 'TagExpression',
   },
   operator: 'NOT',
-  type: 'Operand',
+  type: 'UnaryOperator',
 });
 
 test('NOT (foo:bar)', testQuery, {
@@ -1201,7 +1201,7 @@ test('NOT (foo:bar)', testQuery, {
     type: 'ParenthesizedExpression',
   },
   operator: 'NOT',
-  type: 'Operand',
+  type: 'UnaryOperator',
 });
 
 test('NOT (foo:bar AND baz:qux)', testQuery, {
@@ -1289,7 +1289,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
     type: 'ParenthesizedExpression',
   },
   operator: 'NOT',
-  type: 'Operand',
+  type: 'UnaryOperator',
 });
 
 test('foo:bar AND NOT baz:qux', testQuery, {
@@ -1368,7 +1368,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       type: 'TagExpression',
     },
     operator: 'NOT',
-    type: 'Operand',
+    type: 'UnaryOperator',
   },
   type: 'LogicalExpression',
 });
