@@ -72,7 +72,7 @@ test('(foo:bar AND baz:qux)', testQuery);
 
 test('(foo:bar) AND (baz:qux)', testQuery);
 
-test.skip('NOT (foo:bar AND baz:qux)', testQuery);
+test('NOT (foo:bar AND baz:qux)', testQuery);
 
 test('NOT foo:bar', testQuery);
 

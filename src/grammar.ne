@@ -123,7 +123,7 @@ boolean_primary ->
   side {% id %}
 
 post_boolean_primary ->
-    __ "(" _ boolean_primary _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[3]}) %}
+    __ "(" _ two_op_expr _ ")" {% d => ({type: 'ParenthesizedExpression', expression: d[3]}) %}
   | __ boolean_primary {% d => d[1] %}
 
 side ->
