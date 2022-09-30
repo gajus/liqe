@@ -156,11 +156,15 @@ height:<=100
 height:[100 TO 200]
 height:{100 TO 200}
 
-# logical operators
+# boolean operators
 name:foo AND height:=100
 name:foo OR name:bar
 
-# implicit AND operator
+# inverting a logical expression
+NOT foo
+name:foo AND NOT (bio:bar OR bio:baz)
+
+# implicit AND boolean operator
 name:foo height:=100
 
 # grouping
