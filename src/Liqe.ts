@@ -12,6 +12,7 @@ export {
 } from './test';
 export {
   BooleanOperatorToken,
+  ComparisonOperatorToken,
   ExpressionToken,
   FieldToken,
   Highlight,
@@ -20,11 +21,11 @@ export {
   ImplicitFieldToken,
   LiteralExpressionToken,
   LogicalExpressionToken,
-  UnaryOperatorToken,
+  ParserAst,
   RangeExpressionToken,
   RegexExpressionToken,
-  ComparisonOperatorToken,
   TagExpressionToken,
+  UnaryOperatorToken,
 } from './types';
 export {
   LiqeError,
