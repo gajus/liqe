@@ -274,6 +274,7 @@ test('foo:bar', testQuery, {
   },
   operator: {
     location: {
+      end: 4,
       start: 3,
     },
     operator: ':',
@@ -307,6 +308,7 @@ test('foo: bar', testQuery, {
   },
   operator: {
     location: {
+      end: 4,
       start: 3,
     },
     operator: ':',
@@ -340,6 +342,7 @@ test('foo:123', testQuery, {
   },
   operator: {
     location: {
+      end: 4,
       start: 3,
     },
     operator: ':',
@@ -373,6 +376,7 @@ test('foo:=123', testQuery, {
   },
   operator: {
     location: {
+      end: 5,
       start: 3,
     },
     operator: ':=',
@@ -406,6 +410,7 @@ test('foo:= 123', testQuery, {
   },
   operator: {
     location: {
+      end: 5,
       start: 3,
     },
     operator: ':=',
@@ -439,6 +444,7 @@ test('foo:=-123', testQuery, {
   },
   operator: {
     location: {
+      end: 5,
       start: 3,
     },
     operator: ':=',
@@ -472,6 +478,7 @@ test('foo:=123.4', testQuery, {
   },
   operator: {
     location: {
+      end: 5,
       start: 3,
     },
     operator: ':=',
@@ -505,6 +512,7 @@ test('foo:>=123', testQuery, {
   },
   operator: {
     location: {
+      end: 6,
       start: 3,
     },
     operator: ':>=',
@@ -538,6 +546,7 @@ test('foo:true', testQuery, {
   },
   operator: {
     location: {
+      end: 4,
       start: 3,
     },
     operator: ':',
@@ -571,6 +580,7 @@ test('foo:false', testQuery, {
   },
   operator: {
     location: {
+      end: 4,
       start: 3,
     },
     operator: ':',
@@ -604,6 +614,7 @@ test('foo:null', testQuery, {
   },
   operator: {
     location: {
+      end: 4,
       start: 3,
     },
     operator: ':',
@@ -640,6 +651,7 @@ test('foo.bar:baz', testQuery, {
   },
   operator: {
     location: {
+      end: 8,
       start: 7,
     },
     operator: ':',
@@ -673,6 +685,7 @@ test('foo_bar:baz', testQuery, {
   },
   operator: {
     location: {
+      end: 8,
       start: 7,
     },
     operator: ':',
@@ -706,6 +719,7 @@ test('$foo:baz', testQuery, {
   },
   operator: {
     location: {
+      end: 5,
       start: 4,
     },
     operator: ':',
@@ -740,6 +754,7 @@ test('"foo bar":baz', testQuery, {
   },
   operator: {
     location: {
+      end: 10,
       start: 9,
     },
     operator: ':',
@@ -774,6 +789,7 @@ test('\'foo bar\':baz', testQuery, {
   },
   operator: {
     location: {
+      end: 10,
       start: 9,
     },
     operator: ':',
@@ -808,6 +824,7 @@ test('foo:"bar"', testQuery, {
   },
   operator: {
     location: {
+      end: 4,
       start: 3,
     },
     operator: ':',
@@ -842,6 +859,7 @@ test('foo:\'bar\'', testQuery, {
   },
   operator: {
     location: {
+      end: 4,
       start: 3,
     },
     operator: ':',
@@ -876,6 +894,7 @@ test('foo:bar baz:qux', testQuery, {
     },
     operator: {
       location: {
+        end: 4,
         start: 3,
       },
       operator: ':',
@@ -915,6 +934,7 @@ test('foo:bar baz:qux', testQuery, {
     },
     operator: {
       location: {
+        end: 12,
         start: 11,
       },
       operator: ':',
@@ -951,6 +971,7 @@ test('foo:bar AND baz:qux', testQuery, {
     },
     operator: {
       location: {
+        end: 4,
         start: 3,
       },
       operator: ':',
@@ -994,6 +1015,7 @@ test('foo:bar AND baz:qux', testQuery, {
     },
     operator: {
       location: {
+        end: 16,
         start: 15,
       },
       operator: ':',
@@ -1031,6 +1053,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
       },
       operator: {
         location: {
+          end: 5,
           start: 4,
         },
         operator: ':',
@@ -1081,6 +1104,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
       },
       operator: {
         location: {
+          end: 19,
           start: 18,
         },
         operator: ':',
@@ -1124,6 +1148,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
       },
       operator: {
         location: {
+          end: 5,
           start: 4,
         },
         operator: ':',
@@ -1167,6 +1192,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
       },
       operator: {
         location: {
+          end: 17,
           start: 16,
         },
         operator: ':',
@@ -1213,6 +1239,7 @@ test('NOT foo:bar', testQuery, {
     },
     operator: {
       location: {
+        end: 8,
         start: 7,
       },
       operator: ':',
@@ -1254,6 +1281,7 @@ test('-foo:bar', testQuery, {
     },
     operator: {
       location: {
+        end: 5,
         start: 4,
       },
       operator: ':',
@@ -1296,6 +1324,7 @@ test('NOT (foo:bar)', testQuery, {
       },
       operator: {
         location: {
+          end: 9,
           start: 8,
         },
         operator: ':',
@@ -1345,6 +1374,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
         },
         operator: {
           location: {
+            end: 9,
             start: 8,
           },
           operator: ':',
@@ -1388,6 +1418,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
         },
         operator: {
           location: {
+            end: 21,
             start: 20,
           },
           operator: ':',
@@ -1433,6 +1464,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
     },
     operator: {
       location: {
+        end: 4,
         start: 3,
       },
       operator: ':',
@@ -1481,6 +1513,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       },
       operator: {
         location: {
+          end: 20,
           start: 19,
         },
         operator: ':',
@@ -1521,6 +1554,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       },
       operator: {
         location: {
+          end: 4,
           start: 3,
         },
         operator: ':',
@@ -1564,6 +1598,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       },
       operator: {
         location: {
+          end: 16,
           start: 15,
         },
         operator: ':',
@@ -1609,6 +1644,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
     },
     operator: {
       location: {
+        end: 29,
         start: 28,
       },
       operator: ':',
@@ -1645,6 +1681,7 @@ test('(foo:bar)', testQuery, {
     },
     operator: {
       location: {
+        end: 5,
         start: 4,
       },
       operator: ':',
@@ -1686,6 +1723,7 @@ test('((foo:bar))', testQuery, {
       },
       operator: {
         location: {
+          end: 6,
           start: 5,
         },
         operator: ':',
@@ -1732,6 +1770,7 @@ test('( foo:bar )', testQuery, {
     },
     operator: {
       location: {
+        end: 6,
         start: 5,
       },
       operator: ':',
@@ -1773,6 +1812,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
       },
       operator: {
         location: {
+          end: 5,
           start: 4,
         },
         operator: ':',
@@ -1816,6 +1856,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
       },
       operator: {
         location: {
+          end: 16,
           start: 15,
         },
         operator: ':',
@@ -1858,6 +1899,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
     },
     operator: {
       location: {
+        end: 4,
         start: 3,
       },
       operator: ':',
@@ -1903,6 +1945,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
         },
         operator: {
           location: {
+            end: 16,
             start: 15,
           },
           operator: ':',
@@ -1946,6 +1989,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
         },
         operator: {
           location: {
+            end: 28,
             start: 27,
           },
           operator: ':',
@@ -1992,6 +2036,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
         },
         operator: {
           location: {
+            end: 5,
             start: 4,
           },
           operator: ':',
@@ -2035,6 +2080,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
         },
         operator: {
           location: {
+            end: 16,
             start: 15,
           },
           operator: ':',
@@ -2086,6 +2132,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
     },
     operator: {
       location: {
+        end: 29,
         start: 28,
       },
       operator: ':',

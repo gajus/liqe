@@ -244,7 +244,7 @@ const grammar: Grammar = {
     {"name": "relational_operator$subexpression$1", "symbols": ["relational_operator$subexpression$1$string$4"]},
     {"name": "relational_operator$subexpression$1$string$5", "symbols": [{"literal":":"}, {"literal":"<"}, {"literal":"="}], "postprocess": (d) => d.join('')},
     {"name": "relational_operator$subexpression$1", "symbols": ["relational_operator$subexpression$1$string$5"]},
-    {"name": "relational_operator", "symbols": ["relational_operator$subexpression$1"], "postprocess": (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0][0]})},
+    {"name": "relational_operator", "symbols": ["relational_operator$subexpression$1"], "postprocess": (data, start) => ({location: {start, end: start + data[0][0].length}, type: 'ComparisonOperator', operator: data[0][0]})},
     {"name": "regex", "symbols": ["regex_body", "regex_flags"], "postprocess": d => d.join('')},
     {"name": "regex_body$ebnf$1", "symbols": []},
     {"name": "regex_body$ebnf$1", "symbols": ["regex_body$ebnf$1", "regex_body_char"], "postprocess": (d) => d[0].concat([d[1]])},

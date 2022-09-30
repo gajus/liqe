@@ -231,7 +231,7 @@ relational_operator ->
     | ":<" 
     | ":>=" 
     | ":<="
-  ) {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0][0]}) %}
+  ) {% (data, start) => ({location: {start, end: start + data[0][0].length}, type: 'ComparisonOperator', operator: data[0][0]}) %}
 
 regex ->
   regex_body regex_flags {% d => d.join('') %}
