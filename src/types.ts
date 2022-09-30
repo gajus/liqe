@@ -21,10 +21,15 @@ export type FieldToken = {
   location: TokenLocation,
   name: string,
   path?: readonly string[],
-  quoted: boolean,
-  quotes?: 'double' | 'single',
   type: 'Field',
-};
+} & (
+  {
+    quoted: false,
+  } | {
+    quoted: true,
+    quotes: 'double' | 'single',
+  }
+);
 
 export type RegexExpressionToken = {
   location: TokenLocation,
