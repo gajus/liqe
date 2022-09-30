@@ -199,8 +199,8 @@ const grammar: Grammar = {
         } },
     {"name": "query", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
     {"name": "query", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
-    {"name": "range$string$1", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
-    {"name": "range", "symbols": ["range_open", "_", "decimal", "_", "range$string$1", "_", "decimal", "_", "range_close"], "postprocess":  (data, location) => {
+    {"name": "range$string$1", "symbols": [{"literal":" "}, {"literal":"T"}, {"literal":"O"}, {"literal":" "}], "postprocess": (d) => d.join('')},
+    {"name": "range", "symbols": ["range_open", "decimal", "range$string$1", "decimal", "range_close"], "postprocess":  (data, location) => {
           return {
             location: {
               start: location,
@@ -209,14 +209,14 @@ const grammar: Grammar = {
             expression: {
               location: {
                 start: data[0].location.start,
-                end: data[8].location.start,
+                end: data[4].location.start,
               },
               type: 'RangeExpression',
               range: {
-                min: data[2],
+                min: data[1],
                 minInclusive: data[0].inclusive,
-                maxInclusive: data[8].inclusive,
-                max: data[6],
+                maxInclusive: data[4].inclusive,
+                max: data[3],
               }
             }
           }

@@ -190,7 +190,7 @@ query ->
   | dqstring {% (data, location) => ({type: 'TagExpression', expression: {location: {start: location}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
 
 range ->
-    range_open _ decimal _ "TO" _ decimal _ range_close {% (data, location) => {
+    range_open decimal " TO " decimal range_close {% (data, location) => {
     return {
       location: {
         start: location,
@@ -199,14 +199,14 @@ range ->
       expression: {
         location: {
           start: data[0].location.start,
-          end: data[8].location.start,
+          end: data[4].location.start,
         },
         type: 'RangeExpression',
         range: {
-          min: data[2],
+          min: data[1],
           minInclusive: data[0].inclusive,
-          maxInclusive: data[8].inclusive,
-          max: data[6],
+          maxInclusive: data[4].inclusive,
+          max: data[3],
         }
       }
     }
