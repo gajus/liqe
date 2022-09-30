@@ -90,6 +90,10 @@ test('((foo:bar))', testQuery);
 
 test('( foo:bar )', testQuery);
 
+test('( foo:bar ) [multiple spaces]', (t) => {
+  t.is(serialize(parse('(   foo:bar   )')), '(   foo:bar   )');
+});
+
 test('(foo:bar OR baz:qux)', testQuery);
 
 test('(foo:bar OR (baz:qux OR quuz:corge))', testQuery);
