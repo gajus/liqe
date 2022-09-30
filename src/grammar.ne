@@ -223,12 +223,14 @@ range_close ->
   | "}" {% (data, start) => ({location: {start}, inclusive: false}) %}
 
 relational_operator ->
-    ":" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":=" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":>" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":<" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":>=" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
-  | ":<=" {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0]}) %}
+    (
+      ":"
+    | ":=" 
+    | ":>"
+    | ":<" 
+    | ":>=" 
+    | ":<="
+  ) {% (data, start) => ({location: {start}, type: 'ComparisonOperator', operator: data[0][0]}) %}
 
 regex ->
   regex_body regex_flags {% d => d.join('') %}
