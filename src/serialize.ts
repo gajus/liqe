@@ -42,9 +42,9 @@ const serializeExpression = (expression: ExpressionToken) => {
   throw new Error('Unexpected AST type.');
 };
 
-const serializeLogicalExpression = (ast: HydratedAst) => {
-  if (ast.type !== 'LogicalExpression') {
-    throw new Error('Expected a logical expression.');
+const serializeTagExpression = (ast: HydratedAst) => {
+  if (ast.type !== 'TagExpression') {
+    throw new Error('Expected a tag expression.');
   }
 
   const {
@@ -68,11 +68,11 @@ export const serialize = (ast: HydratedAst): string => {
     return `(${serialize(ast.expression)})`;
   }
 
-  if (ast.type === 'LogicalExpression') {
-    return serializeLogicalExpression(ast);
+  if (ast.type === 'TagExpression') {
+    return serializeTagExpression(ast);
   }
 
-  if (ast.type === 'LogicalExpressionGroup') {
+  if (ast.type === 'LogicalExpression') {
     const left = serialize(ast.left);
     const operator = ast.operator.type === 'Operator' ? ` ${ast.operator.operator} ` : ' ';
     const right = serialize(ast.right);

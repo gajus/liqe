@@ -19,8 +19,8 @@ import type {
 const optionalChainingIsSupported = isOptionalChainingSupported();
 
 const createValueTest = (ast: HydratedAst): InternalTest => {
-  if (ast.type !== 'LogicalExpression') {
-    throw new Error('Expected a logical expression.');
+  if (ast.type !== 'TagExpression') {
+    throw new Error('Expected a tag expression.');
   }
 
   const {
@@ -104,8 +104,8 @@ const testValue = (
     return foundMatch;
   }
 
-  if (ast.type !== 'LogicalExpression') {
-    throw new Error('Expected a logical expression.');
+  if (ast.type !== 'TagExpression') {
+    throw new Error('Expected a tag expression.');
   }
 
   if (!ast.test) {
@@ -137,8 +137,8 @@ const testField = <T extends Object>(
   path: readonly string[],
   highlights: InternalHighlight[],
 ): boolean => {
-  if (ast.type !== 'LogicalExpression') {
-    throw new Error('Expected a logical expression.');
+  if (ast.type !== 'TagExpression') {
+    throw new Error('Expected a tag expression.');
   }
 
   if (!ast.test) {
@@ -226,7 +226,7 @@ export const internalFilter = <T extends Object>(
   path: readonly string[] = [],
   highlights: InternalHighlight[] = [],
 ): readonly T[] => {
-  if (ast.type === 'LogicalExpression') {
+  if (ast.type === 'TagExpression') {
     return rows.filter((row) => {
       return testField(
         row,
@@ -268,8 +268,8 @@ export const internalFilter = <T extends Object>(
     throw new Error('Expected right to be defined.');
   }
 
-  if (ast.type !== 'LogicalExpressionGroup') {
-    throw new Error('Expected a logical expression group.');
+  if (ast.type !== 'LogicalExpression') {
+    throw new Error('Expected a tag expression.');
   }
 
   if (ast.operator.operator === 'OR') {

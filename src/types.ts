@@ -54,19 +54,19 @@ export type ImplicitOperatorToken = {
   type: 'ImplicitOperator',
 };
 
-export type LogicalExpressionToken = {
+export type TagExpressionToken = {
   expression: ExpressionToken,
   field: FieldToken | ImplicitFieldToken,
   relationalOperator?: RelationalOperator,
   test?: InternalTest,
-  type: 'LogicalExpression',
+  type: 'TagExpression',
 };
 
-export type LogicalExpressionGroupToken = {
+export type LogicalExpressionToken = {
   left: ParserAst,
   operator: ImplicitOperatorToken | OperatorToken,
   right: ParserAst,
-  type: 'LogicalExpressionGroup',
+  type: 'LogicalExpression',
 };
 
 export type OperandToken = {
@@ -80,7 +80,7 @@ export type ParenthesizedExpressionToken = {
   type: 'ParenthesizedExpression',
 };
 
-export type ParserAst = LogicalExpressionGroupToken | LogicalExpressionToken | OperandToken | ParenthesizedExpressionToken;
+export type ParserAst = LogicalExpressionToken | OperandToken | ParenthesizedExpressionToken | TagExpressionToken;
 
 export type HydratedAst = ParserAst & {
   getValue?: (subject: unknown) => unknown,

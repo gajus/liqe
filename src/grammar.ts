@@ -15,7 +15,7 @@ const notOp = (d) => {
 const range = ( minInclusive, maxInclusive) => {
   return (data, location) => {
     return {
-      type: 'LogicalExpression',
+      type: 'TagExpression',
       expression: {
         location,
         type: 'RangeExpression',
@@ -110,13 +110,13 @@ const grammar: Grammar = {
         },
     {"name": "expr", "symbols": ["two_op_expr"], "postprocess": id},
     {"name": "two_op_expr", "symbols": ["pre_two_op_expr", "operator", "post_one_op_expr"], "postprocess":  (data) => ({
-          type: 'LogicalExpressionGroup',
+          type: 'LogicalExpression',
           operator: data[1],
           left: data[0],
           right: data[2]
         }) },
     {"name": "two_op_expr", "symbols": ["pre_two_op_implicit_expr", {"literal":" "}, "post_one_op_implicit_expr"], "postprocess":  (data) => ({
-          type: 'LogicalExpressionGroup',
+          type: 'LogicalExpression',
           operator: {
             operator: 'AND',
             type: 'ImplicitOperator'
@@ -169,9 +169,9 @@ const grammar: Grammar = {
     {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location})},
     {"name": "field", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location})},
     {"name": "field", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location})},
-    {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": (data, location) => {return {expression: {location: location + data[1] + 1, type: 'LiteralExpression', quoted: false, value: data[2]}, type: 'LogicalExpression', relationalOperator: data[0][0]}}},
-    {"name": "query", "symbols": ["decimal"], "postprocess": (data, location) => ({type: 'LogicalExpression', expression: {location, type: 'LiteralExpression', quoted: false, value: data.join('')}})},
-    {"name": "query", "symbols": ["regex"], "postprocess": (data, location) => ({type: 'LogicalExpression', expression: {location, type: 'RegexExpression', value: data.join('')}})},
+    {"name": "query", "symbols": ["relational_operator", "_", "decimal"], "postprocess": (data, location) => {return {expression: {location: location + data[1] + 1, type: 'LiteralExpression', quoted: false, value: data[2]}, type: 'TagExpression', relationalOperator: data[0][0]}}},
+    {"name": "query", "symbols": ["decimal"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location, type: 'LiteralExpression', quoted: false, value: data.join('')}})},
+    {"name": "query", "symbols": ["regex"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location, type: 'RegexExpression', value: data.join('')}})},
     {"name": "query", "symbols": ["range"], "postprocess": (data) => data[0]},
     {"name": "query", "symbols": ["unquoted_value"], "postprocess":  (data, location, reject) => {
           const value = data.join('');
@@ -193,7 +193,7 @@ const grammar: Grammar = {
           }
         
           return {
-            type: 'LogicalExpression',
+            type: 'TagExpression',
             expression: {
               location,
               type: 'LiteralExpression',
@@ -202,8 +202,8 @@ const grammar: Grammar = {
             },
           };
         } },
-    {"name": "query", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'LogicalExpression', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
-    {"name": "query", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'LogicalExpression', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
+    {"name": "query", "symbols": ["sqstring"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
+    {"name": "query", "symbols": ["dqstring"], "postprocess": (data, location) => ({type: 'TagExpression', expression: {location, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
     {"name": "range$string$1", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},
     {"name": "range", "symbols": [{"literal":"["}, "_", "decimal", "_", "range$string$1", "_", "decimal", "_", {"literal":"]"}], "postprocess": range(true, true)},
     {"name": "range$string$2", "symbols": [{"literal":"T"}, {"literal":"O"}], "postprocess": (d) => d.join('')},

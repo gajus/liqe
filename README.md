@@ -283,7 +283,7 @@ const tokens = parse('foo:bar');
 //     path: ['foo'],
 //     quoted: false,
 //   },
-//   type: 'LogicalExpression',
+//   type: 'TagExpression',
 // }
 
 serialize(tokens);
@@ -294,8 +294,8 @@ serialize(tokens);
 
 ```ts
 import {
-  type LogicalExpressionGroupToken,
   type LogicalExpressionToken,
+  type TagExpressionToken,
   type FieldToken,
   type ImplicitFieldToken,
   type LiteralExpressionToken,

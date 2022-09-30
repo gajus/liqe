@@ -24,7 +24,7 @@ export const hydrateAst = (subject: ParserAst): HydratedAst => {
 
   if (
     optionalChainingIsSupported &&
-    subject.type === 'LogicalExpression' &&
+    subject.type === 'TagExpression' &&
     subject.field.type === 'Field' &&
     'field' in subject &&
     isSafePath(subject.field.name)
