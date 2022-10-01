@@ -50,7 +50,7 @@ two_op_logical_expression ->
       left: data[0],
       right: data[2]
     }) %}
-  | pre_two_op_implicit_logical_expression " " post_one_op_implicit_logical_expression {% (data) => ({
+  | pre_two_op_implicit_logical_expression __ post_one_op_implicit_logical_expression {% (data) => ({
       type: 'LogicalExpression',
       location: {
         start: data[0].location.start,

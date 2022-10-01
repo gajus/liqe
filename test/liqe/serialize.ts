@@ -14,6 +14,14 @@ test('foo', testQuery);
 
 test('foo bar', testQuery);
 
+test('foo AND bar [multiple spaces]', (t) => {
+  t.is(serialize(parse('foo   AND   bar')), 'foo   AND   bar');
+});
+
+test('foo bar [multiple spaces]', (t) => {
+  t.is(serialize(parse('foo   bar')), 'foo   bar');
+});
+
 test('foo_bar', testQuery);
 
 test('"foo"', testQuery);

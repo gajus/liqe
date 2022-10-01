@@ -85,11 +85,17 @@ export const serialize = (ast: HydratedAst): string => {
   }
 
   if (ast.type === 'LogicalExpression') {
-    const left = serialize(ast.left);
-    const operator = ast.operator.type === 'BooleanOperator' ? ` ${ast.operator.operator} ` : ' ';
-    const right = serialize(ast.right);
+    let operator = '';
 
-    return `${left}${operator}${right}`;
+    if (ast.operator.type === 'BooleanOperator') {
+      operator += ' '.repeat(ast.operator.location.start - ast.left.location.end);
+      operator += ast.operator.operator;
+      operator += ' '.repeat(ast.right.location.start - ast.operator.location.end);
+    } else {
+      operator = ' '.repeat(ast.right.location.start - ast.left.location.end);
+    }
+
+    return `${serialize(ast.left)}${operator}${serialize(ast.right)}`;
   }
 
   if (ast.type === 'UnaryOperator') {

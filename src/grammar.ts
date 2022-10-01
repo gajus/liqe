@@ -87,7 +87,7 @@ const grammar: Grammar = {
           left: data[0],
           right: data[2]
         }) },
-    {"name": "two_op_logical_expression", "symbols": ["pre_two_op_implicit_logical_expression", {"literal":" "}, "post_one_op_implicit_logical_expression"], "postprocess":  (data) => ({
+    {"name": "two_op_logical_expression", "symbols": ["pre_two_op_implicit_logical_expression", "__", "post_one_op_implicit_logical_expression"], "postprocess":  (data) => ({
           type: 'LogicalExpression',
           location: {
             start: data[0].location.start,
