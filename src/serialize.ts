@@ -106,5 +106,9 @@ export const serialize = (ast: HydratedAst): string => {
     return (ast.operator === 'NOT' ? 'NOT ' : ast.operator) + serialize(ast.operand);
   }
 
+  if (ast.type === 'EmptyExpression') {
+    return '';
+  }
+
   throw new Error('Unexpected AST type.');
 };

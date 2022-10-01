@@ -107,6 +107,13 @@ const grammar: Grammar = {
     {"name": "post_one_op_implicit_logical_expression", "symbols": ["parentheses_open", "_", "one_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]})},
     {"name": "pre_two_op_logical_expression", "symbols": ["two_op_logical_expression", "__"], "postprocess": d => d[0]},
     {"name": "pre_two_op_logical_expression", "symbols": ["parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]})},
+    {"name": "one_op_logical_expression", "symbols": ["parentheses_open", "_", "parentheses_close"], "postprocess":  d => ({location: {start: d[0].location.start, end: d[2].location.start + 1, },type: 'ParenthesizedExpression', expression: {
+          type: 'EmptyExpression',
+          location: {
+            start: d[0].location.start + 1,
+            end: d[0].location.start + 1,
+          },
+        }}) },
     {"name": "one_op_logical_expression", "symbols": ["parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]})},
     {"name": "one_op_logical_expression$string$1", "symbols": [{"literal":"N"}, {"literal":"O"}, {"literal":"T"}], "postprocess": (d) => d.join('')},
     {"name": "one_op_logical_expression", "symbols": ["one_op_logical_expression$string$1", "post_boolean_primary"], "postprocess":  (data, start) => {

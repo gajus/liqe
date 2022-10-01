@@ -112,7 +112,7 @@ export type ParenthesizedExpressionToken = {
   type: 'ParenthesizedExpression',
 };
 
-export type ParserAst = LogicalExpressionToken | ParenthesizedExpressionToken | TagToken | UnaryOperatorToken;
+export type ParserAst = EmptyExpression | LogicalExpressionToken | ParenthesizedExpressionToken | TagToken | UnaryOperatorToken;
 
 export type HydratedAst = ParserAst & {
   getValue?: (subject: unknown) => unknown,

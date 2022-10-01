@@ -12,6 +12,10 @@ const testQuery = (t) => {
 
 test('foo', testQuery);
 
+test('()', testQuery);
+
+test('( )', testQuery);
+
 test('foo:', testQuery);
 
 test('foo bar', testQuery);

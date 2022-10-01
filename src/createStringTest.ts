@@ -44,6 +44,10 @@ export const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
     return createRegexTest(regexCache, expression.value);
   }
 
+  if (expression.type !== 'LiteralExpression') {
+    throw new Error('Expected a literal expression.');
+  }
+
   const value = String(expression.value);
 
   if (value.includes('*') && expression.quoted === false) {

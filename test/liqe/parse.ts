@@ -29,7 +29,36 @@ test('error describes offset', (t) => {
 // Ideally we don't want to throw an error.
 // https://github.com/gajus/liqe/issues/18
 test.todo('empty query');
-test.todo('()');
+
+test('()', testQuery, {
+  expression: {
+    location: {
+      end: 1,
+      start: 1,
+    },
+    type: 'EmptyExpression',
+  },
+  location: {
+    end: 2,
+    start: 0,
+  },
+  type: 'ParenthesizedExpression',
+});
+
+test('( )', testQuery, {
+  expression: {
+    location: {
+      end: 1,
+      start: 1,
+    },
+    type: 'EmptyExpression',
+  },
+  location: {
+    end: 3,
+    start: 0,
+  },
+  type: 'ParenthesizedExpression',
+});
 
 test('foo:', testQuery, {
   expression: {
@@ -61,7 +90,7 @@ test('foo:', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo', testQuery, {
