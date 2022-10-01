@@ -125,7 +125,7 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field relational_operator tag_expression {% (data, start) => {
+    field comparison_operator tag_expression {% (data, start) => {
     const field = {
       type: 'Field',
       name: data[0].name,
@@ -228,7 +228,7 @@ range_close ->
   "]" {% (data, start) => ({location: {start}, inclusive: true}) %}
   | "}" {% (data, start) => ({location: {start}, inclusive: false}) %}
 
-relational_operator ->
+comparison_operator ->
     (
       ":"
     | ":=" 
