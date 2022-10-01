@@ -159,8 +159,8 @@ field ->
   | dqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start, end: start + data[0].length + 2}}) %}
 
 tag_expression ->
-    decimal {% (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
-  | regex {% (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length}, type: 'RegexExpression', value: data.join('')}}) %}
+    decimal {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
+  | regex {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}
   | unquoted_value {% (data, start, reject) => {
     const value = data.join('');
@@ -182,7 +182,7 @@ tag_expression ->
     }
 
     return {
-      type: 'TagExpression',
+      type: 'Tag',
       expression: {
         location: {
           start,
@@ -194,8 +194,8 @@ tag_expression ->
       },
     };
   } %}
-  | sqstring {% (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}}) %}
-  | dqstring {% (data, start) => ({type: 'TagExpression', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
+  | sqstring {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}}) %}
+  | dqstring {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
 
 range ->
     range_open decimal " TO " decimal range_close {% (data, start) => {
@@ -203,7 +203,7 @@ range ->
       location: {
         start,
       },
-      type: 'TagExpression',
+      type: 'Tag',
       expression: {
         location: {
           start: data[0].location.start,

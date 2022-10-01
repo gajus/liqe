@@ -16,7 +16,7 @@ if (isOptionalChainingSupported()) {
         name: '.foo',
         type: 'Field',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
@@ -42,7 +42,7 @@ if (isOptionalChainingSupported()) {
               name: '.foo',
               type: 'Field',
             },
-            type: 'TagExpression',
+            type: 'Tag',
           },
         },
       },
@@ -72,7 +72,7 @@ if (isOptionalChainingSupported()) {
         name: '.foo',
         type: 'Field',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);
@@ -86,7 +86,7 @@ if (isOptionalChainingSupported()) {
         name: '.foo.bar.baz',
         type: 'Field',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     } as HydratedAst;
 
     const hydratedAst = hydrateAst(parserAst);

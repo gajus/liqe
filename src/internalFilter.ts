@@ -19,7 +19,7 @@ import type {
 const optionalChainingIsSupported = isOptionalChainingSupported();
 
 const createValueTest = (ast: HydratedAst): InternalTest => {
-  if (ast.type !== 'TagExpression') {
+  if (ast.type !== 'Tag') {
     throw new Error('Expected a tag expression.');
   }
 
@@ -104,7 +104,7 @@ const testValue = (
     return foundMatch;
   }
 
-  if (ast.type !== 'TagExpression') {
+  if (ast.type !== 'Tag') {
     throw new Error('Expected a tag expression.');
   }
 
@@ -137,7 +137,7 @@ const testField = <T extends Object>(
   path: readonly string[],
   highlights: InternalHighlight[],
 ): boolean => {
-  if (ast.type !== 'TagExpression') {
+  if (ast.type !== 'Tag') {
     throw new Error('Expected a tag expression.');
   }
 
@@ -230,7 +230,7 @@ export const internalFilter = <T extends Object>(
   path: readonly string[] = [],
   highlights: InternalHighlight[] = [],
 ): readonly T[] => {
-  if (ast.type === 'TagExpression') {
+  if (ast.type === 'Tag') {
     return rows.filter((row) => {
       return testField(
         row,

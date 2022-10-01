@@ -28,7 +28,7 @@ const createRegexTest = (regexCache: RegExpCache, regex: string) => {
 };
 
 export const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
-  if (ast.type !== 'TagExpression') {
+  if (ast.type !== 'Tag') {
     throw new Error('Expected a tag expression.');
   }
 

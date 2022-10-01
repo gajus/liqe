@@ -49,7 +49,7 @@ test('foo', testQuery, {
     end: 3,
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('(foo)', testQuery, {
@@ -70,7 +70,7 @@ test('(foo)', testQuery, {
       end: 4,
       start: 1,
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   location: {
     end: 5,
@@ -97,7 +97,7 @@ test('foo bar', testQuery, {
       end: 3,
       start: 0,
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   location: {
     end: 7,
@@ -124,7 +124,7 @@ test('foo bar', testQuery, {
       end: 7,
       start: 4,
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   type: 'LogicalExpression',
 });
@@ -146,7 +146,7 @@ test('foo_bar', testQuery, {
     end: 7,
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('"foo"', testQuery, {
@@ -167,7 +167,7 @@ test('"foo"', testQuery, {
     end: 5,
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('\'foo\'', testQuery, {
@@ -188,7 +188,7 @@ test('\'foo\'', testQuery, {
     end: 5,
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('/foo/', testQuery, {
@@ -207,7 +207,7 @@ test('/foo/', testQuery, {
     end: 5,
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('/foo/ui', testQuery, {
@@ -226,7 +226,7 @@ test('/foo/ui', testQuery, {
     end: 7,
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('/\\s/', testQuery, {
@@ -245,7 +245,7 @@ test('/\\s/', testQuery, {
     end: 4,
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, {
@@ -264,7 +264,7 @@ test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery,
     end: 55,
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:bar', testQuery, {
@@ -299,7 +299,7 @@ test('foo:bar', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 // https://github.com/gajus/liqe/issues/18
@@ -336,7 +336,7 @@ test.skip('foo: bar', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:123', testQuery, {
@@ -371,7 +371,7 @@ test('foo:123', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:=123', testQuery, {
@@ -406,7 +406,7 @@ test('foo:=123', testQuery, {
     operator: ':=',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 // https://github.com/gajus/liqe/issues/18
@@ -443,7 +443,7 @@ test.skip('foo:= 123', testQuery, {
     operator: ':=',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:=-123', testQuery, {
@@ -478,7 +478,7 @@ test('foo:=-123', testQuery, {
     operator: ':=',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:=123.4', testQuery, {
@@ -513,7 +513,7 @@ test('foo:=123.4', testQuery, {
     operator: ':=',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:>=123', testQuery, {
@@ -548,7 +548,7 @@ test('foo:>=123', testQuery, {
     operator: ':>=',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:true', testQuery, {
@@ -583,7 +583,7 @@ test('foo:true', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:false', testQuery, {
@@ -618,7 +618,7 @@ test('foo:false', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:null', testQuery, {
@@ -653,7 +653,7 @@ test('foo:null', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo.bar:baz', testQuery, {
@@ -691,7 +691,7 @@ test('foo.bar:baz', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo_bar:baz', testQuery, {
@@ -726,7 +726,7 @@ test('foo_bar:baz', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('$foo:baz', testQuery, {
@@ -761,7 +761,7 @@ test('$foo:baz', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('"foo bar":baz', testQuery, {
@@ -797,7 +797,7 @@ test('"foo bar":baz', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('\'foo bar\':baz', testQuery, {
@@ -833,7 +833,7 @@ test('\'foo bar\':baz', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:"bar"', testQuery, {
@@ -869,7 +869,7 @@ test('foo:"bar"', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:\'bar\'', testQuery, {
@@ -905,7 +905,7 @@ test('foo:\'bar\'', testQuery, {
     operator: ':',
     type: 'ComparisonOperator',
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('foo:bar baz:qux', testQuery, {
@@ -941,7 +941,7 @@ test('foo:bar baz:qux', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   location: {
     end: 15,
@@ -983,7 +983,7 @@ test('foo:bar baz:qux', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   type: 'LogicalExpression',
 });
@@ -1021,7 +1021,7 @@ test('foo:bar AND baz:qux', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   location: {
     end: 19,
@@ -1067,7 +1067,7 @@ test('foo:bar AND baz:qux', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   type: 'LogicalExpression',
 });
@@ -1106,7 +1106,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     location: {
       end: 9,
@@ -1159,7 +1159,7 @@ test('(foo:bar) AND (baz:qux)', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     location: {
       end: 23,
@@ -1204,7 +1204,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     location: {
       end: 20,
@@ -1250,7 +1250,7 @@ test('(foo:bar AND baz:qux)', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     type: 'LogicalExpression',
   },
@@ -1298,7 +1298,7 @@ test('NOT foo:bar', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   operator: 'NOT',
   type: 'UnaryOperator',
@@ -1341,7 +1341,7 @@ test('-foo:bar', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   operator: '-',
   type: 'UnaryOperator',
@@ -1385,7 +1385,7 @@ test('NOT (foo:bar)', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     location: {
       end: 13,
@@ -1436,7 +1436,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
           operator: ':',
           type: 'ComparisonOperator',
         },
-        type: 'TagExpression',
+        type: 'Tag',
       },
       location: {
         end: 24,
@@ -1482,7 +1482,7 @@ test('NOT (foo:bar AND baz:qux)', testQuery, {
           operator: ':',
           type: 'ComparisonOperator',
         },
-        type: 'TagExpression',
+        type: 'Tag',
       },
       type: 'LogicalExpression',
     },
@@ -1529,7 +1529,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   location: {
     end: 23,
@@ -1580,7 +1580,7 @@ test('foo:bar AND NOT baz:qux', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     operator: 'NOT',
     type: 'UnaryOperator',
@@ -1622,7 +1622,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     location: {
       end: 19,
@@ -1668,7 +1668,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     type: 'LogicalExpression',
   },
@@ -1716,7 +1716,7 @@ test('foo:bar AND baz:qux AND quuz:corge', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   type: 'LogicalExpression',
 });
@@ -1754,7 +1754,7 @@ test('(foo:bar)', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   location: {
     end: 9,
@@ -1797,7 +1797,7 @@ test('((foo:bar))', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     location: {
       end: 10,
@@ -1845,7 +1845,7 @@ test('( foo:bar )', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   location: {
     end: 11,
@@ -1888,7 +1888,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     location: {
       end: 19,
@@ -1934,7 +1934,7 @@ test('(foo:bar OR baz:qux)', testQuery, {
         operator: ':',
         type: 'ComparisonOperator',
       },
-      type: 'TagExpression',
+      type: 'Tag',
     },
     type: 'LogicalExpression',
   },
@@ -1978,7 +1978,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   location: {
     end: 34,
@@ -2026,7 +2026,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           operator: ':',
           type: 'ComparisonOperator',
         },
-        type: 'TagExpression',
+        type: 'Tag',
       },
       location: {
         end: 33,
@@ -2072,7 +2072,7 @@ test('foo:bar OR (baz:qux OR quuz:corge)', testQuery, {
           operator: ':',
           type: 'ComparisonOperator',
         },
-        type: 'TagExpression',
+        type: 'Tag',
       },
       type: 'LogicalExpression',
     },
@@ -2120,7 +2120,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           operator: ':',
           type: 'ComparisonOperator',
         },
-        type: 'TagExpression',
+        type: 'Tag',
       },
       location: {
         end: 19,
@@ -2166,7 +2166,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
           operator: ':',
           type: 'ComparisonOperator',
         },
-        type: 'TagExpression',
+        type: 'Tag',
       },
       type: 'LogicalExpression',
     },
@@ -2220,7 +2220,7 @@ test('(foo:bar OR baz:qux) OR quuz:corge', testQuery, {
       operator: ':',
       type: 'ComparisonOperator',
     },
-    type: 'TagExpression',
+    type: 'Tag',
   },
   type: 'LogicalExpression',
 });
@@ -2245,7 +2245,7 @@ test('[1 TO 2]', testQuery, {
   location: {
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('{1 TO 2]', testQuery, {
@@ -2268,7 +2268,7 @@ test('{1 TO 2]', testQuery, {
   location: {
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('[1 TO 2}', testQuery, {
@@ -2291,7 +2291,7 @@ test('[1 TO 2}', testQuery, {
   location: {
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('{1 TO 2}', testQuery, {
@@ -2314,7 +2314,7 @@ test('{1 TO 2}', testQuery, {
   location: {
     start: 0,
   },
-  type: 'TagExpression',
+  type: 'Tag',
 });
 
 test('( foo OR bar AND baz )', testQuery, {
@@ -2329,7 +2329,7 @@ test('( foo OR bar AND baz )', testQuery, {
         },
         field: {type: 'ImplicitField'},
         location: {end: 5, start: 2},
-        type: 'TagExpression',
+        type: 'Tag',
       },
       location: {end: 12, start: 2},
       operator: {
@@ -2346,7 +2346,7 @@ test('( foo OR bar AND baz )', testQuery, {
         },
         field: {type: 'ImplicitField'},
         location: {end: 12, start: 9},
-        type: 'TagExpression',
+        type: 'Tag',
       },
       type: 'LogicalExpression',
     },
@@ -2365,7 +2365,7 @@ test('( foo OR bar AND baz )', testQuery, {
       },
       field: {type: 'ImplicitField'},
       location: {end: 20, start: 17},
-      type: 'TagExpression',
+      type: 'Tag',
     },
     type: 'LogicalExpression',
   },

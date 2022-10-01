@@ -309,7 +309,7 @@ const tokens = parse('foo:bar');
 //     operator: ':',
 //     type: 'ComparisonOperator',
 //   },
-//   type: 'TagExpression',
+//   type: 'Tag',
 // }
 
 serialize(tokens);
@@ -329,7 +329,7 @@ import {
   type LogicalExpressionToken,
   type RangeExpressionToken,
   type RegexExpressionToken,
-  type TagExpressionToken,
+  type TagToken,
   type UnaryOperatorToken,
 } from 'liqe';
 ```

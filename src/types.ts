@@ -77,13 +77,13 @@ export type TokenLocation = {
   start: number,
 };
 
-export type TagExpressionToken = {
+export type TagToken = {
   expression: ExpressionToken,
   field: FieldToken | ImplicitFieldToken,
   location: TokenLocation,
   operator: ComparisonOperatorToken,
   test?: InternalTest,
-  type: 'TagExpression',
+  type: 'Tag',
 };
 
 export type LogicalExpressionToken = {
@@ -107,7 +107,7 @@ export type ParenthesizedExpressionToken = {
   type: 'ParenthesizedExpression',
 };
 
-export type ParserAst = LogicalExpressionToken | ParenthesizedExpressionToken | TagExpressionToken | UnaryOperatorToken;
+export type ParserAst = LogicalExpressionToken | ParenthesizedExpressionToken | TagToken | UnaryOperatorToken;
 
 export type HydratedAst = ParserAst & {
   getValue?: (subject: unknown) => unknown,

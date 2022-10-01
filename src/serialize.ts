@@ -42,8 +42,8 @@ const serializeExpression = (expression: ExpressionToken) => {
   throw new Error('Unexpected AST type.');
 };
 
-const serializeTagExpression = (ast: HydratedAst) => {
-  if (ast.type !== 'TagExpression') {
+const serializeTag = (ast: HydratedAst) => {
+  if (ast.type !== 'Tag') {
     throw new Error('Expected a tag expression.');
   }
 
@@ -80,8 +80,8 @@ export const serialize = (ast: HydratedAst): string => {
     return `(${patStart}${serialize(ast.expression)}${patEnd})`;
   }
 
-  if (ast.type === 'TagExpression') {
-    return serializeTagExpression(ast);
+  if (ast.type === 'Tag') {
+    return serializeTag(ast);
   }
 
   if (ast.type === 'LogicalExpression') {

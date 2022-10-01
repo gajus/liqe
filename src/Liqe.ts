@@ -24,7 +24,7 @@ export {
   ParserAst,
   RangeExpressionToken,
   RegexExpressionToken,
-  TagExpressionToken,
+  TagToken,
   UnaryOperatorToken,
 } from './types';
 export {
