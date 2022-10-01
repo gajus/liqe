@@ -39,6 +39,10 @@ const serializeExpression = (expression: ExpressionToken) => {
     return `${minInclusive ? '[' : '{'}${min} TO ${max}${maxInclusive ? ']' : '}'}`;
   }
 
+  if (expression.type === 'EmptyExpression') {
+    return '';
+  }
+
   throw new Error('Unexpected AST type.');
 };
 

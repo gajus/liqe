@@ -30,7 +30,39 @@ test('error describes offset', (t) => {
 // https://github.com/gajus/liqe/issues/18
 test.todo('empty query');
 test.todo('()');
-test.todo('foo:');
+
+test('foo:', testQuery, {
+  expression: {
+    location: {
+      end: 4,
+      start: 4,
+    },
+    type: 'EmptyExpression',
+  },
+  field: {
+    location: {
+      end: 3,
+      start: 0,
+    },
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+    type: 'Field',
+  },
+  location: {
+    end: 4,
+    start: 0,
+  },
+  operator: {
+    location: {
+      end: 4,
+      start: 3,
+    },
+    operator: ':',
+    type: 'ComparisonOperator',
+  },
+  type: 'TagExpression',
+});
 
 test('foo', testQuery, {
   expression: {

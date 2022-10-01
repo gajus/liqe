@@ -167,6 +167,37 @@ const grammar: Grammar = {
             ...data[2]
           }
         } },
+    {"name": "tag_expression", "symbols": ["field", "comparison_operator"], "postprocess":  (data, start) => {
+          const field = {
+            type: 'Field',
+            name: data[0].name,
+            path: data[0].name.split('.').filter(Boolean),
+            quoted: data[0].quoted,
+            quotes: data[0].quotes,
+            location: data[0].location,
+          };
+        
+          if (!data[0].quotes) {
+            delete field.quotes;
+          }
+        
+          return {
+            type: 'Tag',
+            location: {
+              start,
+              end: data[1].location.end,
+            },
+            field,
+            operator: data[1],
+            expression: {
+              type: 'EmptyExpression',
+              location: {
+                start: data[1].location.end,
+                end: data[1].location.end,
+              },
+            }
+          }
+        } },
     {"name": "tag_expression", "symbols": ["expression"], "postprocess":  (data, start) => {
           return {location: {start, end: data[0].expression.location.end}, field: {type: 'ImplicitField'}, ...data[0]};
         } },

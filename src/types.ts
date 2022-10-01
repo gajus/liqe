@@ -57,7 +57,12 @@ export type LiteralExpressionToken = {
   }
 );
 
-export type ExpressionToken = LiteralExpressionToken | RangeExpressionToken | RegexExpressionToken;
+export type EmptyExpression = {
+  location: TokenLocation,
+  type: 'EmptyExpression',
+};
+
+export type ExpressionToken = EmptyExpression | LiteralExpressionToken | RangeExpressionToken | RegexExpressionToken;
 
 export type BooleanOperatorToken = {
   location: TokenLocation,

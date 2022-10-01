@@ -12,6 +12,8 @@ const testQuery = (t) => {
 
 test('foo', testQuery);
 
+test('foo:', testQuery);
+
 test('foo bar', testQuery);
 
 test('foo AND bar [multiple spaces]', (t) => {

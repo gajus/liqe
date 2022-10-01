@@ -125,6 +125,7 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 tag_expression ->
+    
     field comparison_operator expression {% (data, start) => {
     const field = {
       type: 'Field',
@@ -147,6 +148,37 @@ tag_expression ->
       field,
       operator: data[1],
       ...data[2]
+    }
+  } %}
+  | field comparison_operator {% (data, start) => {
+    const field = {
+      type: 'Field',
+      name: data[0].name,
+      path: data[0].name.split('.').filter(Boolean),
+      quoted: data[0].quoted,
+      quotes: data[0].quotes,
+      location: data[0].location,
+    };
+
+    if (!data[0].quotes) {
+      delete field.quotes;
+    }
+
+    return {
+      type: 'Tag',
+      location: {
+        start,
+        end: data[1].location.end,
+      },
+      field,
+      operator: data[1],
+      expression: {
+        type: 'EmptyExpression',
+        location: {
+          start: data[1].location.end,
+          end: data[1].location.end,
+        },
+      }
     }
   } %}
   | expression {% (data, start) => {
