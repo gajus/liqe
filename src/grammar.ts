@@ -143,7 +143,7 @@ const grammar: Grammar = {
     {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
     {"name": "post_boolean_primary", "symbols": ["__", "parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[1].location.start, end: d[5].location.start + 1, }, type: 'ParenthesizedExpression', expression: d[3]})},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
-    {"name": "side", "symbols": ["field", "relational_operator", "_", "tag_expression"], "postprocess":  (data, start) => {
+    {"name": "side", "symbols": ["field", "relational_operator", "tag_expression"], "postprocess":  (data, start) => {
           const field = {
             type: 'Field',
             name: data[0].name,
@@ -160,11 +160,11 @@ const grammar: Grammar = {
           return {
             location: {
               start,
-              end: data[3].expression.location.end,
+              end: data[2].expression.location.end,
             },
             field,
             operator: data[1],
-            ...data[3]
+            ...data[2]
           }
         } },
     {"name": "side", "symbols": ["tag_expression"], "postprocess":  (data, start) => {

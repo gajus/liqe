@@ -27,8 +27,10 @@ test('error describes offset', (t) => {
 
 // TODO not clear what the expected behavior is here
 // Ideally we don't want to throw an error.
+// https://github.com/gajus/liqe/issues/18
 test.todo('empty query');
 test.todo('()');
+test.todo('foo:');
 
 test('foo', testQuery, {
   expression: {
@@ -300,7 +302,9 @@ test('foo:bar', testQuery, {
   type: 'TagExpression',
 });
 
-test('foo: bar', testQuery, {
+// https://github.com/gajus/liqe/issues/18
+// https://github.com/gajus/liqe/issues/19
+test.skip('foo: bar', testQuery, {
   expression: {
     location: {
       end: 8,
@@ -405,7 +409,9 @@ test('foo:=123', testQuery, {
   type: 'TagExpression',
 });
 
-test('foo:= 123', testQuery, {
+// https://github.com/gajus/liqe/issues/18
+// https://github.com/gajus/liqe/issues/19
+test.skip('foo:= 123', testQuery, {
   expression: {
     location: {
       end: 9,

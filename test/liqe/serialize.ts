@@ -38,13 +38,17 @@ test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery)
 
 test('foo:bar', testQuery);
 
-test('foo: bar', testQuery);
+// https://github.com/gajus/liqe/issues/18
+// https://github.com/gajus/liqe/issues/19
+test.skip('foo: bar', testQuery);
 
 test('foo:123', testQuery);
 
 test('foo:=123', testQuery);
 
-test('foo:= 123', testQuery);
+// https://github.com/gajus/liqe/issues/18
+// https://github.com/gajus/liqe/issues/19
+test.skip('foo:= 123', testQuery);
 
 test('foo:=-123', testQuery);
 
