@@ -322,6 +322,7 @@ serialize(tokens);
 import {
   type BooleanOperatorToken,
   type ComparisonOperatorToken,
+  type EmptyExpression,
   type FieldToken,
   type ImplicitBooleanOperatorToken,
   type ImplicitFieldToken,

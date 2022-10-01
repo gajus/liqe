@@ -25,10 +25,25 @@ test('error describes offset', (t) => {
   t.is(error.column, 5);
 });
 
-// TODO not clear what the expected behavior is here
-// Ideally we don't want to throw an error.
-// https://github.com/gajus/liqe/issues/18
-test.todo('empty query');
+test('empty query', (t) => {
+  t.deepEqual(parse(''), {
+    location: {
+      end: 0,
+      start: 0,
+    },
+    type: 'EmptyExpression',
+  });
+});
+
+test('empty query (whitespace)', (t) => {
+  t.deepEqual(parse('  '), {
+    location: {
+      end: 0,
+      start: 0,
+    },
+    type: 'EmptyExpression',
+  });
+});
 
 test('()', testQuery, {
   expression: {

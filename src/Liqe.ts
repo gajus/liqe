@@ -13,6 +13,7 @@ export {
 export {
   BooleanOperatorToken,
   ComparisonOperatorToken,
+  EmptyExpression,
   ExpressionToken,
   FieldToken,
   Highlight,

@@ -16,6 +16,16 @@ const rules = nearley.Grammar.fromCompiled(grammar);
 const MESSAGE_RULE = /Syntax error at line (?<line>\d+) col (?<column>\d+)/;
 
 export const parse = (query: string): HydratedAst => {
+  if (query.trim() === '') {
+    return {
+      location: {
+        end: 0,
+        start: 0,
+      },
+      type: 'EmptyExpression',
+    };
+  }
+
   const parser = new nearley.Parser(rules);
 
   let results;
