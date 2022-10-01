@@ -25,12 +25,88 @@ test('error describes offset', (t) => {
   t.is(error.column, 5);
 });
 
-// TODO not clear what the expected behavior is here
-// Ideally we don't want to throw an error.
-// https://github.com/gajus/liqe/issues/18
-test.todo('empty query');
-test.todo('()');
-test.todo('foo:');
+test('empty query', (t) => {
+  t.deepEqual(parse(''), {
+    location: {
+      end: 0,
+      start: 0,
+    },
+    type: 'EmptyExpression',
+  });
+});
+
+test('empty query (whitespace)', (t) => {
+  t.deepEqual(parse('  '), {
+    location: {
+      end: 0,
+      start: 0,
+    },
+    type: 'EmptyExpression',
+  });
+});
+
+test('()', testQuery, {
+  expression: {
+    location: {
+      end: 1,
+      start: 1,
+    },
+    type: 'EmptyExpression',
+  },
+  location: {
+    end: 2,
+    start: 0,
+  },
+  type: 'ParenthesizedExpression',
+});
+
+test('( )', testQuery, {
+  expression: {
+    location: {
+      end: 1,
+      start: 1,
+    },
+    type: 'EmptyExpression',
+  },
+  location: {
+    end: 3,
+    start: 0,
+  },
+  type: 'ParenthesizedExpression',
+});
+
+test('foo:', testQuery, {
+  expression: {
+    location: {
+      end: 4,
+      start: 4,
+    },
+    type: 'EmptyExpression',
+  },
+  field: {
+    location: {
+      end: 3,
+      start: 0,
+    },
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+    type: 'Field',
+  },
+  location: {
+    end: 4,
+    start: 0,
+  },
+  operator: {
+    location: {
+      end: 4,
+      start: 3,
+    },
+    operator: ':',
+    type: 'ComparisonOperator',
+  },
+  type: 'Tag',
+});
 
 test('foo', testQuery, {
   expression: {

@@ -107,6 +107,13 @@ const grammar: Grammar = {
     {"name": "post_one_op_implicit_logical_expression", "symbols": ["parentheses_open", "_", "one_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]})},
     {"name": "pre_two_op_logical_expression", "symbols": ["two_op_logical_expression", "__"], "postprocess": d => d[0]},
     {"name": "pre_two_op_logical_expression", "symbols": ["parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]})},
+    {"name": "one_op_logical_expression", "symbols": ["parentheses_open", "_", "parentheses_close"], "postprocess":  d => ({location: {start: d[0].location.start, end: d[2].location.start + 1, },type: 'ParenthesizedExpression', expression: {
+          type: 'EmptyExpression',
+          location: {
+            start: d[0].location.start + 1,
+            end: d[0].location.start + 1,
+          },
+        }}) },
     {"name": "one_op_logical_expression", "symbols": ["parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]})},
     {"name": "one_op_logical_expression$string$1", "symbols": [{"literal":"N"}, {"literal":"O"}, {"literal":"T"}], "postprocess": (d) => d.join('')},
     {"name": "one_op_logical_expression", "symbols": ["one_op_logical_expression$string$1", "post_boolean_primary"], "postprocess":  (data, start) => {
@@ -165,6 +172,37 @@ const grammar: Grammar = {
             field,
             operator: data[1],
             ...data[2]
+          }
+        } },
+    {"name": "tag_expression", "symbols": ["field", "comparison_operator"], "postprocess":  (data, start) => {
+          const field = {
+            type: 'Field',
+            name: data[0].name,
+            path: data[0].name.split('.').filter(Boolean),
+            quoted: data[0].quoted,
+            quotes: data[0].quotes,
+            location: data[0].location,
+          };
+        
+          if (!data[0].quotes) {
+            delete field.quotes;
+          }
+        
+          return {
+            type: 'Tag',
+            location: {
+              start,
+              end: data[1].location.end,
+            },
+            field,
+            operator: data[1],
+            expression: {
+              type: 'EmptyExpression',
+              location: {
+                start: data[1].location.end,
+                end: data[1].location.end,
+              },
+            }
           }
         } },
     {"name": "tag_expression", "symbols": ["expression"], "postprocess":  (data, start) => {

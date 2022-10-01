@@ -10,7 +10,17 @@ const testQuery = (t) => {
   t.is(serialize(parse(t.title)), t.title);
 };
 
+test('empty query', (t) => {
+  t.is(serialize(parse('')), '');
+});
+
 test('foo', testQuery);
+
+test('()', testQuery);
+
+test('( )', testQuery);
+
+test('foo:', testQuery);
 
 test('foo bar', testQuery);
 

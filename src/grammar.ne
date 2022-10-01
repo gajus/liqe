@@ -78,7 +78,14 @@ pre_two_op_logical_expression ->
   | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 one_op_logical_expression ->
-    parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+    parentheses_open _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[2].location.start + 1, },type: 'ParenthesizedExpression', expression: {
+      type: 'EmptyExpression',
+      location: {
+        start: d[0].location.start + 1,
+        end: d[0].location.start + 1,
+      },
+    }}) %}
+  | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 	|	"NOT" post_boolean_primary {% (data, start) => {
   return {
     type: 'UnaryOperator',
@@ -125,6 +132,7 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 tag_expression ->
+    
     field comparison_operator expression {% (data, start) => {
     const field = {
       type: 'Field',
@@ -147,6 +155,37 @@ tag_expression ->
       field,
       operator: data[1],
       ...data[2]
+    }
+  } %}
+  | field comparison_operator {% (data, start) => {
+    const field = {
+      type: 'Field',
+      name: data[0].name,
+      path: data[0].name.split('.').filter(Boolean),
+      quoted: data[0].quoted,
+      quotes: data[0].quotes,
+      location: data[0].location,
+    };
+
+    if (!data[0].quotes) {
+      delete field.quotes;
+    }
+
+    return {
+      type: 'Tag',
+      location: {
+        start,
+        end: data[1].location.end,
+      },
+      field,
+      operator: data[1],
+      expression: {
+        type: 'EmptyExpression',
+        location: {
+          start: data[1].location.end,
+          end: data[1].location.end,
+        },
+      }
     }
   } %}
   | expression {% (data, start) => {

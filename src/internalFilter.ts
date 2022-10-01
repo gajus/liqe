@@ -33,6 +33,12 @@ const createValueTest = (ast: HydratedAst): InternalTest => {
     };
   }
 
+  if (expression.type === 'EmptyExpression') {
+    return () => {
+      return false;
+    };
+  }
+
   const expressionValue = expression.value;
 
   if (ast.operator && ast.operator.operator !== ':') {
