@@ -140,10 +140,10 @@ const grammar: Grammar = {
     {"name": "boolean_operator", "symbols": ["boolean_operator$string$1"], "postprocess": (data, start) => ({location: {start, end: start + 2}, operator: 'OR', type: 'BooleanOperator'})},
     {"name": "boolean_operator$string$2", "symbols": [{"literal":"A"}, {"literal":"N"}, {"literal":"D"}], "postprocess": (d) => d.join('')},
     {"name": "boolean_operator", "symbols": ["boolean_operator$string$2"], "postprocess": (data, start) => ({location: {start, end: start + 3}, operator: 'AND', type: 'BooleanOperator'})},
-    {"name": "boolean_primary", "symbols": ["side"], "postprocess": id},
+    {"name": "boolean_primary", "symbols": ["tag_expression"], "postprocess": id},
     {"name": "post_boolean_primary", "symbols": ["__", "parentheses_open", "_", "two_op_logical_expression", "_", "parentheses_close"], "postprocess": d => ({location: {start: d[1].location.start, end: d[5].location.start + 1, }, type: 'ParenthesizedExpression', expression: d[3]})},
     {"name": "post_boolean_primary", "symbols": ["__", "boolean_primary"], "postprocess": d => d[1]},
-    {"name": "side", "symbols": ["field", "comparison_operator", "tag_expression"], "postprocess":  (data, start) => {
+    {"name": "tag_expression", "symbols": ["field", "comparison_operator", "expression"], "postprocess":  (data, start) => {
           const field = {
             type: 'Field',
             name: data[0].name,
@@ -167,7 +167,7 @@ const grammar: Grammar = {
             ...data[2]
           }
         } },
-    {"name": "side", "symbols": ["tag_expression"], "postprocess":  (data, start) => {
+    {"name": "tag_expression", "symbols": ["expression"], "postprocess":  (data, start) => {
           return {location: {start, end: data[0].expression.location.end}, field: {type: 'ImplicitField'}, ...data[0]};
         } },
     {"name": "field$ebnf$1", "symbols": []},
@@ -175,10 +175,10 @@ const grammar: Grammar = {
     {"name": "field", "symbols": [/[_a-zA-Z$]/, "field$ebnf$1"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0] + data[1].join(''), quoted: false, location: {start, end: start + (data[0] + data[1].join('')).length}})},
     {"name": "field", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start, end: start + data[0].length + 2}})},
     {"name": "field", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start, end: start + data[0].length + 2}})},
-    {"name": "tag_expression", "symbols": ["decimal"], "postprocess": (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}})},
-    {"name": "tag_expression", "symbols": ["regex"], "postprocess": (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'RegexExpression', value: data.join('')}})},
-    {"name": "tag_expression", "symbols": ["range"], "postprocess": (data) => data[0]},
-    {"name": "tag_expression", "symbols": ["unquoted_value"], "postprocess":  (data, start, reject) => {
+    {"name": "expression", "symbols": ["decimal"], "postprocess": (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}})},
+    {"name": "expression", "symbols": ["regex"], "postprocess": (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'RegexExpression', value: data.join('')}})},
+    {"name": "expression", "symbols": ["range"], "postprocess": (data) => data[0]},
+    {"name": "expression", "symbols": ["unquoted_value"], "postprocess":  (data, start, reject) => {
           const value = data.join('');
         
           if (data[0] === 'AND' || data[0] === 'OR' || data[0] === 'NOT') {
@@ -210,8 +210,8 @@ const grammar: Grammar = {
             },
           };
         } },
-    {"name": "tag_expression", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
-    {"name": "tag_expression", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
+    {"name": "expression", "symbols": ["sqstring"], "postprocess": (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'single', value: data.join('')}})},
+    {"name": "expression", "symbols": ["dqstring"], "postprocess": (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}})},
     {"name": "range$string$1", "symbols": [{"literal":" "}, {"literal":"T"}, {"literal":"O"}, {"literal":" "}], "postprocess": (d) => d.join('')},
     {"name": "range", "symbols": ["range_open", "decimal", "range$string$1", "decimal", "range_close"], "postprocess":  (data, start) => {
           return {

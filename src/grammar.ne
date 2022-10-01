@@ -118,14 +118,14 @@ boolean_operator ->
   | "AND" {% (data, start) => ({location: {start, end: start + 3}, operator: 'AND', type: 'BooleanOperator'}) %}
 
 boolean_primary ->
-  side {% id %}
+  tag_expression {% id %}
 
 post_boolean_primary ->
     __ parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[1].location.start, end: d[5].location.start + 1, }, type: 'ParenthesizedExpression', expression: d[3]}) %}
   | __ boolean_primary {% d => d[1] %}
 
-side ->
-    field comparison_operator tag_expression {% (data, start) => {
+tag_expression ->
+    field comparison_operator expression {% (data, start) => {
     const field = {
       type: 'Field',
       name: data[0].name,
@@ -149,7 +149,7 @@ side ->
       ...data[2]
     }
   } %}
-  | tag_expression {% (data, start) => {
+  | expression {% (data, start) => {
     return {location: {start, end: data[0].expression.location.end}, field: {type: 'ImplicitField'}, ...data[0]};
   } %}
 
@@ -158,7 +158,7 @@ field ->
   | sqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'single', location: {start, end: start + data[0].length + 2}}) %}
   | dqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start, end: start + data[0].length + 2}}) %}
 
-tag_expression ->
+expression ->
     decimal {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
   | regex {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}
