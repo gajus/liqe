@@ -125,7 +125,7 @@ post_boolean_primary ->
   | __ boolean_primary {% d => d[1] %}
 
 side ->
-    field relational_operator _ tag_expression {% (data, start) => {
+    field relational_operator tag_expression {% (data, start) => {
     const field = {
       type: 'Field',
       name: data[0].name,
@@ -142,11 +142,11 @@ side ->
     return {
       location: {
         start,
-        end: data[3].expression.location.end,
+        end: data[2].expression.location.end,
       },
       field,
       operator: data[1],
-      ...data[3]
+      ...data[2]
     }
   } %}
   | tag_expression {% (data, start) => {
