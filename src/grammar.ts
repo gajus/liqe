@@ -300,7 +300,7 @@ const grammar: Grammar = {
     {"name": "regex_flags", "symbols": ["regex_flags$ebnf$1"], "postprocess": d => d[0].join('')},
     {"name": "unquoted_value$ebnf$1", "symbols": [/[a-zA-Z\.\-_*@#]/]},
     {"name": "unquoted_value$ebnf$1", "symbols": ["unquoted_value$ebnf$1", /[a-zA-Z\.\-_*@#]/], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "unquoted_value", "symbols": [/[a-zA-Z\-_*@#]/, "unquoted_value$ebnf$1"], "postprocess": d => d[0] + d[1].join('')}
+    {"name": "unquoted_value", "symbols": [/[a-zA-Z_*@#]/, "unquoted_value$ebnf$1"], "postprocess": d => d[0] + d[1].join('')}
   ],
   ParserStart: "main",
 };
