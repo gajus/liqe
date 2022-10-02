@@ -8,7 +8,7 @@ import {
   parseRegex,
 } from './parseRegex';
 import type {
-  HydratedAst,
+  LiqeQuery,
 } from './types';
 
 type RegExpCache = Record<string, RegExp>;
@@ -27,7 +27,7 @@ const createRegexTest = (regexCache: RegExpCache, regex: string) => {
   };
 };
 
-export const createStringTest = (regexCache: RegExpCache, ast: HydratedAst) => {
+export const createStringTest = (regexCache: RegExpCache, ast: LiqeQuery) => {
   if (ast.type !== 'Tag') {
     throw new Error('Expected a tag expression.');
   }

@@ -7,7 +7,7 @@ import {
   hydrateAst,
 } from './hydrateAst';
 import type {
-  HydratedAst,
+  LiqeQuery,
   ParserAst,
 } from './types';
 
@@ -15,7 +15,7 @@ const rules = nearley.Grammar.fromCompiled(grammar);
 
 const MESSAGE_RULE = /Syntax error at line (?<line>\d+) col (?<column>\d+)/;
 
-export const parse = (query: string): HydratedAst => {
+export const parse = (query: string): LiqeQuery => {
   if (query.trim() === '') {
     return {
       location: {

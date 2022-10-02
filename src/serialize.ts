@@ -1,6 +1,6 @@
 import type {
   ExpressionToken,
-  HydratedAst,
+  LiqeQuery,
 } from './types';
 
 const quote = (value: string, quotes: 'double' | 'single') => {
@@ -46,7 +46,7 @@ const serializeExpression = (expression: ExpressionToken) => {
   throw new Error('Unexpected AST type.');
 };
 
-const serializeTag = (ast: HydratedAst) => {
+const serializeTag = (ast: LiqeQuery) => {
   if (ast.type !== 'Tag') {
     throw new Error('Expected a tag expression.');
   }
@@ -68,7 +68,7 @@ const serializeTag = (ast: HydratedAst) => {
   return left + operator.operator + patEnd + serializeExpression(expression);
 };
 
-export const serialize = (ast: HydratedAst): string => {
+export const serialize = (ast: LiqeQuery): string => {
   if (ast.type === 'ParenthesizedExpression') {
     if (!('location' in ast.expression)) {
       throw new Error('Expected location in expression.');

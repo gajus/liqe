@@ -114,11 +114,11 @@ export type ParenthesizedExpressionToken = {
 
 export type ParserAst = EmptyExpression | LogicalExpressionToken | ParenthesizedExpressionToken | TagToken | UnaryOperatorToken;
 
-export type HydratedAst = ParserAst & {
+export type LiqeQuery = ParserAst & {
   getValue?: (subject: unknown) => unknown,
-  left?: HydratedAst,
-  operand?: HydratedAst,
-  right?: HydratedAst,
+  left?: LiqeQuery,
+  operand?: LiqeQuery,
+  right?: LiqeQuery,
 };
 
 export type InternalHighlight = {

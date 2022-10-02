@@ -12,13 +12,13 @@ import {
 } from './isSafePath';
 import type {
   ParserAst,
-  HydratedAst,
+  LiqeQuery,
 } from './types';
 
 const optionalChainingIsSupported = isOptionalChainingSupported();
 
-export const hydrateAst = (subject: ParserAst): HydratedAst => {
-  const newSubject: HydratedAst = {
+export const hydrateAst = (subject: ParserAst): LiqeQuery => {
+  const newSubject: LiqeQuery = {
     ...subject,
   };
 

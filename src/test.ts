@@ -2,9 +2,9 @@ import {
   filter,
 } from './filter';
 import type {
-  HydratedAst,
+  LiqeQuery,
 } from './types';
 
-export const test = <T extends Object>(ast: HydratedAst, subject: T) => {
+export const test = <T extends Object>(ast: LiqeQuery, subject: T) => {
   return filter(ast, [subject]).length === 1;
 };

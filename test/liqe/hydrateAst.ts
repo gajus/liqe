@@ -6,7 +6,7 @@ import {
   isOptionalChainingSupported,
 } from '../../src/isOptionalChainingSupported';
 import type {
-  HydratedAst,
+  LiqeQuery,
 } from '../../src/types';
 
 if (isOptionalChainingSupported()) {
@@ -17,7 +17,7 @@ if (isOptionalChainingSupported()) {
         type: 'Field',
       },
       type: 'Tag',
-    } as HydratedAst;
+    } as LiqeQuery;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -46,7 +46,7 @@ if (isOptionalChainingSupported()) {
           },
         },
       },
-    } as HydratedAst;
+    } as LiqeQuery;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -59,7 +59,7 @@ if (isOptionalChainingSupported()) {
         name: 'foo',
         type: 'Field',
       },
-    } as HydratedAst;
+    } as LiqeQuery;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -73,7 +73,7 @@ if (isOptionalChainingSupported()) {
         type: 'Field',
       },
       type: 'Tag',
-    } as HydratedAst;
+    } as LiqeQuery;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -87,7 +87,7 @@ if (isOptionalChainingSupported()) {
         type: 'Field',
       },
       type: 'Tag',
-    } as HydratedAst;
+    } as LiqeQuery;
 
     const hydratedAst = hydrateAst(parserAst);
 
@@ -100,7 +100,7 @@ if (isOptionalChainingSupported()) {
         name: '.foo.bar.baz',
         type: 'Field',
       },
-    } as HydratedAst;
+    } as LiqeQuery;
 
     const hydratedAst = hydrateAst(parserAst);
 

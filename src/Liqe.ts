@@ -17,7 +17,7 @@ export {
   ExpressionToken,
   FieldToken,
   Highlight,
-  HydratedAst as LiqeQuery,
+  LiqeQuery,
   ImplicitBooleanOperatorToken,
   ImplicitFieldToken,
   LiteralExpressionToken,

@@ -11,14 +11,14 @@ import {
   testRange,
 } from './testRange';
 import type {
-  HydratedAst,
+  LiqeQuery,
   InternalHighlight,
   InternalTest,
 } from './types';
 
 const optionalChainingIsSupported = isOptionalChainingSupported();
 
-const createValueTest = (ast: HydratedAst): InternalTest => {
+const createValueTest = (ast: LiqeQuery): InternalTest => {
   if (ast.type !== 'Tag') {
     throw new Error('Expected a tag expression.');
   }
@@ -73,7 +73,7 @@ const createValueTest = (ast: HydratedAst): InternalTest => {
 };
 
 const testValue = (
-  ast: HydratedAst,
+  ast: LiqeQuery,
   value: unknown,
   resultFast: boolean,
   path: readonly string[],
@@ -138,7 +138,7 @@ const testValue = (
 
 const testField = <T extends Object>(
   row: T,
-  ast: HydratedAst,
+  ast: LiqeQuery,
   resultFast: boolean,
   path: readonly string[],
   highlights: InternalHighlight[],
@@ -230,7 +230,7 @@ const testField = <T extends Object>(
 };
 
 export const internalFilter = <T extends Object>(
-  ast: HydratedAst,
+  ast: LiqeQuery,
   rows: readonly T[],
   resultFast: boolean = true,
   path: readonly string[] = [],
