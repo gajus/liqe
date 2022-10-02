@@ -378,6 +378,41 @@ test('foo:bar', testQuery, {
   type: 'Tag',
 });
 
+test('foo:b', testQuery, {
+  expression: {
+    location: {
+      end: 5,
+      start: 4,
+    },
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'b',
+  },
+  field: {
+    location: {
+      end: 3,
+      start: 0,
+    },
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+    type: 'Field',
+  },
+  location: {
+    end: 5,
+    start: 0,
+  },
+  operator: {
+    location: {
+      end: 4,
+      start: 3,
+    },
+    operator: ':',
+    type: 'ComparisonOperator',
+  },
+  type: 'Tag',
+});
+
 test('foo:bar@baz.com', testQuery, {
   expression: {
     location: {
