@@ -378,6 +378,41 @@ test('foo:bar', testQuery, {
   type: 'Tag',
 });
 
+test('foo:bar@baz.com', testQuery, {
+  expression: {
+    location: {
+      end: 15,
+      start: 4,
+    },
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 'bar@baz.com',
+  },
+  field: {
+    location: {
+      end: 3,
+      start: 0,
+    },
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+    type: 'Field',
+  },
+  location: {
+    end: 15,
+    start: 0,
+  },
+  operator: {
+    location: {
+      end: 4,
+      start: 3,
+    },
+    operator: ':',
+    type: 'ComparisonOperator',
+  },
+  type: 'Tag',
+});
+
 // https://github.com/gajus/liqe/issues/18
 // https://github.com/gajus/liqe/issues/19
 test.skip('foo: bar', testQuery, {
