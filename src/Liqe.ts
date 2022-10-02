@@ -35,3 +35,6 @@ export {
 export {
   serialize,
 } from './serialize';
+export {
+  isSafeUnquotedExpression,
+} from './isSafeUnquotedExpression';

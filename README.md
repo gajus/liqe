@@ -19,6 +19,7 @@ Lightweight and performant Lucene-like parser, serializer and search engine.
   * [Boolean operators](#boolean-operators)
 * [Serializer](#serializer)
 * [AST](#ast)
+* [Utilities](#utilities)
 * [Compatibility with Lucene](#compatibility-with-lucene)
 * [Recipes](#recipes)
   * [Handling syntax errors](#handling-syntax-errors)
@@ -338,6 +339,21 @@ import {
 There are 11 AST tokens that describe a parsed Liqe query.
 
 If you are building a serializer, then you must implement all of them for the complete coverage of all possible query inputs. Refer to the [built-in serializer](./src/serialize.ts) for an example.
+
+## Utilities
+
+```ts
+import {
+  isSafeUnquotedExpression,
+} from 'liqe';
+
+/**
+ * Determines if an expression requires quotes.
+ * Use this if you need to programmatically manipulate the AST
+ * before using a serializer to convert the query back to text.
+ */
+isSafeUnquotedExpression(expression: string): boolean;
+```
 
 ## Compatibility with Lucene
 
