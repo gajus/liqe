@@ -34,7 +34,7 @@ interface Grammar {
 const grammar: Grammar = {
   Lexer: undefined,
   ParserRules: [
-    {"name": "main", "symbols": ["_", "logical_expression"], "postprocess": (data) => data[1]},
+    {"name": "main", "symbols": ["_", "logical_expression", "_"], "postprocess": (data) => data[1]},
     {"name": "_$ebnf$1", "symbols": []},
     {"name": "_$ebnf$1", "symbols": ["_$ebnf$1", "whitespace_character"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "_", "symbols": ["_$ebnf$1"], "postprocess": (data) => data[0].length},

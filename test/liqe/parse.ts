@@ -151,7 +151,7 @@ test('foo with whitespace at the start', (t) => {
 });
 
 test('foo with whitespace at the end', (t) => {
-  t.deepEqual(parse('foo'), {
+  t.deepEqual(parse('foo '), {
     expression: {
       location: {
         end: 3,

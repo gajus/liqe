@@ -1,6 +1,6 @@
 @preprocessor typescript
 
-main -> _ logical_expression {% (data) => data[1] %}
+main -> _ logical_expression _ {% (data) => data[1] %}
 
 # Whitespace: `_` is optional, `__` is mandatory.
 _  -> whitespace_character:* {% (data) => data[0].length %}
