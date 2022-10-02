@@ -128,6 +128,50 @@ test('foo', testQuery, {
   type: 'Tag',
 });
 
+test('foo with whitespace at the start', (t) => {
+  t.deepEqual(parse(' foo'), {
+    expression: {
+      location: {
+        end: 4,
+        start: 1,
+      },
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'foo',
+    },
+    field: {
+      type: 'ImplicitField',
+    },
+    location: {
+      end: 4,
+      start: 1,
+    },
+    type: 'Tag',
+  });
+});
+
+test('foo with whitespace at the end', (t) => {
+  t.deepEqual(parse('foo'), {
+    expression: {
+      location: {
+        end: 3,
+        start: 0,
+      },
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'foo',
+    },
+    field: {
+      type: 'ImplicitField',
+    },
+    location: {
+      end: 3,
+      start: 0,
+    },
+    type: 'Tag',
+  });
+});
+
 test('(foo)', testQuery, {
   expression: {
     expression: {
