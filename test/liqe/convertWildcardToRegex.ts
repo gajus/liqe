@@ -8,5 +8,9 @@ const testRule = test.macro((t, regex: RegExp) => {
 });
 
 test('*', testRule, /(.+?)/);
+test('?', testRule, /(.)/);
 test('foo*bar', testRule, /foo(.+?)bar/);
 test('foo***bar', testRule, /foo(.+?)bar/);
+test('foo*bar*', testRule, /foo(.+?)bar(.+?)/);
+test('foo?bar', testRule, /foo(.)bar/);
+test('foo???bar', testRule, /foo(.)(.)(.)bar/);

@@ -10,7 +10,7 @@ import {
   filter,
 } from '../src/Liqe';
 
-const randomInRange = (min, max) => {
+const randomInRange = (min: number, max: number) => {
   return Math.floor(
     Math.random() * (Math.ceil(max) - Math.floor(min) + 1) + min,
   );
@@ -71,8 +71,16 @@ void suite(
     };
   }),
 
-  add('filters list by the "name" field using wildcard check', () => {
+  add('filters list by the "name" field using star (*) wildcard check', () => {
     const query = parse('name:Ga*');
+
+    return () => {
+      filter(query, persons);
+    };
+  }),
+
+  add('filters list by the "name" field using question mark (?) wildcard check', () => {
+    const query = parse('name:Gaju?');
 
     return () => {
       filter(query, persons);

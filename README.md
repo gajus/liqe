@@ -139,6 +139,7 @@ name:/foo/o
 
 # search using wildcard
 name:foo*bar
+name:foo?bar
 
 # boolean search
 member:true
@@ -202,6 +203,12 @@ Search for `name` field values matching `f*o` wildcard pattern.
 name:f*o
 ```
 
+Search for `name` field values matching `f?o` wildcard pattern.
+
+```rb
+name:f?o
+```
+
 Search for phrase "foo bar" in the `name` field (case sensitive).
 
 ```rb
@@ -250,10 +257,22 @@ Search for any word that starts with "foo" in the `name` field.
 name:foo*
 ```
 
-Search for any word that starts with "foo" and ends with bar in the `name` field.
+Search for any word that starts with "foo" and ends with "bar" in the `name` field.
 
 ```rb
 name:foo*bar
+```
+
+Search for any word that starts with "foo" in the `name` field, followed by a single arbitrary character.
+
+```rb
+name:foo?
+```
+
+Search for any word that starts with "foo", followed by a single arbitrary character and immediately ends with "bar" in the `name` field.
+
+```rb
+name:foo?bar
 ```
 
 ### Boolean operators
