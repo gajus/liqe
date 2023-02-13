@@ -2,9 +2,6 @@ import {
   createStringTest,
 } from './createStringTest';
 import {
-  isOptionalChainingSupported,
-} from './isOptionalChainingSupported';
-import {
   testComparisonRange,
 } from './testComparisonRange';
 import {
@@ -15,8 +12,6 @@ import type {
   InternalHighlight,
   InternalTest,
 } from './types';
-
-const optionalChainingIsSupported = isOptionalChainingSupported();
 
 const createValueTest = (ast: LiqeQuery): InternalTest => {
   if (ast.type !== 'Tag') {
@@ -196,7 +191,7 @@ const testField = <T extends Object>(
       path,
       highlights,
     );
-  } else if (optionalChainingIsSupported && ast.getValue && ast.field.path) {
+  } else if (ast.getValue && ast.field.path) {
     return testValue(
       ast,
       ast.getValue(row),

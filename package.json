@@ -22,6 +22,9 @@
   "description": "Lightweight and performant Lucene-like parser, serializer and search engine.",
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/github": "^8.0.7",
+    "@semantic-release/npm": "^9.0.2",
     "@types/node": "^16.10.9",
     "@types/semver-compare": "^1.0.1",
     "@types/sinon": "^10.0.4",
@@ -35,7 +38,7 @@
     "husky": "^7.0.4",
     "npm-watch": "^0.11.0",
     "nyc": "^15.1.0",
-    "semantic-release": "^18.0.0",
+    "semantic-release": "^18.0.1",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
   },

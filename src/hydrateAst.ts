@@ -5,9 +5,6 @@ import {
   createGetValueFunctionBody,
 } from './createGetValueFunctionBody';
 import {
-  isOptionalChainingSupported,
-} from './isOptionalChainingSupported';
-import {
   isSafePath,
 } from './isSafePath';
 import type {
@@ -15,15 +12,12 @@ import type {
   LiqeQuery,
 } from './types';
 
-const optionalChainingIsSupported = isOptionalChainingSupported();
-
 export const hydrateAst = (subject: ParserAst): LiqeQuery => {
   const newSubject: LiqeQuery = {
     ...subject,
   };
 
   if (
-    optionalChainingIsSupported &&
     subject.type === 'Tag' &&
     subject.field.type === 'Field' &&
     'field' in subject &&
