@@ -257,6 +257,16 @@ export const internalFilter = <T extends Object>(
     });
   }
 
+  if (ast.type === 'ParenthesizedExpression') {
+    return internalFilter(
+      ast.expression,
+      rows,
+      resultFast,
+      path,
+      highlights,
+    );
+  }
+
   if (!ast.left) {
     throw new Error('Expected left to be defined.');
   }
