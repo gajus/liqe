@@ -103,7 +103,7 @@ test(
 );
 
 test(
-  'matches wildcard',
+  'matches star (*) wildcard',
   testQuery,
   'name:f*o',
   {
@@ -118,11 +118,26 @@ test(
 );
 
 test(
-  'matches wildcard (lazy)',
+  'matches star (*) wildcard (lazy)',
   testQuery,
   'name:f*o',
   {
     name: 'foo bar o baz',
+  },
+  [
+    {
+      path: 'name',
+      query: /(foo)/,
+    },
+  ],
+);
+
+test(
+  'matches question mark (?) wildcard',
+  testQuery,
+  'name:f?o',
+  {
+    name: 'foo bar baz',
   },
   [
     {

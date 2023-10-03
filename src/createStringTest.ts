@@ -50,8 +50,8 @@ export const createStringTest = (regexCache: RegExpCache, ast: LiqeQuery) => {
 
   const value = String(expression.value);
 
-  if (value.includes('*') && expression.quoted === false) {
-    return createRegexTest(regexCache, String(convertWildcardToRegex(value)) + (expression.quoted ? 'u' : 'ui'));
+  if ((value.includes('*') || value.includes('?')) && expression.quoted === false) {
+    return createRegexTest(regexCache, String(convertWildcardToRegex(value)) + 'ui');
   } else {
     return createRegexTest(regexCache, '/(' + escapeRegexString(value) + ')/' + (expression.quoted ? 'u' : 'ui'));
   }
