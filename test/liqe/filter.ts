@@ -60,6 +60,16 @@ const persons: readonly Person[] = [
     phoneNumber: '404-050-2611',
     subscribed: true,
   },
+  {
+    height: 150,
+    name: 'foo bar',
+    nick: 'old dog',
+  },
+  {
+    height: 194,
+    name: 'fox',
+    nick: 'quick fox',
+  },
 ];
 
 const testQuery = test.macro((t, expectedResultNames: string[]) => {
@@ -90,14 +100,14 @@ test('height:[200 TO 225]', testQuery, ['robert', 'noah']);
 test('height:[200 TO 225}', testQuery, ['robert']);
 test('height:{220 TO 225}', testQuery, []);
 
-test('NOT David', testQuery, ['john', 'mike', 'robert', 'noah']);
-test('-David', testQuery, ['john', 'mike', 'robert', 'noah']);
+test('NOT David', testQuery, ['john', 'mike', 'robert', 'noah', 'foo bar', 'fox']);
+test('-David', testQuery, ['john', 'mike', 'robert', 'noah', 'foo bar', 'fox']);
 test('David OR John', testQuery, ['david', 'john', 'noah']);
 test('Noah AND John', testQuery, ['noah']);
 test('John AND NOT Noah', testQuery, ['john']);
-test('David OR NOT John', testQuery, ['david', 'mike', 'robert']);
+test('David OR NOT John', testQuery, ['david', 'mike', 'robert', 'foo bar', 'fox']);
 test('John AND -Noah', testQuery, ['john']);
-test('David OR -John', testQuery, ['david', 'mike', 'robert']);
+test('David OR -John', testQuery, ['david', 'mike', 'robert', 'foo bar', 'fox']);
 
 test('name:David OR John', testQuery, ['david', 'john', 'noah']);
 
@@ -131,3 +141,9 @@ test('phoneNumber:"404-050-2611"', testQuery, ['noah']);
 test('phoneNumber:404', testQuery, ['noah']);
 
 test('balance:364', testQuery, ['noah']);
+
+test('(David)', testQuery, ['david']);
+test('(name:david OR name:john)', testQuery, ['david', 'john']);
+test('(name:"foo bar" AND nick:"quick fox") OR name:fox', testQuery, ['fox']);
+test('(name:fox OR name:"foo bar" AND nick:"old dog")', testQuery, ['foo bar']);
+test('(name:fox OR (name:"foo bar" AND nick:"old dog"))', testQuery, ['fox', 'foo bar']);
