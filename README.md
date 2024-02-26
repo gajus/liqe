@@ -93,14 +93,14 @@ test(parse('name:David'), persons[0]);
 Highlight matching fields and substrings:
 
 ```ts
-test(highlight('name:john'), persons[0]);
+highlight(parse('name:john'), persons[0]);
 // [
 //   {
 //     path: 'name',
 //     query: /(John)/,
 //   }
 // ]
-test(highlight('height:180'), persons[0]);
+highlight(parse('height:180'), persons[0]);
 // [
 //   {
 //     path: 'height',
