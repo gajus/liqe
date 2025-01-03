@@ -771,12 +771,12 @@ const grammar: Grammar = {
     {
       name: 'unquoted_value$ebnf$1',
       postprocess: (d) => d[0].concat([d[1]]),
-      symbols: ['unquoted_value$ebnf$1', /[\w#$*.?@\-]/],
+      symbols: ['unquoted_value$ebnf$1', /[\w#$*.?@\u0080-\uFFFF\-]/],
     },
     {
       name: 'unquoted_value',
       postprocess: (d) => d[0] + d[1].join(''),
-      symbols: [/[#$*?@A-Z_a-z]/, 'unquoted_value$ebnf$1'],
+      symbols: [/[#$*?@A-Z_a-z\u0080-\uFFFF]/, 'unquoted_value$ebnf$1'],
     },
   ],
   ParserStart: 'main',
