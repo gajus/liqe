@@ -31,7 +31,7 @@ type NearleyToken = {
 // Generated automatically by nearley, version 2.20.1
 // http://github.com/Hardmath123/nearley
 // Bypasses TS6133. Allow declared but unused functions.
-// @ts-expect-error
+//
 function id(d: any[]): any {
   return d[0];
 }

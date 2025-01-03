@@ -23,7 +23,6 @@ module.exports = [
   {
     files: ['**/src/grammar.ts'],
     rules: {
-      '@typescript-eslint/ban-ts-comment': 0,
       'no-useless-escape': 0,
     },
   },
