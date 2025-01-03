@@ -1,16 +1,10 @@
+import { createStringTest } from './createStringTest';
+import { testComparisonRange } from './testComparisonRange';
+import { testRange } from './testRange';
 import {
-  createStringTest,
-} from './createStringTest';
-import {
-  testComparisonRange,
-} from './testComparisonRange';
-import {
-  testRange,
-} from './testRange';
-import type {
-  LiqeQuery,
-  InternalHighlight,
-  InternalTest,
+  type InternalHighlight,
+  type InternalTest,
+  type LiqeQuery,
 } from './types';
 
 const createValueTest = (ast: LiqeQuery): InternalTest => {
@@ -18,9 +12,7 @@ const createValueTest = (ast: LiqeQuery): InternalTest => {
     throw new Error('Expected a tag expression.');
   }
 
-  const {
-    expression,
-  } = ast;
+  const { expression } = ast;
 
   if (expression.type === 'RangeExpression') {
     return (value) => {
@@ -79,7 +71,9 @@ const testValue = (
     let index = 0;
 
     for (const item of value) {
-      if (testValue(ast, item, resultFast, [...path, String(index++)], highlights)) {
+      if (
+        testValue(ast, item, resultFast, [...path, String(index++)], highlights)
+      ) {
         if (resultFast) {
           return true;
         }
@@ -113,22 +107,18 @@ const testValue = (
     throw new Error('Expected test to be defined.');
   }
 
-  const result = ast.test(
-    value,
-  );
+  const result = ast.test(value);
 
   if (result) {
     highlights.push({
-      ...typeof result === 'string' && {keyword: result},
+      ...(typeof result === 'string' && { keyword: result }),
       path: path.join('.'),
     });
 
     return true;
   }
 
-  return Boolean(
-    result,
-  );
+  return Boolean(result);
 };
 
 const testField = <T extends Object>(
@@ -150,28 +140,27 @@ const testField = <T extends Object>(
     let foundMatch = false;
 
     for (const fieldName in row) {
-      if (testValue(
-        {
-          ...ast,
-          field: {
-            location: {
-              end: -1,
-              start: -1,
+      if (
+        testValue(
+          {
+            ...ast,
+            field: {
+              location: {
+                end: -1,
+                start: -1,
+              },
+              name: fieldName,
+              quoted: true,
+              quotes: 'double',
+              type: 'Field',
             },
-            name: fieldName,
-            quoted: true,
-            quotes: 'double',
-            type: 'Field',
           },
-        },
-        row[fieldName],
-        resultFast,
-        [
-          ...path,
-          fieldName,
-        ],
-        highlights,
-      )) {
+          row[fieldName],
+          resultFast,
+          [...path, fieldName],
+          highlights,
+        )
+      ) {
         if (resultFast) {
           return true;
         }
@@ -184,13 +173,7 @@ const testField = <T extends Object>(
   }
 
   if (ast.field.name in row) {
-    return testValue(
-      ast,
-      row[ast.field.name],
-      resultFast,
-      path,
-      highlights,
-    );
+    return testValue(ast, row[ast.field.name], resultFast, path, highlights);
   } else if (ast.getValue && ast.field.path) {
     return testValue(
       ast,
@@ -212,13 +195,7 @@ const testField = <T extends Object>(
       }
     }
 
-    return testValue(
-      ast,
-      value,
-      resultFast,
-      ast.field.path,
-      highlights,
-    );
+    return testValue(ast, value, resultFast, ast.field.path, highlights);
   } else {
     return false;
   }
@@ -244,13 +221,7 @@ export const internalFilter = <T extends Object>(
   }
 
   if (ast.type === 'UnaryOperator') {
-    const removeRows = internalFilter(
-      ast.operand,
-      rows,
-      resultFast,
-      path,
-      [],
-    );
+    const removeRows = internalFilter(ast.operand, rows, resultFast, path, []);
 
     return rows.filter((row) => {
       return !removeRows.includes(row);
@@ -258,26 +229,14 @@ export const internalFilter = <T extends Object>(
   }
 
   if (ast.type === 'ParenthesizedExpression') {
-    return internalFilter(
-      ast.expression,
-      rows,
-      resultFast,
-      path,
-      highlights,
-    );
+    return internalFilter(ast.expression, rows, resultFast, path, highlights);
   }
 
   if (!ast.left) {
     throw new Error('Expected left to be defined.');
   }
 
-  const leftRows = internalFilter(
-    ast.left,
-    rows,
-    resultFast,
-    path,
-    highlights,
-  );
+  const leftRows = internalFilter(ast.left, rows, resultFast, path, highlights);
 
   if (!ast.right) {
     throw new Error('Expected right to be defined.');
@@ -296,20 +255,9 @@ export const internalFilter = <T extends Object>(
       highlights,
     );
 
-    return Array.from(
-      new Set([
-        ...leftRows,
-        ...rightRows,
-      ]),
-    );
+    return Array.from(new Set([...leftRows, ...rightRows]));
   } else if (ast.operator.operator === 'AND') {
-    return internalFilter(
-      ast.right,
-      leftRows,
-      resultFast,
-      path,
-      highlights,
-    );
+    return internalFilter(ast.right, leftRows, resultFast, path, highlights);
   }
 
   throw new Error('Unexpected state.');

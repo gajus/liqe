@@ -1,7 +1,5 @@
+import { createGetValueFunctionBody } from '../../src/createGetValueFunctionBody';
 import test from 'ava';
-import {
-  createGetValueFunctionBody,
-} from '../../src/createGetValueFunctionBody';
 
 const testPath = (t, expected) => {
   t.is(createGetValueFunctionBody(t.title), expected);

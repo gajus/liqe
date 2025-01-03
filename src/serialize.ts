@@ -1,7 +1,4 @@
-import type {
-  ExpressionToken,
-  LiqeQuery,
-} from './types';
+import { type ExpressionToken, type LiqeQuery } from './types';
 
 const quote = (value: string, quotes: 'double' | 'single') => {
   if (quotes === 'double') {
@@ -29,12 +26,7 @@ const serializeExpression = (expression: ExpressionToken) => {
   }
 
   if (expression.type === 'RangeExpression') {
-    const {
-      min,
-      max,
-      minInclusive,
-      maxInclusive,
-    } = expression.range;
+    const { max, maxInclusive, min, minInclusive } = expression.range;
 
     return `${minInclusive ? '[' : '{'}${min} TO ${max}${maxInclusive ? ']' : '}'}`;
   }
@@ -51,11 +43,7 @@ const serializeTag = (ast: LiqeQuery) => {
     throw new Error('Expected a tag expression.');
   }
 
-  const {
-    field,
-    expression,
-    operator,
-  } = ast;
+  const { expression, field, operator } = ast;
 
   if (field.type === 'ImplicitField') {
     return serializeExpression(expression);
@@ -78,8 +66,12 @@ export const serialize = (ast: LiqeQuery): string => {
       throw new Error('Expected location end.');
     }
 
-    const patStart = ' '.repeat(ast.expression.location.start - (ast.location.start + 1));
-    const patEnd = ' '.repeat(ast.location.end - ast.expression.location.end - 1);
+    const patStart = ' '.repeat(
+      ast.expression.location.start - (ast.location.start + 1),
+    );
+    const patEnd = ' '.repeat(
+      ast.location.end - ast.expression.location.end - 1,
+    );
 
     return `(${patStart}${serialize(ast.expression)}${patEnd})`;
   }
@@ -92,9 +84,13 @@ export const serialize = (ast: LiqeQuery): string => {
     let operator = '';
 
     if (ast.operator.type === 'BooleanOperator') {
-      operator += ' '.repeat(ast.operator.location.start - ast.left.location.end);
+      operator += ' '.repeat(
+        ast.operator.location.start - ast.left.location.end,
+      );
       operator += ast.operator.operator;
-      operator += ' '.repeat(ast.right.location.start - ast.operator.location.end);
+      operator += ' '.repeat(
+        ast.right.location.start - ast.operator.location.end,
+      );
     } else {
       operator = ' '.repeat(ast.right.location.start - ast.left.location.end);
     }
@@ -103,7 +99,9 @@ export const serialize = (ast: LiqeQuery): string => {
   }
 
   if (ast.type === 'UnaryOperator') {
-    return (ast.operator === 'NOT' ? 'NOT ' : ast.operator) + serialize(ast.operand);
+    return (
+      (ast.operator === 'NOT' ? 'NOT ' : ast.operator) + serialize(ast.operand)
+    );
   }
 
   if (ast.type === 'EmptyExpression') {

@@ -1,6 +1,4 @@
-import type {
-  Range,
-} from './types';
+import { type Range } from './types';
 
 export const testRange = (value: unknown, range: Range): boolean => {
   if (typeof value === 'number') {

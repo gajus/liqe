@@ -1,7 +1,5 @@
+import { convertWildcardToRegex } from '../../src/convertWildcardToRegex';
 import test from 'ava';
-import {
-  convertWildcardToRegex,
-} from '../../src/convertWildcardToRegex';
 
 const testRule = test.macro((t, regex: RegExp) => {
   t.deepEqual(convertWildcardToRegex(t.title), regex);

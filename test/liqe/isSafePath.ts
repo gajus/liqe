@@ -1,7 +1,5 @@
+import { isSafePath } from '../../src/isSafePath';
 import test from 'ava';
-import {
-  isSafePath,
-} from '../../src/isSafePath';
 
 const testPath = (t, expected) => {
   t.is(isSafePath(t.title), expected);
@@ -29,4 +27,3 @@ test('.foo[0]', testPath, false);
 
 test('.00', testPath, false);
 test('.01', testPath, false);
-

@@ -32,8 +32,8 @@
     "benny": "^3.7.1",
     "coveralls": "^3.1.1",
     "del-cli": "^4.0.1",
-    "eslint": "^7.32.0",
-    "eslint-config-canonical": "^28.0.0",
+    "eslint": "^9.17.0",
+    "eslint-config-canonical": "^44.3.36",
     "faker": "^5.5.3",
     "husky": "^7.0.4",
     "npm-watch": "^0.11.0",
@@ -55,18 +55,18 @@
     "type": "git",
     "url": "git@github.com:gajus/liqe.git"
   },
-  "watch": {
-    "compile-parser": "src/grammar.ne"
-  },
   "scripts": {
-    "watch": "npm-watch",
     "benchmark": "ts-node --transpile-only test/benchmark.ts",
     "build": "del-cli ./dist && tsc",
     "compile-parser": "nearleyc src/grammar.ne --out ./src/grammar.ts && sed -i '' 's/loc?: number/loc: number/g' src/grammar.ts",
     "dev": "tsc --watch",
     "lint": "eslint ./src ./test && tsc --noEmit",
-    "test": "NODE_ENV=test ava --serial --verbose"
+    "test": "NODE_ENV=test ava --serial --verbose",
+    "watch": "npm-watch"
   },
   "typings": "./dist/src/Liqe.d.ts",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "watch": {
+    "compile-parser": "src/grammar.ne"
+  }
 }

@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
+import { SyntaxError } from '../../src/errors';
+import { parse } from '../../src/parse';
 import test from 'ava';
-import {
-  SyntaxError,
-} from '../../src/errors';
-import {
-  parse,
-} from '../../src/parse';
 
 const testQuery = (t, expectedAst) => {
   const ast = parse(t.title);
@@ -310,7 +306,7 @@ test('"foo"', testQuery, {
   type: 'Tag',
 });
 
-test('\'foo\'', testQuery, {
+test("'foo'", testQuery, {
   expression: {
     location: {
       end: 5,
@@ -388,24 +384,28 @@ test('/\\s/', testQuery, {
   type: 'Tag',
 });
 
-test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery, {
-  expression: {
+test(
+  '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
+  testQuery,
+  {
+    expression: {
+      location: {
+        end: 55,
+        start: 0,
+      },
+      type: 'RegexExpression',
+      value: '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
+    },
+    field: {
+      type: 'ImplicitField',
+    },
     location: {
       end: 55,
       start: 0,
     },
-    type: 'RegexExpression',
-    value: '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
+    type: 'Tag',
   },
-  field: {
-    type: 'ImplicitField',
-  },
-  location: {
-    end: 55,
-    start: 0,
-  },
-  type: 'Tag',
-});
+);
 
 test('foo:bar', testQuery, {
   expression: {
@@ -917,10 +917,7 @@ test('foo.bar:baz', testQuery, {
       start: 0,
     },
     name: 'foo.bar',
-    path: [
-      'foo',
-      'bar',
-    ],
+    path: ['foo', 'bar'],
     quoted: false,
     type: 'Field',
   },
@@ -1045,7 +1042,7 @@ test('"foo bar":baz', testQuery, {
   type: 'Tag',
 });
 
-test('\'foo bar\':baz', testQuery, {
+test("'foo bar':baz", testQuery, {
   expression: {
     location: {
       end: 13,
@@ -1117,7 +1114,7 @@ test('foo:"bar"', testQuery, {
   type: 'Tag',
 });
 
-test('foo:\'bar\'', testQuery, {
+test("foo:'bar'", testQuery, {
   expression: {
     location: {
       end: 9,
@@ -2567,53 +2564,53 @@ test('( foo OR bar AND baz )', testQuery, {
     left: {
       left: {
         expression: {
-          location: {end: 5, start: 2},
+          location: { end: 5, start: 2 },
           quoted: false,
           type: 'LiteralExpression',
           value: 'foo',
         },
-        field: {type: 'ImplicitField'},
-        location: {end: 5, start: 2},
+        field: { type: 'ImplicitField' },
+        location: { end: 5, start: 2 },
         type: 'Tag',
       },
-      location: {end: 12, start: 2},
+      location: { end: 12, start: 2 },
       operator: {
-        location: {end: 8, start: 6},
+        location: { end: 8, start: 6 },
         operator: 'OR',
         type: 'BooleanOperator',
       },
       right: {
         expression: {
-          location: {end: 12, start: 9},
+          location: { end: 12, start: 9 },
           quoted: false,
           type: 'LiteralExpression',
           value: 'bar',
         },
-        field: {type: 'ImplicitField'},
-        location: {end: 12, start: 9},
+        field: { type: 'ImplicitField' },
+        location: { end: 12, start: 9 },
         type: 'Tag',
       },
       type: 'LogicalExpression',
     },
-    location: {end: 20, start: 2},
+    location: { end: 20, start: 2 },
     operator: {
-      location: {end: 16, start: 13},
+      location: { end: 16, start: 13 },
       operator: 'AND',
       type: 'BooleanOperator',
     },
     right: {
       expression: {
-        location: {end: 20, start: 17},
+        location: { end: 20, start: 17 },
         quoted: false,
         type: 'LiteralExpression',
         value: 'baz',
       },
-      field: {type: 'ImplicitField'},
-      location: {end: 20, start: 17},
+      field: { type: 'ImplicitField' },
+      location: { end: 20, start: 17 },
       type: 'Tag',
     },
     type: 'LogicalExpression',
   },
-  location: {end: 22, start: 0},
+  location: { end: 22, start: 0 },
   type: 'ParenthesizedExpression',
 });

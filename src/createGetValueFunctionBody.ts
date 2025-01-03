@@ -1,6 +1,4 @@
-import {
-  isSafePath,
-} from './isSafePath';
+import { isSafePath } from './isSafePath';
 
 export const createGetValueFunctionBody = (path: string): string => {
   if (!isSafePath(path)) {
@@ -9,7 +7,5 @@ export const createGetValueFunctionBody = (path: string): string => {
 
   const body = 'return subject' + path;
 
-  return body
-    .replace(/(\.(\d+))/g, '.[$2]')
-    .replace(/\./g, '?.');
+  return body.replaceAll(/(\.(\d+))/g, '.[$2]').replaceAll('.', '?.');
 };

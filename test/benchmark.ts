@@ -1,14 +1,6 @@
-import {
-  add,
-  complete,
-  cycle,
-  suite,
-} from 'benny';
+import { filter, parse } from '../src/Liqe';
+import { add, complete, cycle, suite } from 'benny';
 import faker from 'faker';
-import {
-  parse,
-  filter,
-} from '../src/Liqe';
 
 const randomInRange = (min: number, max: number) => {
   return Math.floor(
@@ -17,14 +9,14 @@ const randomInRange = (min: number, max: number) => {
 };
 
 type Person = {
-  email: string,
+  email: string;
   foo: {
     bar: {
-      baz: string,
-    },
-  },
-  height: number,
-  name: string,
+      baz: string;
+    };
+  };
+  height: number;
+  name: string;
 };
 
 const persons: Person[] = [];
@@ -47,13 +39,16 @@ while (size--) {
 void suite(
   'liqe',
 
-  add('filters list by the "name" field using simple strict equality check', () => {
-    const query = parse('name:"Gajus"');
+  add(
+    'filters list by the "name" field using simple strict equality check',
+    () => {
+      const query = parse('name:"Gajus"');
 
-    return () => {
-      filter(query, persons);
-    };
-  }),
+      return () => {
+        filter(query, persons);
+      };
+    },
+  ),
 
   add('filters list by the "name" field using regex check', () => {
     const query = parse('name:/Gajus/ui');
@@ -79,13 +74,16 @@ void suite(
     };
   }),
 
-  add('filters list by the "name" field using question mark (?) wildcard check', () => {
-    const query = parse('name:Gaju?');
+  add(
+    'filters list by the "name" field using question mark (?) wildcard check',
+    () => {
+      const query = parse('name:Gaju?');
 
-    return () => {
-      filter(query, persons);
-    };
-  }),
+      return () => {
+        filter(query, persons);
+      };
+    },
+  ),
 
   add('filters list by any field using loose inclusion check', () => {
     const query = parse('Gajus');
@@ -111,15 +109,17 @@ void suite(
     };
   }),
 
-  add('filters list by the "foo.bar.baz" field using simple strict equality check', () => {
-    const query = parse('foo.bar.baz:"Gajus"');
+  add(
+    'filters list by the "foo.bar.baz" field using simple strict equality check',
+    () => {
+      const query = parse('foo.bar.baz:"Gajus"');
 
-    return () => {
-      filter(query, persons);
-    };
-  }),
+      return () => {
+        filter(query, persons);
+      };
+    },
+  ),
 
   cycle(),
   complete(),
 );
-

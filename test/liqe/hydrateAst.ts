@@ -1,10 +1,6 @@
+import { hydrateAst } from '../../src/hydrateAst';
+import { type LiqeQuery } from '../../src/types';
 import test from 'ava';
-import {
-  hydrateAst,
-} from '../../src/hydrateAst';
-import type {
-  LiqeQuery,
-} from '../../src/types';
 
 test('adds getValue when field is a safe path', (t) => {
   const parserAst = {
@@ -73,7 +69,7 @@ test('getValue accesses existing value', (t) => {
 
   const hydratedAst = hydrateAst(parserAst);
 
-  t.is(hydratedAst.getValue?.({foo: 'bar'}), 'bar');
+  t.is(hydratedAst.getValue?.({ foo: 'bar' }), 'bar');
 });
 
 test('getValue accesses existing value (deep)', (t) => {
@@ -87,7 +83,7 @@ test('getValue accesses existing value (deep)', (t) => {
 
   const hydratedAst = hydrateAst(parserAst);
 
-  t.is(hydratedAst.getValue?.({foo: {bar: {baz: 'qux'}}}), 'qux');
+  t.is(hydratedAst.getValue?.({ foo: { bar: { baz: 'qux' } } }), 'qux');
 });
 
 test('returns undefined if path does not resolve', (t) => {

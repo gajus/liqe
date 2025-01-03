@@ -1,15 +1,10 @@
-export {
-  filter,
-} from './filter';
-export {
-  highlight,
-} from './highlight';
-export {
-  parse,
-} from './parse';
-export {
-  test,
-} from './test';
+export { LiqeError, SyntaxError } from './errors';
+export { filter } from './filter';
+export { highlight } from './highlight';
+export { isSafeUnquotedExpression } from './isSafeUnquotedExpression';
+export { parse } from './parse';
+export { serialize } from './serialize';
+export { test } from './test';
 export {
   BooleanOperatorToken,
   ComparisonOperatorToken,
@@ -29,13 +24,3 @@ export {
   TagToken,
   UnaryOperatorToken,
 } from './types';
-export {
-  LiqeError,
-  SyntaxError,
-} from './errors';
-export {
-  serialize,
-} from './serialize';
-export {
-  isSafeUnquotedExpression,
-} from './isSafeUnquotedExpression';

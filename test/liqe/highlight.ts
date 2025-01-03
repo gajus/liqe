@@ -1,17 +1,13 @@
+import { highlight } from '../../src/highlight';
+import { parse } from '../../src/parse';
+import { type Highlight } from '../../src/types';
 import test from 'ava';
-import {
-  highlight,
-} from '../../src/highlight';
-import {
-  parse,
-} from '../../src/parse';
-import type {
-  Highlight,
-} from '../../src/types';
 
-const testQuery = test.macro(<T extends Object>(t, query: string, subject: T, highlights: Highlight[]) => {
-  t.deepEqual(highlight(parse(query), subject), highlights);
-});
+const testQuery = test.macro(
+  <T extends Object>(t, query: string, subject: T, highlights: Highlight[]) => {
+    t.deepEqual(highlight(parse(query), subject), highlights);
+  },
+);
 
 test.skip(
   'matches every property',
@@ -228,11 +224,7 @@ test(
   testQuery,
   'tags:bar',
   {
-    tags: [
-      'foo',
-      'bar',
-      'baz qux',
-    ],
+    tags: ['foo', 'bar', 'baz qux'],
   },
   [
     {
@@ -247,11 +239,7 @@ test(
   testQuery,
   'tags:ba',
   {
-    tags: [
-      'foo',
-      'bar',
-      'baz qux',
-    ],
+    tags: ['foo', 'bar', 'baz qux'],
   },
   [
     {

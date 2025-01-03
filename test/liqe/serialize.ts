@@ -1,10 +1,6 @@
+import { parse } from '../../src/parse';
+import { serialize } from '../../src/serialize';
 import test from 'ava';
-import {
-  parse,
-} from '../../src/parse';
-import {
-  serialize,
-} from '../../src/serialize';
 
 const testQuery = (t) => {
   t.is(serialize(parse(t.title)), t.title);
@@ -36,7 +32,7 @@ test('foo_bar', testQuery);
 
 test('"foo"', testQuery);
 
-test('\'foo\'', testQuery);
+test("'foo'", testQuery);
 
 test('/foo/', testQuery);
 
@@ -44,7 +40,10 @@ test('/foo/ui', testQuery);
 
 test('/\\s/', testQuery);
 
-test('/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/', testQuery);
+test(
+  '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
+  testQuery,
+);
 
 test('foo:bar', testQuery);
 
@@ -80,11 +79,11 @@ test('$foo:baz', testQuery);
 
 test('"foo bar":baz', testQuery);
 
-test('\'foo bar\':baz', testQuery);
+test("'foo bar':baz", testQuery);
 
 test('foo:"bar"', testQuery);
 
-test('foo:\'bar\'', testQuery);
+test("foo:'bar'", testQuery);
 
 test('foo:bar baz:qux', testQuery);
 

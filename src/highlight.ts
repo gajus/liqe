@@ -1,18 +1,14 @@
+import { escapeRegexString } from './escapeRegexString';
+import { internalFilter } from './internalFilter';
 import {
-  escapeRegexString,
-} from './escapeRegexString';
-import {
-  internalFilter,
-} from './internalFilter';
-import type {
-  LiqeQuery,
-  Highlight,
-  InternalHighlight,
+  type Highlight,
+  type InternalHighlight,
+  type LiqeQuery,
 } from './types';
 
 type AggregatedHighlight = {
-  keywords: string[],
-  path: string,
+  keywords: string[];
+  path: string;
 };
 
 export const highlight = <T extends Object>(
@@ -21,13 +17,7 @@ export const highlight = <T extends Object>(
 ): Highlight[] => {
   const highlights: InternalHighlight[] = [];
 
-  internalFilter(
-    ast,
-    [data],
-    false,
-    [],
-    highlights,
-  );
+  internalFilter(ast, [data], false, [], highlights);
 
   const aggregatedHighlights: AggregatedHighlight[] = [];
 
@@ -54,9 +44,15 @@ export const highlight = <T extends Object>(
     if (aggregatedHighlight.keywords.length > 0) {
       return {
         path: aggregatedHighlight.path,
-        query: new RegExp('(' + aggregatedHighlight.keywords.map((keyword) => {
-          return escapeRegexString(keyword.trim());
-        }).join('|') + ')'),
+        query: new RegExp(
+          '(' +
+            aggregatedHighlight.keywords
+              .map((keyword) => {
+                return escapeRegexString(keyword.trim());
+              })
+              .join('|') +
+            ')',
+        ),
       };
     }
 

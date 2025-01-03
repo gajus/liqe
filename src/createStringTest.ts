@@ -1,15 +1,7 @@
-import {
-  convertWildcardToRegex,
-} from './convertWildcardToRegex';
-import {
-  escapeRegexString,
-} from './escapeRegexString';
-import {
-  parseRegex,
-} from './parseRegex';
-import type {
-  LiqeQuery,
-} from './types';
+import { convertWildcardToRegex } from './convertWildcardToRegex';
+import { escapeRegexString } from './escapeRegexString';
+import { parseRegex } from './parseRegex';
+import { type LiqeQuery } from './types';
 
 type RegExpCache = Record<string, RegExp>;
 
@@ -19,10 +11,11 @@ const createRegexTest = (regexCache: RegExpCache, regex: string) => {
   if (regexCache[regex]) {
     rule = regexCache[regex];
   } else {
-    rule = regexCache[regex] = parseRegex(regex);
+    rule = parseRegex(regex);
+    regexCache[regex] = rule;
   }
 
-  return (subject: string): string | false => {
+  return (subject: string): false | string => {
     return subject.match(rule)?.[0] ?? false;
   };
 };
@@ -32,9 +25,7 @@ export const createStringTest = (regexCache: RegExpCache, ast: LiqeQuery) => {
     throw new Error('Expected a tag expression.');
   }
 
-  const {
-    expression,
-  } = ast;
+  const { expression } = ast;
 
   if (expression.type === 'RangeExpression') {
     throw new Error('Unexpected range expression.');
@@ -50,9 +41,18 @@ export const createStringTest = (regexCache: RegExpCache, ast: LiqeQuery) => {
 
   const value = String(expression.value);
 
-  if ((value.includes('*') || value.includes('?')) && expression.quoted === false) {
-    return createRegexTest(regexCache, String(convertWildcardToRegex(value)) + 'ui');
+  if (
+    (value.includes('*') || value.includes('?')) &&
+    expression.quoted === false
+  ) {
+    return createRegexTest(
+      regexCache,
+      String(convertWildcardToRegex(value)) + 'ui',
+    );
   } else {
-    return createRegexTest(regexCache, '/(' + escapeRegexString(value) + ')/' + (expression.quoted ? 'u' : 'ui'));
+    return createRegexTest(
+      regexCache,
+      '/(' + escapeRegexString(value) + ')/' + (expression.quoted ? 'u' : 'ui'),
+    );
   }
 };

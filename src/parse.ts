@@ -1,15 +1,8 @@
-import nearley from 'nearley';
-import {
-  SyntaxError,
-} from './errors';
+import { SyntaxError } from './errors';
 import grammar from './grammar';
-import {
-  hydrateAst,
-} from './hydrateAst';
-import type {
-  LiqeQuery,
-  ParserAst,
-} from './types';
+import { hydrateAst } from './hydrateAst';
+import { type LiqeQuery, type ParserAst } from './types';
+import nearley from 'nearley';
 
 const rules = nearley.Grammar.fromCompiled(grammar);
 
@@ -33,7 +26,10 @@ export const parse = (query: string): LiqeQuery => {
   try {
     results = parser.feed(query).results as ParserAst;
   } catch (error: any) {
-    if (typeof error?.message === 'string' && typeof error?.offset === 'number') {
+    if (
+      typeof error?.message === 'string' &&
+      typeof error?.offset === 'number'
+    ) {
       const match = error.message.match(MESSAGE_RULE);
 
       if (!match) {

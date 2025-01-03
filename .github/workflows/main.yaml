@@ -1,8 +1,8 @@
 jobs:
   test:
-    runs-on: ubuntu-latest
     environment: release
     name: Test
+    runs-on: ubuntu-latest
     steps:
       - name: setup repository
         uses: actions/checkout@v3
@@ -11,15 +11,15 @@ jobs:
       - name: setup node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: '18'
       - run: npm ci
       - run: npm run lint
       - run: npm run test
       - run: npm run build
-      - run: npx semantic-release
-        env:
+      - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
 name: Test, build and release
 on:
   push:

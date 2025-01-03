@@ -1,16 +1,8 @@
-/* eslint-disable @typescript-eslint/no-implied-eval */
 /* eslint-disable no-new-func */
 
-import {
-  createGetValueFunctionBody,
-} from './createGetValueFunctionBody';
-import {
-  isSafePath,
-} from './isSafePath';
-import type {
-  ParserAst,
-  LiqeQuery,
-} from './types';
+import { createGetValueFunctionBody } from './createGetValueFunctionBody';
+import { isSafePath } from './isSafePath';
+import { type LiqeQuery, type ParserAst } from './types';
 
 export const hydrateAst = (subject: ParserAst): LiqeQuery => {
   const newSubject: LiqeQuery = {
@@ -23,7 +15,10 @@ export const hydrateAst = (subject: ParserAst): LiqeQuery => {
     'field' in subject &&
     isSafePath(subject.field.name)
   ) {
-    newSubject.getValue = new Function('subject', createGetValueFunctionBody(subject.field.name)) as (subject: unknown) => unknown;
+    newSubject.getValue = new Function(
+      'subject',
+      createGetValueFunctionBody(subject.field.name),
+    ) as (subject: unknown) => unknown;
   }
 
   if ('left' in subject) {
