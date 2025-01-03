@@ -21,11 +21,17 @@ module.exports = [
     },
   },
   {
+    files: ['**/src/grammar.ts'],
+    rules: {
+      '@typescript-eslint/ban-ts-comment': 0,
+      'no-useless-escape': 0,
+    },
+  },
+  {
     ignores: [
       'package-lock.json',
       'dist',
       'node_modules',
-      'src/pg-formatter',
       '*.log',
       '.*',
       '!.github',

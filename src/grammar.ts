@@ -30,6 +30,8 @@ type NearleyToken = {
 
 // Generated automatically by nearley, version 2.20.1
 // http://github.com/Hardmath123/nearley
+// Bypasses TS6133. Allow declared but unused functions.
+// @ts-expect-error
 function id(d: any[]): any {
   return d[0];
 }
@@ -769,7 +771,7 @@ const grammar: Grammar = {
     {
       name: 'unquoted_value$ebnf$1',
       postprocess: (d) => d[0].concat([d[1]]),
-      symbols: ['unquoted_value$ebnf$1', /[\w#$*.?@-]/],
+      symbols: ['unquoted_value$ebnf$1', /[\w#$*.?@\-]/],
     },
     {
       name: 'unquoted_value',
