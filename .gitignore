@@ -4,9 +4,6 @@ node_modules
 *.log
 .*
 !.editorconfig
-!.eslintignore
-!.eslintrc
-!.flowconfig
 !.github
 !.gitignore
 !.husky
@@ -16,4 +13,3 @@ node_modules
 !.nycrc
 !.README
 !.releaserc
-!.travis.yml
