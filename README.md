@@ -1,6 +1,5 @@
 # liqe
 
-[![Travis build status](http://img.shields.io/travis/gajus/liqe/main.svg?style=flat-square)](https://app.travis-ci.com/github/gajus/liqe)
 [![Coveralls](https://img.shields.io/coveralls/gajus/liqe.svg?style=flat-square)](https://coveralls.io/github/gajus/liqe)
 [![NPM version](http://img.shields.io/npm/v/liqe.svg?style=flat-square)](https://www.npmjs.org/package/liqe)
 [![Canonical Code Style](https://img.shields.io/badge/code%20style-canonical-blue.svg?style=flat-square)](https://github.com/gajus/canonical)
