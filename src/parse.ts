@@ -1,4 +1,4 @@
-import { SyntaxError } from './errors';
+import { LiqeError, SyntaxError } from './errors';
 import grammar from './grammar';
 import { hydrateAst } from './hydrateAst';
 import { type LiqeQuery, type ParserAst } from './types';
@@ -52,7 +52,14 @@ export const parse = (query: string): LiqeQuery => {
   }
 
   if (results.length > 1) {
-    throw new Error('Ambiguous results.');
+    const firstResult = JSON.stringify(results[0]);
+
+    for (const result of results) {
+      // Only throw if the results are different.
+      if (JSON.stringify(result) !== firstResult) {
+        throw new LiqeError('Ambiguous results.');
+      }
+    }
   }
 
   const hydratedAst = hydrateAst(results[0]);
