@@ -32,6 +32,7 @@
     "benny": "^3.7.1",
     "coveralls": "^3.1.1",
     "del-cli": "^4.0.1",
+    "dts-bundle": "^0.7.3",
     "eslint": "^9.17.0",
     "eslint-config-canonical": "^44.3.36",
     "faker": "^5.5.3",
@@ -40,7 +41,8 @@
     "nyc": "^15.1.0",
     "semantic-release": "^25.0.3",
     "ts-node": "^10.4.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "webpack-cli": "^6.0.1"
   },
   "engines": {
     "node": ">=12.0"
@@ -57,14 +59,15 @@
   },
   "scripts": {
     "benchmark": "ts-node --transpile-only test/benchmark.ts",
-    "build": "del-cli ./dist && tsc",
+    "build": "del-cli ./dist && tsc && npm run bundle-dts && npx webpack",
+    "bundle-dts": "dts-bundle --name liqe --main dist/src/liqe.d.ts --out liqe.bundle.d.ts --outputAsModuleFolder",
     "compile-parser": "nearleyc src/grammar.ne --out ./src/grammar.ts && sed -i '' 's/loc?: number/loc: number/g' src/grammar.ts && sed -i '' 's/@ts-expect-error//g' src/grammar.ts && sed -i '' 's/@ts-ignore//g' src/grammar.ts && eslint --fix src/grammar.ts",
     "dev": "tsc --watch",
     "lint": "eslint ./src ./test && tsc --noEmit",
     "test": "NODE_ENV=test ava --serial --verbose",
     "watch": "npm-watch"
   },
-  "typings": "./dist/src/Liqe.d.ts",
+  "typings": "./dist/src/liqe.bundle.d.ts",
   "version": "1.0.0",
   "watch": {
     "compile-parser": "src/grammar.ne"
