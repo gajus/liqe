@@ -2670,25 +2670,25 @@ test('( foo OR bar AND baz )', testQuery, {
   type: 'ParenthesizedExpression',
 });
 
-test("attrs.user-id:12345", testQuery, {
+test('attrs.user-id:12345', testQuery, {
   expression: {
     location: {
       end: 19,
       start: 14,
     },
     quoted: false,
-    type: "LiteralExpression",
-    value: 12345,
+    type: 'LiteralExpression',
+    value: 12_345,
   },
   field: {
     location: {
       end: 13,
       start: 0,
     },
-    name: "attrs.user-id",
-    path: ["attrs", "user-id"],
+    name: 'attrs.user-id',
+    path: ['attrs', 'user-id'],
     quoted: false,
-    type: "Field",
+    type: 'Field',
   },
   location: {
     end: 19,
@@ -2699,8 +2699,8 @@ test("attrs.user-id:12345", testQuery, {
       end: 14,
       start: 13,
     },
-    operator: ":",
-    type: "ComparisonOperator",
+    operator: ':',
+    type: 'ComparisonOperator',
   },
-  type: "Tag",
+  type: 'Tag',
 });
