@@ -490,7 +490,7 @@ const grammar: Grammar = {
     {
       name: 'field$ebnf$1',
       postprocess: (d) => d[0].concat([d[1]]),
-      symbols: ['field$ebnf$1', /[\w$.]/],
+      symbols: ['field$ebnf$1', /[\w$.-]/],
     },
     {
       name: 'field',
