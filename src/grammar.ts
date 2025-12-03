@@ -778,6 +778,27 @@ const grammar: Grammar = {
       postprocess: (d) => d[0] + d[1].join(''),
       symbols: [/[#$*?@A-Z_a-z\u0080-\uFFFF]/, 'unquoted_value$ebnf$1'],
     },
+    { name: 'unquoted_value$ebnf$2', symbols: [/\d/] },
+    {
+      name: 'unquoted_value$ebnf$2',
+      postprocess: (d) => d[0].concat([d[1]]),
+      symbols: ['unquoted_value$ebnf$2', /\d/],
+    },
+    { name: 'unquoted_value$ebnf$3', symbols: [] },
+    {
+      name: 'unquoted_value$ebnf$3',
+      postprocess: (d) => d[0].concat([d[1]]),
+      symbols: ['unquoted_value$ebnf$3', /[\w#$*.?@\u0080-\uFFFF\-]/],
+    },
+    {
+      name: 'unquoted_value',
+      postprocess: (d) => d[0].join('') + d[1] + d[2].join(''),
+      symbols: [
+        'unquoted_value$ebnf$2',
+        /[#$*?@A-Z_a-z\u0080-\uFFFF\-]/,
+        'unquoted_value$ebnf$3',
+      ],
+    },
   ],
   ParserStart: 'main',
 };

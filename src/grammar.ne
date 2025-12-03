@@ -292,4 +292,5 @@ regex_flags ->
   [gmiyusd]:+ {% d => d[0].join('') %}
 
 unquoted_value ->
-  [a-zA-Z_*?@#$\u0080-\uFFFF] [a-zA-Z0-9\.\-_*?@#$\u0080-\uFFFF]:* {% d => d[0] + d[1].join('') %}
+    [a-zA-Z_*?@#$\u0080-\uFFFF] [a-zA-Z0-9\.\-_*?@#$\u0080-\uFFFF]:* {% d => d[0] + d[1].join('') %}
+  | [0-9]:+ [a-zA-Z\-_*?@#$\u0080-\uFFFF] [a-zA-Z0-9\.\-_*?@#$\u0080-\uFFFF]:* {% d => d[0].join('') + d[1] + d[2].join('') %}

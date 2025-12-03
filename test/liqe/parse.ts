@@ -144,6 +144,26 @@ test('foo123', testQuery, {
   type: 'Tag',
 });
 
+test('1st', testQuery, {
+  expression: {
+    location: {
+      end: 3,
+      start: 0,
+    },
+    quoted: false,
+    type: 'LiteralExpression',
+    value: '1st',
+  },
+  field: {
+    type: 'ImplicitField',
+  },
+  location: {
+    end: 3,
+    start: 0,
+  },
+  type: 'Tag',
+});
+
 test('测试', testQuery, {
   expression: {
     location: {
@@ -560,6 +580,41 @@ test('foo:bar123', testQuery, {
     location: {
       end: 4,
       start: 3,
+    },
+    operator: ':',
+    type: 'ComparisonOperator',
+  },
+  type: 'Tag',
+});
+
+test('position:1st', testQuery, {
+  expression: {
+    location: {
+      end: 12,
+      start: 9,
+    },
+    quoted: false,
+    type: 'LiteralExpression',
+    value: '1st',
+  },
+  field: {
+    location: {
+      end: 8,
+      start: 0,
+    },
+    name: 'position',
+    path: ['position'],
+    quoted: false,
+    type: 'Field',
+  },
+  location: {
+    end: 12,
+    start: 0,
+  },
+  operator: {
+    location: {
+      end: 9,
+      start: 8,
     },
     operator: ':',
     type: 'ComparisonOperator',
