@@ -221,10 +221,12 @@ export const internalFilter = <T extends Object>(
   }
 
   if (ast.type === 'UnaryOperator') {
-    const removeRows = internalFilter(ast.operand, rows, resultFast, path, []);
+    const excludedRows = new Set(
+        internalFilter(ast.operand, rows, resultFast, path, []),
+    );
 
     return rows.filter((row) => {
-      return !removeRows.includes(row);
+      return !excludedRows.has(row);
     });
   }
 
