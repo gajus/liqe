@@ -222,7 +222,7 @@ export const internalFilter = <T extends Object>(
 
   if (ast.type === 'UnaryOperator') {
     const excludedRows = new Set(
-        internalFilter(ast.operand, rows, resultFast, path, []),
+      internalFilter(ast.operand, rows, resultFast, path, []),
     );
 
     return rows.filter((row) => {
