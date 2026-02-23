@@ -11,14 +11,13 @@ jobs:
       - name: setup node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '24'
       - run: npm ci
       - run: npm run lint
       - run: npm run test
       - run: npm run build
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
 name: Test, build and release
 on:
