@@ -1,12 +1,6 @@
 jobs:
-  release:
-    environment: release
-    name: Release
-    permissions:
-      contents: write
-      id-token: write
-      issues: write
-      pull-requests: write
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: setup repository
@@ -14,7 +8,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '24'
       - run: npm ci
@@ -22,7 +16,7 @@ jobs:
       - run: npm run test
       - run: npm run build
     timeout-minutes: 10
-name: Release
+name: Test and build
 on:
   pull_request:
     branches:
