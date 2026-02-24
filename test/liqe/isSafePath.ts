@@ -19,6 +19,7 @@ test('.foo0.bar1', testPath, true);
 
 test('.1', testPath, true);
 test('.10', testPath, true);
+test('.0', testPath, true);
 
 test('foo', testPath, false);
 test('.foo..bar', testPath, false);
@@ -27,3 +28,4 @@ test('.foo[0]', testPath, false);
 
 test('.00', testPath, false);
 test('.01', testPath, false);
+test('.\u0000', testPath, false);
