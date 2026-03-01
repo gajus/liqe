@@ -4,6 +4,7 @@
 [![NPM version](http://img.shields.io/npm/v/liqe.svg?style=flat-square)](https://www.npmjs.org/package/liqe)
 [![Canonical Code Style](https://img.shields.io/badge/code%20style-canonical-blue.svg?style=flat-square)](https://github.com/gajus/canonical)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kuizinas.svg?style=social&label=Follow)](https://twitter.com/kuizinas)
+[![libs.tech recommends](https://libs.tech/project/425372488/badge.svg)](https://libs.tech/project/425372488/liqe)
 
 Lightweight and performant Lucene-like parser, serializer and search engine.
 
