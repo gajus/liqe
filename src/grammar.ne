@@ -286,6 +286,7 @@ regex_body ->
 regex_body_char ->
     [^\\] {% id %}
   | "\\" [^\\] {% d => '\\' + d[1] %}
+  | "\\" "\\" {% d => '\\' + d[1] %}
 
 regex_flags ->
   null |

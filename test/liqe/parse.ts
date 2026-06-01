@@ -424,6 +424,78 @@ test('/\\s/', testQuery, {
   type: 'Tag',
 });
 
+test('path:/^C:\\\\test.*/', testQuery, {
+  expression: {
+    location: {
+      end: 18,
+      start: 5,
+    },
+    type: 'RegexExpression',
+    value: '/^C:\\\\test.*/',
+  },
+  field: {
+    location: {
+      end: 4,
+      start: 0,
+    },
+    name: 'path',
+    path: ['path'],
+    quoted: false,
+    type: 'Field',
+  },
+  location: {
+    end: 18,
+    start: 0,
+  },
+  operator: {
+    location: {
+      end: 5,
+      start: 4,
+    },
+    operator: ':',
+    type: 'ComparisonOperator',
+  },
+  type: 'Tag',
+});
+
+test('regex preserves escaped line terminators', (t) => {
+  const query = 'path:/foo\\\nbar/';
+
+  t.deepEqual(parse(query), {
+    expression: {
+      location: {
+        end: 15,
+        start: 5,
+      },
+      type: 'RegexExpression',
+      value: '/foo\\\nbar/',
+    },
+    field: {
+      location: {
+        end: 4,
+        start: 0,
+      },
+      name: 'path',
+      path: ['path'],
+      quoted: false,
+      type: 'Field',
+    },
+    location: {
+      end: 15,
+      start: 0,
+    },
+    operator: {
+      location: {
+        end: 5,
+        start: 4,
+      },
+      operator: ':',
+      type: 'ComparisonOperator',
+    },
+    type: 'Tag',
+  });
+});
+
 test(
   '/[^.:@\\s](?:[^:@\\s]*[^.:@\\s])?@[^.@\\s]+(?:\\.[^.@\\s]+)*/',
   testQuery,

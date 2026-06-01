@@ -755,6 +755,11 @@ const grammar: Grammar = {
       postprocess: (d) => '\\' + d[1],
       symbols: [{ literal: '\\' }, /[^\\]/],
     },
+    {
+      name: 'regex_body_char',
+      postprocess: (d) => '\\' + d[1],
+      symbols: [{ literal: '\\' }, { literal: '\\' }],
+    },
     { name: 'regex_flags', symbols: [] },
     { name: 'regex_flags$ebnf$1', symbols: [/[dgimsuy]/] },
     {
