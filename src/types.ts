@@ -105,9 +105,9 @@ export type ParserAst =
   | UnaryOperatorToken;
 
 export type Range = {
-  max: number;
+  max: number | string;
   maxInclusive: boolean;
-  min: number;
+  min: number | string;
   minInclusive: boolean;
 };
 

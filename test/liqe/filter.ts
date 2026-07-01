@@ -167,3 +167,111 @@ test('(name:fox OR (name:"foo bar" AND nick:"old dog"))', testQuery, [
   'fox',
   'foo bar',
 ]);
+
+// String ranges make ISO 8601 date/datetime and 24-hour time filtering work,
+// because for these canonical forms lexical order == chronological order.
+// https://github.com/gajus/liqe/issues/3
+type Event = {
+  date: string;
+  id: string;
+  startTime: string;
+  timestamp: string;
+};
+
+const events: readonly Event[] = [
+  {
+    date: '2019-06-15',
+    id: 'a',
+    startTime: '08:30',
+    timestamp: '2019-06-15T08:30:00.000Z',
+  },
+  {
+    date: '2020-03-15',
+    id: 'b',
+    startTime: '09:00',
+    timestamp: '2020-03-15T09:00:00.000Z',
+  },
+  {
+    date: '2020-11-30',
+    id: 'c',
+    startTime: '14:15',
+    timestamp: '2020-11-30T14:15:00.000Z',
+  },
+  {
+    date: '2021-12-25',
+    id: 'd',
+    startTime: '17:45',
+    timestamp: '2021-12-25T17:45:00.000Z',
+  },
+];
+
+const testEvents = test.macro((t, expectedIds: string[]) => {
+  const matchingIds = filter(parse(t.title), events).map((event) => {
+    return event.id;
+  });
+
+  t.deepEqual(matchingIds, expectedIds);
+});
+
+// Date-only (YYYY-MM-DD).
+test('date:["2020-01-01" TO "2020-12-31"]', testEvents, ['b', 'c']);
+test('date:{"2019-06-15" TO "2021-12-25"}', testEvents, ['b', 'c']);
+test('date:["2020-03-15" TO "2020-11-30"}', testEvents, ['b']);
+test('date:{"2019-06-15" TO "2020-11-30"]', testEvents, ['b', 'c']);
+
+// Full ISO 8601 datetime (single-timezone, fixed-precision).
+test(
+  'timestamp:["2020-01-01T00:00:00.000Z" TO "2021-01-01T00:00:00.000Z"]',
+  testEvents,
+  ['b', 'c'],
+);
+
+// 24-hour zero-padded time (HH:mm).
+test('startTime:["09:00" TO "17:00"]', testEvents, ['b', 'c']);
+test('startTime:{"09:00" TO "17:00"}', testEvents, ['c']);
+
+// UTC date-times without milliseconds are accepted too, as long as both
+// boundaries share the same shape.
+test('accepts second-precision UTC date-time ranges', (t) => {
+  const rows = [
+    { id: 'x', ts: '2020-06-01T12:00:00Z' },
+    { id: 'y', ts: '2022-06-01T12:00:00Z' },
+  ];
+
+  const matchingIds = filter(
+    parse('ts:["2020-01-01T00:00:00Z" TO "2021-01-01T00:00:00Z"]'),
+    rows,
+  ).map((row) => {
+    return row.id;
+  });
+
+  t.deepEqual(matchingIds, ['x']);
+});
+
+// Ranges whose boundaries are not a supported, consistent date/time format
+// throw a TypeError rather than returning a silently-wrong lexical result.
+const unsupportedRangeQueries = [
+  // Free-text boundaries are not a date/time format.
+  'name:["a" TO "e"]',
+  // Lowercase "z" is not valid ISO 8601 (UTC must be uppercase "Z").
+  'timestamp:["2020-01-01T00:00:00.000z" TO "2021-01-01T00:00:00.000z"]',
+  // Mismatched millisecond precision between the two boundaries.
+  'timestamp:["2020-01-01T00:00:00.00Z" TO "2021-01-01T00:00:00.000Z"]',
+  // Timezone offsets break lexical ordering and are rejected.
+  'timestamp:["2020-01-01T00:00:00.000+05:00" TO "2021-01-01T00:00:00.000+05:00"]',
+  // Mismatched boundary types (number vs string).
+  'date:[1 TO "2020-12-31"]',
+  // Mismatched categories (date vs time).
+  'date:["2020-01-01" TO "17:00"]',
+];
+
+for (const query of unsupportedRangeQueries) {
+  test(`throws TypeError for unsupported range: ${query}`, (t) => {
+    t.throws(
+      () => {
+        return filter(parse(query), events);
+      },
+      { instanceOf: TypeError },
+    );
+  });
+}
