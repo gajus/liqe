@@ -248,6 +248,29 @@ Search for value greater than 100 and lower than 200 in the `height` field.
 height:{100 TO 200}
 ```
 
+Ranges also work with non-numeric values whose lexical ordering matches their chronological ordering: ISO 8601 dates, UTC date-times, and 24-hour times. The boundaries must be quoted, and inclusive (`[ ]`) and exclusive (`{ }`) brackets behave the same as for numbers.
+
+Search for dates from the start to the end of 2020, inclusive of both boundaries.
+
+```rb
+created:["2020-01-01" TO "2020-12-31"]
+```
+
+Search for dates strictly between the two boundaries, exclusive.
+
+```rb
+created:{"2020-01-01" TO "2020-12-31"}
+```
+
+UTC date-times and 24-hour times use the same syntax (and the same bracket rules).
+
+```rb
+created:["2020-01-01T00:00:00.000Z" TO "2021-01-01T00:00:00.000Z"]
+startTime:["09:00" TO "17:00"]
+```
+
+Only these canonical, big-endian formats are accepted, because that is what makes lexical ordering equal chronological ordering. A range whose boundaries are anything else — free text, `DD-MM-YYYY`, timezone offsets, lowercase `z`, or mismatched precision — throws a `TypeError`.
+
 ### Wildcard matching
 
 Search for any word that starts with "foo" in the `name` field.

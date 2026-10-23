@@ -1,3 +1,4 @@
+import { assertSupportedRange } from './assertSupportedRange';
 import { createStringTest } from './createStringTest';
 import { testComparisonRange } from './testComparisonRange';
 import { testRange } from './testRange';
@@ -15,6 +16,8 @@ const createValueTest = (ast: LiqeQuery): InternalTest => {
   const { expression } = ast;
 
   if (expression.type === 'RangeExpression') {
+    assertSupportedRange(expression.range);
+
     return (value) => {
       return testRange(value, expression.range);
     };

@@ -2771,6 +2771,75 @@ test('{1 TO 2}', testQuery, {
   type: 'Tag',
 });
 
+test('["2020-01-01" TO "2020-12-31"]', testQuery, {
+  expression: {
+    location: {
+      end: 30,
+      start: 0,
+    },
+    range: {
+      max: '2020-12-31',
+      maxInclusive: true,
+      min: '2020-01-01',
+      minInclusive: true,
+    },
+    type: 'RangeExpression',
+  },
+  field: {
+    type: 'ImplicitField',
+  },
+  location: {
+    start: 0,
+  },
+  type: 'Tag',
+});
+
+test('{"2020-01-01" TO "2020-12-31"}', testQuery, {
+  expression: {
+    location: {
+      end: 30,
+      start: 0,
+    },
+    range: {
+      max: '2020-12-31',
+      maxInclusive: false,
+      min: '2020-01-01',
+      minInclusive: false,
+    },
+    type: 'RangeExpression',
+  },
+  field: {
+    type: 'ImplicitField',
+  },
+  location: {
+    start: 0,
+  },
+  type: 'Tag',
+});
+
+test("['2020-01-01' TO '2020-12-31']", testQuery, {
+  expression: {
+    location: {
+      end: 30,
+      start: 0,
+    },
+    range: {
+      max: '2020-12-31',
+      maxInclusive: true,
+      min: '2020-01-01',
+      minInclusive: true,
+    },
+    type: 'RangeExpression',
+  },
+  field: {
+    type: 'ImplicitField',
+  },
+  location: {
+    start: 0,
+  },
+  type: 'Tag',
+});
+
 test('( foo OR bar AND baz )', testQuery, {
   expression: {
     left: {

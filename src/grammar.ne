@@ -237,7 +237,7 @@ expression ->
   | dqstring {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
 
 range ->
-    range_open decimal " TO " decimal range_close {% (data, start) => {
+    range_open range_value " TO " range_value range_close {% (data, start) => {
     return {
       location: {
         start,
@@ -266,6 +266,14 @@ range_open ->
 range_close ->
   "]" {% (data, start) => ({location: {start}, inclusive: true}) %}
   | "}" {% (data, start) => ({location: {start}, inclusive: false}) %}
+
+# Range boundaries can be numeric (decimal) or a quoted string. Quoted-string
+# boundaries are compared lexically, which makes ISO 8601 date/datetime and other
+# canonically-ordered string ranges work. See https://github.com/gajus/liqe/issues/3
+range_value ->
+    decimal  {% id %}
+  | dqstring {% id %}
+  | sqstring {% id %}
 
 comparison_operator ->
     (
