@@ -241,8 +241,6 @@ export const internalFilter = <T extends Object>(
     throw new Error('Expected left to be defined.');
   }
 
-  const leftRows = internalFilter(ast.left, rows, resultFast, path, highlights);
-
   if (!ast.right) {
     throw new Error('Expected right to be defined.');
   }
@@ -252,17 +250,57 @@ export const internalFilter = <T extends Object>(
   }
 
   if (ast.operator.operator === 'OR') {
+    const leftHighlights: InternalHighlight[] = [];
+    const leftRows = internalFilter(
+      ast.left,
+      rows,
+      resultFast,
+      path,
+      leftHighlights,
+    );
+
+    const rightHighlights: InternalHighlight[] = [];
     const rightRows = internalFilter(
       ast.right,
       rows,
       resultFast,
       path,
-      highlights,
+      rightHighlights,
     );
+
+    if (leftRows.length > 0) {
+      highlights.push(...leftHighlights);
+    }
+
+    if (rightRows.length > 0) {
+      highlights.push(...rightHighlights);
+    }
 
     return Array.from(new Set([...leftRows, ...rightRows]));
   } else if (ast.operator.operator === 'AND') {
-    return internalFilter(ast.right, leftRows, resultFast, path, highlights);
+    const leftHighlights: InternalHighlight[] = [];
+    const leftRows = internalFilter(
+      ast.left,
+      rows,
+      resultFast,
+      path,
+      leftHighlights,
+    );
+
+    const rightHighlights: InternalHighlight[] = [];
+    const matchingRows = internalFilter(
+      ast.right,
+      leftRows,
+      resultFast,
+      path,
+      rightHighlights,
+    );
+
+    if (matchingRows.length > 0) {
+      highlights.push(...leftHighlights, ...rightHighlights);
+    }
+
+    return matchingRows;
   }
 
   throw new Error('Unexpected state.');

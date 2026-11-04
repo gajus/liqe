@@ -253,7 +253,7 @@ test(
   ],
 );
 
-test.skip(
+test(
   'does not include highlights from non-matching branches (and)',
   testQuery,
   'name:foo AND NOT name:foo',
@@ -329,6 +329,53 @@ test(
     {
       path: 'name',
       query: /(\(foo bar\)|baz)/,
+    },
+  ],
+);
+
+test(
+  'does not include highlights when neither branch in OR fully matches',
+  testQuery,
+  '(name:foo AND tag:a) OR (name:bar AND tag:b)',
+  {
+    name: 'foo',
+    tag: 'b',
+  },
+  [],
+);
+
+test(
+  'includes highlights only from the matching branch in OR with ANDs',
+  testQuery,
+  '(name:foo AND tag:a) OR (name:foo AND tag:b)',
+  {
+    name: 'foo',
+    tag: 'b',
+  },
+  [
+    {
+      path: 'name',
+      query: /(foo)/,
+    },
+    {
+      path: 'tag',
+      query: /(b)/,
+    },
+  ],
+);
+
+test(
+  'includes highlights from AND with NOT condition',
+  testQuery,
+  'name:foo AND NOT tag:a',
+  {
+    name: 'foo',
+    tag: 'b',
+  },
+  [
+    {
+      path: 'name',
+      query: /(foo)/,
     },
   ],
 );
