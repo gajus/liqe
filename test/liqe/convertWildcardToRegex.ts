@@ -12,3 +12,8 @@ test('foo***bar', testRule, /foo(.+?)bar/);
 test('foo*bar*', testRule, /foo(.+?)bar(.+?)/);
 test('foo?bar', testRule, /foo(.)bar/);
 test('foo???bar', testRule, /foo(.)(.)(.)bar/);
+
+// Everything except the wildcards is matched as it is.
+test('foo.bar*', testRule, /foo\.bar(.+?)/);
+test('*.txt', testRule, /(.+?)\.txt/);
+test('$foo*', testRule, /\$foo(.+?)/);
