@@ -237,11 +237,8 @@ expression ->
   | dqstring {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length + 2}, type: 'LiteralExpression', quoted: true, quotes: 'double', value: data.join('')}}) %}
 
 range ->
-    range_open range_value " TO " range_value range_close {% (data, start) => {
+    range_open range_value " TO " range_value range_close {% (data) => {
     return {
-      location: {
-        start,
-      },
       type: 'Tag',
       expression: {
         location: {

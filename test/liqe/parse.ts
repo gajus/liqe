@@ -2697,7 +2697,47 @@ test('[1 TO 2]', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 8,
     start: 0,
+  },
+  type: 'Tag',
+});
+
+test('foo:[1 TO 2]', testQuery, {
+  expression: {
+    location: {
+      end: 12,
+      start: 4,
+    },
+    range: {
+      max: 2,
+      maxInclusive: true,
+      min: 1,
+      minInclusive: true,
+    },
+    type: 'RangeExpression',
+  },
+  field: {
+    location: {
+      end: 3,
+      start: 0,
+    },
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+    type: 'Field',
+  },
+  location: {
+    end: 12,
+    start: 0,
+  },
+  operator: {
+    location: {
+      end: 4,
+      start: 3,
+    },
+    operator: ':',
+    type: 'ComparisonOperator',
   },
   type: 'Tag',
 });
@@ -2720,6 +2760,7 @@ test('{1 TO 2]', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 8,
     start: 0,
   },
   type: 'Tag',
@@ -2743,6 +2784,7 @@ test('[1 TO 2}', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 8,
     start: 0,
   },
   type: 'Tag',
@@ -2766,6 +2808,7 @@ test('{1 TO 2}', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 8,
     start: 0,
   },
   type: 'Tag',
@@ -2789,6 +2832,7 @@ test('["2020-01-01" TO "2020-12-31"]', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 30,
     start: 0,
   },
   type: 'Tag',
@@ -2812,6 +2856,7 @@ test('{"2020-01-01" TO "2020-12-31"}', testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 30,
     start: 0,
   },
   type: 'Tag',
@@ -2835,6 +2880,7 @@ test("['2020-01-01' TO '2020-12-31']", testQuery, {
     type: 'ImplicitField',
   },
   location: {
+    end: 30,
     start: 0,
   },
   type: 'Tag',

@@ -626,7 +626,7 @@ const grammar: Grammar = {
     },
     {
       name: 'range',
-      postprocess: (data, start) => {
+      postprocess: (data) => {
         return {
           expression: {
             location: {
@@ -640,9 +640,6 @@ const grammar: Grammar = {
               minInclusive: data[0].inclusive,
             },
             type: 'RangeExpression',
-          },
-          location: {
-            start,
           },
           type: 'Tag',
         };

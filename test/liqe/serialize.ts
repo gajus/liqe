@@ -150,3 +150,13 @@ test('{1 TO 2]', testQuery);
 test('[1 TO 2}', testQuery);
 
 test('{1 TO 2}', testQuery);
+
+test('foo:[1 TO 2]', testQuery);
+
+test('foo:[1 TO 2] AND bar:baz', testQuery);
+
+test('foo:[1 TO 2] bar:baz', testQuery);
+
+test('(foo:{1 TO 2})', testQuery);
+
+test('( [1 TO 2] OR {3 TO 4} )', testQuery);
