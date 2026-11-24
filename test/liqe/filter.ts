@@ -87,6 +87,13 @@ test('name:/(david)|(john)/', testQuery, ['david', 'john']);
 test('name:/(David)|(John)/', testQuery, []);
 test('name:/(David)|(John)/i', testQuery, ['david', 'john']);
 
+// A regex body ends at the first unescaped forward slash, so a query may hold more than one of them.
+test('name:/^da/ name:/id$/', testQuery, ['david']);
+test('name:/^da/ OR name:/^jo/', testQuery, ['david', 'john']);
+test('name:/^da/ height:180', testQuery, ['david']);
+test('name:/^da/i name:/ID$/i', testQuery, ['david']);
+test('name:/[dj]/ name:/^jo/', testQuery, ['john']);
+
 test('height:[200 TO 300]', testQuery, ['robert', 'noah']);
 test('height:[220 TO 300]', testQuery, ['robert', 'noah']);
 test('height:{220 TO 300]', testQuery, ['noah']);

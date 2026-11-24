@@ -749,7 +749,7 @@ const grammar: Grammar = {
       postprocess: (data) => '/' + data[1].join('') + '/',
       symbols: [{ literal: '/' }, 'regex_body$ebnf$1', { literal: '/' }],
     },
-    { name: 'regex_body_char', postprocess: id, symbols: [/[^\\]/] },
+    { name: 'regex_body_char', postprocess: id, symbols: [/[^/[\\]/] },
     {
       name: 'regex_body_char',
       postprocess: (d) => '\\' + d[1],
@@ -757,6 +757,29 @@ const grammar: Grammar = {
     },
     {
       name: 'regex_body_char',
+      postprocess: (d) => '\\' + d[1],
+      symbols: [{ literal: '\\' }, { literal: '\\' }],
+    },
+    { name: 'regex_body_char', postprocess: id, symbols: ['regex_class'] },
+    { name: 'regex_class$ebnf$1', symbols: [] },
+    {
+      name: 'regex_class$ebnf$1',
+      postprocess: (d) => d[0].concat([d[1]]),
+      symbols: ['regex_class$ebnf$1', 'regex_class_char'],
+    },
+    {
+      name: 'regex_class',
+      postprocess: (d) => '[' + d[1].join('') + ']',
+      symbols: [{ literal: '[' }, 'regex_class$ebnf$1', { literal: ']' }],
+    },
+    { name: 'regex_class_char', postprocess: id, symbols: [/[^\\\]]/] },
+    {
+      name: 'regex_class_char',
+      postprocess: (d) => '\\' + d[1],
+      symbols: [{ literal: '\\' }, /[^\\]/],
+    },
+    {
+      name: 'regex_class_char',
       postprocess: (d) => '\\' + d[1],
       symbols: [{ literal: '\\' }, { literal: '\\' }],
     },

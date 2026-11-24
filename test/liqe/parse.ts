@@ -21,6 +21,13 @@ test('error describes offset', (t) => {
   t.is(error.column, 5);
 });
 
+test('a regex body ends at its closing slash', (t) => {
+  // Read as the single regex /foo\/ bar/ before, which matched neither term the query names.
+  t.throws(() => {
+    parse('name:/foo/ bar/');
+  });
+});
+
 test('empty query', (t) => {
   t.deepEqual(parse(''), {
     location: {

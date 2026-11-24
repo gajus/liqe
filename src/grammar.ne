@@ -289,7 +289,16 @@ regex_body ->
     "/" regex_body_char:* "/" {% (data) => '/' + data[1].join('') + '/' %}
 
 regex_body_char ->
-    [^\\] {% id %}
+    [^\\/[] {% id %}
+  | "\\" [^\\] {% d => '\\' + d[1] %}
+  | "\\" "\\" {% d => '\\' + d[1] %}
+  | regex_class {% id %}
+
+regex_class ->
+  "[" regex_class_char:* "]" {% d => '[' + d[1].join('') + ']' %}
+
+regex_class_char ->
+    [^\\\]] {% id %}
   | "\\" [^\\] {% d => '\\' + d[1] %}
   | "\\" "\\" {% d => '\\' + d[1] %}
 
