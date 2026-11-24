@@ -85,6 +85,26 @@ test('foo:"bar"', testQuery);
 
 test("foo:'bar'", testQuery);
 
+test('foo:"bar \\"baz\\""', testQuery);
+
+test("foo:'bar \\'baz\\''", testQuery);
+
+test('foo:"bar \\\\ baz"', testQuery);
+
+test('foo:"C:\\\\dir\\\\file"', testQuery);
+
+test('foo:"bar\\nbaz"', testQuery);
+
+test('"foo \\"bar\\"":baz', testQuery);
+
+test("'foo \\'bar\\'':baz", testQuery);
+
+test('bar:baz AND foo:"bar \\"baz\\""', testQuery);
+
+test('foo:"it\'s"', testQuery);
+
+test('foo:\'say "hi"\'', testQuery);
+
 test('foo:bar baz:qux', testQuery);
 
 test('foo:bar AND baz:qux', testQuery);

@@ -1,12 +1,15 @@
 import { type ExpressionToken, type LiqeQuery } from './types';
 
 const quote = (value: string, quotes: 'double' | 'single') => {
+  // The parser reads \\ as a backslash, \n as a line feed and \" or \' as the quote (a raw line feed ends the string)
+  const escaped = value.replaceAll('\\', '\\\\').replaceAll('\n', '\\n');
+
   if (quotes === 'double') {
-    return `"${value}"`;
+    return `"${escaped.replaceAll('"', '\\"')}"`;
   }
 
   if (quotes === 'single') {
-    return `'${value}'`;
+    return `'${escaped.replaceAll("'", "\\'")}'`;
   }
 
   return value;
