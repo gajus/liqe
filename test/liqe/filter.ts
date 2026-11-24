@@ -168,6 +168,37 @@ test('(name:fox OR (name:"foo bar" AND nick:"old dog"))', testQuery, [
   'foo bar',
 ]);
 
+// Everything except `*` and `?` in a wildcard is matched as it is, so `.` is
+// only a dot and `$` is only a dollar sign.
+type Item = {
+  id: string;
+  name: string;
+};
+
+const items: readonly Item[] = [
+  { id: 'a', name: 'a.txt' },
+  { id: 'b', name: 'a_txt' },
+  { id: 'c', name: 'v1.2.3' },
+  { id: 'd', name: 'v1x2y3' },
+  { id: 'e', name: 'costs $5' },
+  { id: 'f', name: 'costs 5' },
+  { id: 'g', name: 'foo-bar' },
+];
+
+const testItems = test.macro((t, expectedIds: string[]) => {
+  const matchingIds = filter(parse(t.title), items).map((item) => {
+    return item.id;
+  });
+
+  t.deepEqual(matchingIds, expectedIds);
+});
+
+test('name:*.txt', testItems, ['a']);
+test('name:v1.2*', testItems, ['c']);
+test('name:costs*$5', testItems, ['e']);
+test('name:costs*5', testItems, ['e', 'f']);
+test('name:foo-b*', testItems, ['g']);
+
 // String ranges make ISO 8601 date/datetime and 24-hour time filtering work,
 // because for these canonical forms lexical order == chronological order.
 // https://github.com/gajus/liqe/issues/3
