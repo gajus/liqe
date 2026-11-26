@@ -313,3 +313,41 @@ for (const query of unsupportedRangeQueries) {
     );
   });
 }
+
+test('+(david)', testQuery, ['david']);
+test('-(david)', testQuery, [
+  'john',
+  'mike',
+  'robert',
+  'noah',
+  'foo bar',
+  'fox',
+]);
+test('+(name:"foo bar" nick:"old dog")', testQuery, ['foo bar']);
+test('-(name:"foo bar" nick:"old dog")', testQuery, [
+  'david',
+  'john',
+  'mike',
+  'robert',
+  'noah',
+  'fox',
+]);
+test('name:(david OR john)', testQuery, ['david', 'john']);
+test('name:(foo bar)', testQuery, ['foo bar']);
+test('+name:(foo bar)', testQuery, ['foo bar']);
+test('-name:(foo bar)', testQuery, [
+  'david',
+  'john',
+  'mike',
+  'robert',
+  'noah',
+  'fox',
+]);
+test('name:(fox NOT quick)', testQuery, ['fox']);
+test('name:(fox -quick)', testQuery, ['fox']);
+test('location.city:(London OR Paris)', testQuery, ['mike']);
+test('name:(foo (bar OR baz))', testQuery, ['foo bar']);
+test('name:(fox nick:"quick fox")', testQuery, ['fox']);
+test('height:=(175 OR 225)', testQuery, ['john', 'mike', 'noah']);
+test('david OR +(foo bar)', testQuery, ['david', 'foo bar']);
+test('name:()', testQuery, []);

@@ -2983,3 +2983,528 @@ test('attrs.user-id:12345', testQuery, {
   },
   type: 'Tag',
 });
+
+test('+(a b)', testQuery, {
+  location: {
+    end: 6,
+    start: 0,
+  },
+  operand: {
+    expression: {
+      left: {
+        expression: {
+          location: {
+            end: 3,
+            start: 2,
+          },
+          quoted: false,
+          type: 'LiteralExpression',
+          value: 'a',
+        },
+        field: {
+          type: 'ImplicitField',
+        },
+        location: {
+          end: 3,
+          start: 2,
+        },
+        type: 'Tag',
+      },
+      location: {
+        end: 5,
+        start: 2,
+      },
+      operator: {
+        operator: 'AND',
+        type: 'ImplicitBooleanOperator',
+      },
+      right: {
+        expression: {
+          location: {
+            end: 5,
+            start: 4,
+          },
+          quoted: false,
+          type: 'LiteralExpression',
+          value: 'b',
+        },
+        field: {
+          type: 'ImplicitField',
+        },
+        location: {
+          end: 5,
+          start: 4,
+        },
+        type: 'Tag',
+      },
+      type: 'LogicalExpression',
+    },
+    location: {
+      end: 6,
+      start: 1,
+    },
+    type: 'ParenthesizedExpression',
+  },
+  operator: '+',
+  type: 'UnaryOperator',
+});
+
+test('-(a b)', testQuery, {
+  location: {
+    end: 6,
+    start: 0,
+  },
+  operand: {
+    expression: {
+      left: {
+        expression: {
+          location: {
+            end: 3,
+            start: 2,
+          },
+          quoted: false,
+          type: 'LiteralExpression',
+          value: 'a',
+        },
+        field: {
+          type: 'ImplicitField',
+        },
+        location: {
+          end: 3,
+          start: 2,
+        },
+        type: 'Tag',
+      },
+      location: {
+        end: 5,
+        start: 2,
+      },
+      operator: {
+        operator: 'AND',
+        type: 'ImplicitBooleanOperator',
+      },
+      right: {
+        expression: {
+          location: {
+            end: 5,
+            start: 4,
+          },
+          quoted: false,
+          type: 'LiteralExpression',
+          value: 'b',
+        },
+        field: {
+          type: 'ImplicitField',
+        },
+        location: {
+          end: 5,
+          start: 4,
+        },
+        type: 'Tag',
+      },
+      type: 'LogicalExpression',
+    },
+    location: {
+      end: 6,
+      start: 1,
+    },
+    type: 'ParenthesizedExpression',
+  },
+  operator: '-',
+  type: 'UnaryOperator',
+});
+
+test('c:(a b)', testQuery, {
+  expression: {
+    expression: {
+      left: {
+        expression: {
+          location: {
+            end: 4,
+            start: 3,
+          },
+          quoted: false,
+          type: 'LiteralExpression',
+          value: 'a',
+        },
+        field: {
+          type: 'ImplicitField',
+        },
+        location: {
+          end: 4,
+          start: 3,
+        },
+        type: 'Tag',
+      },
+      location: {
+        end: 6,
+        start: 3,
+      },
+      operator: {
+        operator: 'AND',
+        type: 'ImplicitBooleanOperator',
+      },
+      right: {
+        expression: {
+          location: {
+            end: 6,
+            start: 5,
+          },
+          quoted: false,
+          type: 'LiteralExpression',
+          value: 'b',
+        },
+        field: {
+          type: 'ImplicitField',
+        },
+        location: {
+          end: 6,
+          start: 5,
+        },
+        type: 'Tag',
+      },
+      type: 'LogicalExpression',
+    },
+    location: {
+      end: 7,
+      start: 2,
+    },
+    type: 'ParenthesizedExpression',
+  },
+  field: {
+    location: {
+      end: 1,
+      start: 0,
+    },
+    name: 'c',
+    path: ['c'],
+    quoted: false,
+    type: 'Field',
+  },
+  location: {
+    end: 7,
+    start: 0,
+  },
+  operator: {
+    location: {
+      end: 2,
+      start: 1,
+    },
+    operator: ':',
+    type: 'ComparisonOperator',
+  },
+  type: 'Tag',
+});
+
+test('+c:(a b)', testQuery, {
+  location: {
+    end: 8,
+    start: 0,
+  },
+  operand: {
+    expression: {
+      expression: {
+        left: {
+          expression: {
+            location: {
+              end: 5,
+              start: 4,
+            },
+            quoted: false,
+            type: 'LiteralExpression',
+            value: 'a',
+          },
+          field: {
+            type: 'ImplicitField',
+          },
+          location: {
+            end: 5,
+            start: 4,
+          },
+          type: 'Tag',
+        },
+        location: {
+          end: 7,
+          start: 4,
+        },
+        operator: {
+          operator: 'AND',
+          type: 'ImplicitBooleanOperator',
+        },
+        right: {
+          expression: {
+            location: {
+              end: 7,
+              start: 6,
+            },
+            quoted: false,
+            type: 'LiteralExpression',
+            value: 'b',
+          },
+          field: {
+            type: 'ImplicitField',
+          },
+          location: {
+            end: 7,
+            start: 6,
+          },
+          type: 'Tag',
+        },
+        type: 'LogicalExpression',
+      },
+      location: {
+        end: 8,
+        start: 3,
+      },
+      type: 'ParenthesizedExpression',
+    },
+    field: {
+      location: {
+        end: 2,
+        start: 1,
+      },
+      name: 'c',
+      path: ['c'],
+      quoted: false,
+      type: 'Field',
+    },
+    location: {
+      end: 8,
+      start: 1,
+    },
+    operator: {
+      location: {
+        end: 3,
+        start: 2,
+      },
+      operator: ':',
+      type: 'ComparisonOperator',
+    },
+    type: 'Tag',
+  },
+  operator: '+',
+  type: 'UnaryOperator',
+});
+
+test('-c:(a b)', testQuery, {
+  location: {
+    end: 8,
+    start: 0,
+  },
+  operand: {
+    expression: {
+      expression: {
+        left: {
+          expression: {
+            location: {
+              end: 5,
+              start: 4,
+            },
+            quoted: false,
+            type: 'LiteralExpression',
+            value: 'a',
+          },
+          field: {
+            type: 'ImplicitField',
+          },
+          location: {
+            end: 5,
+            start: 4,
+          },
+          type: 'Tag',
+        },
+        location: {
+          end: 7,
+          start: 4,
+        },
+        operator: {
+          operator: 'AND',
+          type: 'ImplicitBooleanOperator',
+        },
+        right: {
+          expression: {
+            location: {
+              end: 7,
+              start: 6,
+            },
+            quoted: false,
+            type: 'LiteralExpression',
+            value: 'b',
+          },
+          field: {
+            type: 'ImplicitField',
+          },
+          location: {
+            end: 7,
+            start: 6,
+          },
+          type: 'Tag',
+        },
+        type: 'LogicalExpression',
+      },
+      location: {
+        end: 8,
+        start: 3,
+      },
+      type: 'ParenthesizedExpression',
+    },
+    field: {
+      location: {
+        end: 2,
+        start: 1,
+      },
+      name: 'c',
+      path: ['c'],
+      quoted: false,
+      type: 'Field',
+    },
+    location: {
+      end: 8,
+      start: 1,
+    },
+    operator: {
+      location: {
+        end: 3,
+        start: 2,
+      },
+      operator: ':',
+      type: 'ComparisonOperator',
+    },
+    type: 'Tag',
+  },
+  operator: '-',
+  type: 'UnaryOperator',
+});
+
+test('+foo:bar', testQuery, {
+  location: {
+    end: 8,
+    start: 0,
+  },
+  operand: {
+    expression: {
+      location: {
+        end: 8,
+        start: 5,
+      },
+      quoted: false,
+      type: 'LiteralExpression',
+      value: 'bar',
+    },
+    field: {
+      location: {
+        end: 4,
+        start: 1,
+      },
+      name: 'foo',
+      path: ['foo'],
+      quoted: false,
+      type: 'Field',
+    },
+    location: {
+      end: 8,
+      start: 1,
+    },
+    operator: {
+      location: {
+        end: 5,
+        start: 4,
+      },
+      operator: ':',
+      type: 'ComparisonOperator',
+    },
+    type: 'Tag',
+  },
+  operator: '+',
+  type: 'UnaryOperator',
+});
+
+test('NOT c:(a b)', testQuery, {
+  location: {
+    end: 11,
+    start: 0,
+  },
+  operand: {
+    expression: {
+      expression: {
+        left: {
+          expression: {
+            location: {
+              end: 8,
+              start: 7,
+            },
+            quoted: false,
+            type: 'LiteralExpression',
+            value: 'a',
+          },
+          field: {
+            type: 'ImplicitField',
+          },
+          location: {
+            end: 8,
+            start: 7,
+          },
+          type: 'Tag',
+        },
+        location: {
+          end: 10,
+          start: 7,
+        },
+        operator: {
+          operator: 'AND',
+          type: 'ImplicitBooleanOperator',
+        },
+        right: {
+          expression: {
+            location: {
+              end: 10,
+              start: 9,
+            },
+            quoted: false,
+            type: 'LiteralExpression',
+            value: 'b',
+          },
+          field: {
+            type: 'ImplicitField',
+          },
+          location: {
+            end: 10,
+            start: 9,
+          },
+          type: 'Tag',
+        },
+        type: 'LogicalExpression',
+      },
+      location: {
+        end: 11,
+        start: 6,
+      },
+      type: 'ParenthesizedExpression',
+    },
+    field: {
+      location: {
+        end: 5,
+        start: 4,
+      },
+      name: 'c',
+      path: ['c'],
+      quoted: false,
+      type: 'Field',
+    },
+    location: {
+      end: 11,
+      start: 4,
+    },
+    operator: {
+      location: {
+        end: 6,
+        start: 5,
+      },
+      operator: ':',
+      type: 'ComparisonOperator',
+    },
+    type: 'Tag',
+  },
+  operator: 'NOT',
+  type: 'UnaryOperator',
+});

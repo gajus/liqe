@@ -78,18 +78,22 @@ pre_two_op_logical_expression ->
   | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 one_op_logical_expression ->
-    parentheses_open _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[2].location.start + 1, },type: 'ParenthesizedExpression', expression: {
-      type: 'EmptyExpression',
-      location: {
-        start: d[0].location.start + 1,
-        end: d[0].location.start + 1,
-      },
-    }}) %}
-  | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
+    parenthesized_expression {% id %}
 	|	"NOT" post_boolean_primary {% (data, start) => {
   return {
     type: 'UnaryOperator',
     operator: 'NOT',
+    operand: data[1],
+    location: {
+      start,
+      end: data[1].location.end,
+    }
+  };
+} %}
+  | "-" parenthesized_expression {% (data, start) => {
+  return {
+    type: 'UnaryOperator',
+    operator: '-',
     operand: data[1],
     location: {
       start,
@@ -108,7 +112,39 @@ one_op_logical_expression ->
     }
   };
 } %}
+  | "+" parenthesized_expression {% (data, start) => {
+  return {
+    type: 'UnaryOperator',
+    operator: '+',
+    operand: data[1],
+    location: {
+      start,
+      end: data[1].location.end,
+    }
+  };
+} %}
+  | "+" boolean_primary {% (data, start) => {
+  return {
+    type: 'UnaryOperator',
+    operator: '+',
+    operand: data[1],
+    location: {
+      start,
+      end: data[1].location.end,
+    }
+  };
+} %}
   | boolean_primary {% d => d[0] %}
+
+parenthesized_expression ->
+    parentheses_open _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[2].location.start + 1, },type: 'ParenthesizedExpression', expression: {
+      type: 'EmptyExpression',
+      location: {
+        start: d[0].location.start + 1,
+        end: d[0].location.start + 1,
+      },
+    }}) %}
+  | parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[0].location.start, end: d[4].location.start + 1, },type: 'ParenthesizedExpression', expression: d[2]}) %}
 
 post_one_op_logical_expression ->
     __ one_op_logical_expression {% d => d[1] %}
@@ -128,7 +164,7 @@ boolean_primary ->
   tag_expression {% id %}
 
 post_boolean_primary ->
-    __ parentheses_open _ two_op_logical_expression _ parentheses_close {% d => ({location: {start: d[1].location.start, end: d[5].location.start + 1, }, type: 'ParenthesizedExpression', expression: d[3]}) %}
+    __ parenthesized_expression {% d => d[1] %}
   | __ boolean_primary {% d => d[1] %}
 
 tag_expression ->
@@ -155,6 +191,31 @@ tag_expression ->
       field,
       operator: data[1],
       ...data[2]
+    }
+  } %}
+  | field comparison_operator parenthesized_expression {% (data, start) => {
+    const field = {
+      type: 'Field',
+      name: data[0].name,
+      path: data[0].name.split('.').filter(Boolean),
+      quoted: data[0].quoted,
+      quotes: data[0].quotes,
+      location: data[0].location,
+    };
+
+    if (!data[0].quotes) {
+      delete field.quotes;
+    }
+
+    return {
+      type: 'Tag',
+      location: {
+        start,
+        end: data[2].location.end,
+      },
+      field,
+      operator: data[1],
+      expression: data[2],
     }
   } %}
   | field comparison_operator {% (data, start) => {

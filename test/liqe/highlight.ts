@@ -379,3 +379,58 @@ test(
     },
   ],
 );
+
+test(
+  'matches field grouping (AND)',
+  testQuery,
+  'name:(foo bar)',
+  {
+    name: 'foo bar baz',
+  },
+  [
+    {
+      path: 'name',
+      query: /(foo|bar)/,
+    },
+  ],
+);
+
+test(
+  'matches field grouping (OR)',
+  testQuery,
+  'name:(foo OR bar)',
+  {
+    name: 'foo baz',
+  },
+  [
+    {
+      path: 'name',
+      query: /(foo)/,
+    },
+  ],
+);
+
+test(
+  'matches positive parenthesized unary operator',
+  testQuery,
+  '+(foo bar)',
+  {
+    name: 'foo bar',
+  },
+  [
+    {
+      path: 'name',
+      query: /(foo|bar)/,
+    },
+  ],
+);
+
+test(
+  'does not highlight negated field grouping',
+  testQuery,
+  '-name:(foo bar)',
+  {
+    name: 'foo bar',
+  },
+  [],
+);
