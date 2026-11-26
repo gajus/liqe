@@ -63,6 +63,19 @@ test('foo:=-123', testQuery);
 
 test('foo:=123.4', testQuery);
 
+// The parsed number is shorter than the source text, but the spacing must stay the same.
+test('foo:1.0 bar', (t) => {
+  t.is(serialize(parse('foo:1.0 bar')), 'foo:1 bar');
+});
+
+test('foo:007 AND bar', (t) => {
+  t.is(serialize(parse('foo:007 AND bar')), 'foo:7 AND bar');
+});
+
+test('(foo:1.50)', (t) => {
+  t.is(serialize(parse('(foo:1.50)')), '(foo:1.5)');
+});
+
 test('foo:>=123', testQuery);
 
 test('foo:true', testQuery);

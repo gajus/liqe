@@ -980,6 +980,41 @@ test('foo:=123.4', testQuery, {
   type: 'Tag',
 });
 
+test('foo:1.50', testQuery, {
+  expression: {
+    location: {
+      end: 8,
+      start: 4,
+    },
+    quoted: false,
+    type: 'LiteralExpression',
+    value: 1.5,
+  },
+  field: {
+    location: {
+      end: 3,
+      start: 0,
+    },
+    name: 'foo',
+    path: ['foo'],
+    quoted: false,
+    type: 'Field',
+  },
+  location: {
+    end: 8,
+    start: 0,
+  },
+  operator: {
+    location: {
+      end: 4,
+      start: 3,
+    },
+    operator: ':',
+    type: 'ComparisonOperator',
+  },
+  type: 'Tag',
+});
+
 test('foo:>=123', testQuery, {
   expression: {
     location: {
