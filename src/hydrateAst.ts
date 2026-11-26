@@ -2,7 +2,11 @@
 
 import { createGetValueFunctionBody } from './createGetValueFunctionBody';
 import { isSafePath } from './isSafePath';
-import { type LiqeQuery, type ParserAst } from './types';
+import {
+  type LiqeQuery,
+  type ParenthesizedExpressionToken,
+  type ParserAst,
+} from './types';
 
 export const hydrateAst = (subject: ParserAst): LiqeQuery => {
   const newSubject: LiqeQuery = {
@@ -19,6 +23,21 @@ export const hydrateAst = (subject: ParserAst): LiqeQuery => {
       'subject',
       createGetValueFunctionBody(subject.field.name),
     ) as (subject: unknown) => unknown;
+  }
+
+  if (
+    newSubject.type === 'ParenthesizedExpression' &&
+    subject.type === 'ParenthesizedExpression'
+  ) {
+    newSubject.expression = hydrateAst(subject.expression);
+  } else if (
+    newSubject.type === 'Tag' &&
+    subject.type === 'Tag' &&
+    subject.expression?.type === 'ParenthesizedExpression'
+  ) {
+    newSubject.expression = hydrateAst(
+      subject.expression,
+    ) as ParenthesizedExpressionToken;
   }
 
   if ('left' in subject) {

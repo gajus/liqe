@@ -20,6 +20,7 @@ export type EmptyExpression = {
 export type ExpressionToken =
   | EmptyExpression
   | LiteralExpressionToken
+  | ParenthesizedExpressionToken
   | RangeExpressionToken
   | RegexExpressionToken;
 
@@ -140,6 +141,6 @@ export type TokenLocation = {
 export type UnaryOperatorToken = {
   location: TokenLocation;
   operand: ParserAst;
-  operator: '-' | 'NOT';
+  operator: '+' | '-' | 'NOT';
   type: 'UnaryOperator';
 };

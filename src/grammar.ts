@@ -264,33 +264,8 @@ const grammar: Grammar = {
     },
     {
       name: 'one_op_logical_expression',
-      postprocess: (d) => ({
-        expression: {
-          location: {
-            end: d[0].location.start + 1,
-            start: d[0].location.start + 1,
-          },
-          type: 'EmptyExpression',
-        },
-        location: { end: d[2].location.start + 1, start: d[0].location.start },
-        type: 'ParenthesizedExpression',
-      }),
-      symbols: ['parentheses_open', '_', 'parentheses_close'],
-    },
-    {
-      name: 'one_op_logical_expression',
-      postprocess: (d) => ({
-        expression: d[2],
-        location: { end: d[4].location.start + 1, start: d[0].location.start },
-        type: 'ParenthesizedExpression',
-      }),
-      symbols: [
-        'parentheses_open',
-        '_',
-        'two_op_logical_expression',
-        '_',
-        'parentheses_close',
-      ],
+      postprocess: id,
+      symbols: ['parenthesized_expression'],
     },
     {
       name: 'one_op_logical_expression$string$1',
@@ -325,12 +300,87 @@ const grammar: Grammar = {
           type: 'UnaryOperator',
         };
       },
+      symbols: [{ literal: '-' }, 'parenthesized_expression'],
+    },
+    {
+      name: 'one_op_logical_expression',
+      postprocess: (data, start) => {
+        return {
+          location: {
+            end: data[1].location.end,
+            start,
+          },
+          operand: data[1],
+          operator: '-',
+          type: 'UnaryOperator',
+        };
+      },
       symbols: [{ literal: '-' }, 'boolean_primary'],
+    },
+    {
+      name: 'one_op_logical_expression',
+      postprocess: (data, start) => {
+        return {
+          location: {
+            end: data[1].location.end,
+            start,
+          },
+          operand: data[1],
+          operator: '+',
+          type: 'UnaryOperator',
+        };
+      },
+      symbols: [{ literal: '+' }, 'parenthesized_expression'],
+    },
+    {
+      name: 'one_op_logical_expression',
+      postprocess: (data, start) => {
+        return {
+          location: {
+            end: data[1].location.end,
+            start,
+          },
+          operand: data[1],
+          operator: '+',
+          type: 'UnaryOperator',
+        };
+      },
+      symbols: [{ literal: '+' }, 'boolean_primary'],
     },
     {
       name: 'one_op_logical_expression',
       postprocess: (d) => d[0],
       symbols: ['boolean_primary'],
+    },
+    {
+      name: 'parenthesized_expression',
+      postprocess: (d) => ({
+        expression: {
+          location: {
+            end: d[0].location.start + 1,
+            start: d[0].location.start + 1,
+          },
+          type: 'EmptyExpression',
+        },
+        location: { end: d[2].location.start + 1, start: d[0].location.start },
+        type: 'ParenthesizedExpression',
+      }),
+      symbols: ['parentheses_open', '_', 'parentheses_close'],
+    },
+    {
+      name: 'parenthesized_expression',
+      postprocess: (d) => ({
+        expression: d[2],
+        location: { end: d[4].location.start + 1, start: d[0].location.start },
+        type: 'ParenthesizedExpression',
+      }),
+      symbols: [
+        'parentheses_open',
+        '_',
+        'two_op_logical_expression',
+        '_',
+        'parentheses_close',
+      ],
     },
     {
       name: 'post_one_op_logical_expression',
@@ -393,19 +443,8 @@ const grammar: Grammar = {
     { name: 'boolean_primary', postprocess: id, symbols: ['tag_expression'] },
     {
       name: 'post_boolean_primary',
-      postprocess: (d) => ({
-        expression: d[3],
-        location: { end: d[5].location.start + 1, start: d[1].location.start },
-        type: 'ParenthesizedExpression',
-      }),
-      symbols: [
-        '__',
-        'parentheses_open',
-        '_',
-        'two_op_logical_expression',
-        '_',
-        'parentheses_close',
-      ],
+      postprocess: (d) => d[1],
+      symbols: ['__', 'parenthesized_expression'],
     },
     {
       name: 'post_boolean_primary',
@@ -439,6 +478,35 @@ const grammar: Grammar = {
         };
       },
       symbols: ['field', 'comparison_operator', 'expression'],
+    },
+    {
+      name: 'tag_expression',
+      postprocess: (data, start) => {
+        const field = {
+          location: data[0].location,
+          name: data[0].name,
+          path: data[0].name.split('.').filter(Boolean),
+          quoted: data[0].quoted,
+          quotes: data[0].quotes,
+          type: 'Field',
+        };
+
+        if (!data[0].quotes) {
+          delete field.quotes;
+        }
+
+        return {
+          expression: data[2],
+          field,
+          location: {
+            end: data[2].location.end,
+            start,
+          },
+          operator: data[1],
+          type: 'Tag',
+        };
+      },
+      symbols: ['field', 'comparison_operator', 'parenthesized_expression'],
     },
     {
       name: 'tag_expression',

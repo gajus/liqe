@@ -160,3 +160,21 @@ test('foo:[1 TO 2] bar:baz', testQuery);
 test('(foo:{1 TO 2})', testQuery);
 
 test('( [1 TO 2] OR {3 TO 4} )', testQuery);
+
+test('+(a b)', testQuery);
+
+test('-(a b)', testQuery);
+
+test('c:(a b)', testQuery);
+
+test('+c:(a b)', testQuery);
+
+test('-c:(a b)', testQuery);
+
+test('a:(b OR c OR d)', testQuery);
+
+test('c:( a  OR  b )', testQuery);
+
+test('+foo:bar', testQuery);
+
+test('NOT c:(a b)', testQuery);

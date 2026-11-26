@@ -29,6 +29,10 @@ const createValueTest = (ast: LiqeQuery): InternalTest => {
     };
   }
 
+  if (expression.type === 'ParenthesizedExpression') {
+    throw new Error('Unexpected parenthesized expression.');
+  }
+
   const expressionValue = expression.value;
 
   if (ast.operator && ast.operator.operator !== ':') {
@@ -60,6 +64,51 @@ const createValueTest = (ast: LiqeQuery): InternalTest => {
       return testString(String(value));
     };
   }
+};
+
+const boundFieldAstCache = new WeakMap<LiqeQuery, LiqeQuery>();
+
+const bindFieldToAst = (node: LiqeQuery, parentTag: LiqeQuery): LiqeQuery => {
+  if (parentTag.type !== 'Tag') {
+    throw new Error('Expected a tag expression.');
+  }
+
+  if (node.type === 'Tag') {
+    if (node.field.type === 'ImplicitField') {
+      return {
+        ...node,
+        field: parentTag.field,
+        ...(parentTag.getValue ? { getValue: parentTag.getValue } : {}),
+        operator: parentTag.operator,
+      };
+    }
+
+    return node;
+  }
+
+  if (node.type === 'ParenthesizedExpression') {
+    return {
+      ...node,
+      expression: bindFieldToAst(node.expression, parentTag),
+    };
+  }
+
+  if (node.type === 'UnaryOperator') {
+    return {
+      ...node,
+      operand: bindFieldToAst(node.operand, parentTag),
+    };
+  }
+
+  if (node.type === 'LogicalExpression') {
+    return {
+      ...node,
+      left: bindFieldToAst(node.left, parentTag),
+      right: bindFieldToAst(node.right, parentTag),
+    };
+  }
+
+  return node;
 };
 
 const testValue = (
@@ -212,6 +261,21 @@ export const internalFilter = <T extends Object>(
   highlights: InternalHighlight[] = [],
 ): readonly T[] => {
   if (ast.type === 'Tag') {
+    if (ast.expression.type === 'ParenthesizedExpression') {
+      if (ast.expression.expression.type === 'EmptyExpression') {
+        return [];
+      }
+
+      let boundAst = boundFieldAstCache.get(ast);
+
+      if (!boundAst) {
+        boundAst = bindFieldToAst(ast.expression, ast);
+        boundFieldAstCache.set(ast, boundAst);
+      }
+
+      return internalFilter(boundAst, rows, resultFast, path, highlights);
+    }
+
     return rows.filter((row) => {
       return testField(
         row,
@@ -224,6 +288,10 @@ export const internalFilter = <T extends Object>(
   }
 
   if (ast.type === 'UnaryOperator') {
+    if (ast.operator === '+') {
+      return internalFilter(ast.operand, rows, resultFast, path, highlights);
+    }
+
     const excludedRows = new Set(
       internalFilter(ast.operand, rows, resultFast, path, []),
     );

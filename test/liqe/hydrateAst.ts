@@ -98,3 +98,38 @@ test('returns undefined if path does not resolve', (t) => {
 
   t.is(hydratedAst.getValue?.({}), undefined);
 });
+
+test('hydrates inner tags inside parenthesized expression', (t) => {
+  const parserAst = {
+    expression: {
+      expression: {
+        field: {
+          name: '.bar',
+          type: 'Field',
+        },
+        type: 'Tag',
+      },
+      type: 'ParenthesizedExpression',
+    },
+    field: {
+      name: '.foo',
+      type: 'Field',
+    },
+    type: 'Tag',
+  } as LiqeQuery;
+
+  const hydratedAst = hydrateAst(parserAst);
+
+  t.is(typeof hydratedAst.getValue, 'function');
+
+  if (
+    hydratedAst.type === 'Tag' &&
+    hydratedAst.expression.type === 'ParenthesizedExpression'
+  ) {
+    const inner = hydratedAst.expression.expression as LiqeQuery;
+
+    t.is(typeof inner.getValue, 'function');
+  } else {
+    t.fail('Expected Tag with ParenthesizedExpression.');
+  }
+});

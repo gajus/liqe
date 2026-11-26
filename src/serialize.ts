@@ -1,4 +1,8 @@
-import { type ExpressionToken, type LiqeQuery } from './types';
+import {
+  type ExpressionToken,
+  type LiqeQuery,
+  type ParenthesizedExpressionToken,
+} from './types';
 
 const quote = (value: string, quotes: 'double' | 'single') => {
   // The parser reads \\ as a backslash, \n as a line feed and \" or \' as the quote (a raw line feed ends the string)
@@ -15,7 +19,30 @@ const quote = (value: string, quotes: 'double' | 'single') => {
   return value;
 };
 
-const serializeExpression = (expression: ExpressionToken) => {
+const serializeParenthesizedExpression = (
+  ast: ParenthesizedExpressionToken,
+  serializeAst: (node: LiqeQuery) => string,
+): string => {
+  if (!('location' in ast.expression)) {
+    throw new Error('Expected location in expression.');
+  }
+
+  if (!ast.location.end) {
+    throw new Error('Expected location end.');
+  }
+
+  const patStart = ' '.repeat(
+    ast.expression.location.start - (ast.location.start + 1),
+  );
+  const patEnd = ' '.repeat(ast.location.end - ast.expression.location.end - 1);
+
+  return `(${patStart}${serializeAst(ast.expression)}${patEnd})`;
+};
+
+const serializeExpression = (
+  expression: ExpressionToken,
+  serializeAst: (node: LiqeQuery) => string,
+) => {
   if (expression.type === 'LiteralExpression') {
     if (expression.quoted && typeof expression.value === 'string') {
       return quote(expression.value, expression.quotes);
@@ -38,10 +65,17 @@ const serializeExpression = (expression: ExpressionToken) => {
     return '';
   }
 
+  if (expression.type === 'ParenthesizedExpression') {
+    return serializeParenthesizedExpression(expression, serializeAst);
+  }
+
   throw new Error('Unexpected AST type.');
 };
 
-const serializeTag = (ast: LiqeQuery) => {
+const serializeTag = (
+  ast: LiqeQuery,
+  serializeAst: (node: LiqeQuery) => string,
+) => {
   if (ast.type !== 'Tag') {
     throw new Error('Expected a tag expression.');
   }
@@ -49,38 +83,28 @@ const serializeTag = (ast: LiqeQuery) => {
   const { expression, field, operator } = ast;
 
   if (field.type === 'ImplicitField') {
-    return serializeExpression(expression);
+    return serializeExpression(expression, serializeAst);
   }
 
   const left = field.quoted ? quote(field.name, field.quotes) : field.name;
 
   const patEnd = ' '.repeat(expression.location.start - operator.location.end);
 
-  return left + operator.operator + patEnd + serializeExpression(expression);
+  return (
+    left +
+    operator.operator +
+    patEnd +
+    serializeExpression(expression, serializeAst)
+  );
 };
 
 export const serialize = (ast: LiqeQuery): string => {
   if (ast.type === 'ParenthesizedExpression') {
-    if (!('location' in ast.expression)) {
-      throw new Error('Expected location in expression.');
-    }
-
-    if (!ast.location.end) {
-      throw new Error('Expected location end.');
-    }
-
-    const patStart = ' '.repeat(
-      ast.expression.location.start - (ast.location.start + 1),
-    );
-    const patEnd = ' '.repeat(
-      ast.location.end - ast.expression.location.end - 1,
-    );
-
-    return `(${patStart}${serialize(ast.expression)}${patEnd})`;
+    return serializeParenthesizedExpression(ast, serialize);
   }
 
   if (ast.type === 'Tag') {
-    return serializeTag(ast);
+    return serializeTag(ast, serialize);
   }
 
   if (ast.type === 'LogicalExpression') {
