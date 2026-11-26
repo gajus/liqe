@@ -90,11 +90,9 @@ const grammar: Grammar = {
     {
       name: 'decimal',
       postprocess: (data) =>
-        Number.parseFloat(
-          (data[0] || '') +
-            data[1].join('') +
-            (data[2] ? '.' + data[2][1].join('') : ''),
-        ),
+        (data[0] || '') +
+        data[1].join('') +
+        (data[2] ? '.' + data[2][1].join('') : ''),
       symbols: ['decimal$ebnf$1', 'decimal$ebnf$2', 'decimal$ebnf$3'],
     },
     { name: 'dqstring$ebnf$1', symbols: [] },
@@ -528,10 +526,10 @@ const grammar: Grammar = {
       name: 'expression',
       postprocess: (data, start) => ({
         expression: {
-          location: { end: start + data.join('').length, start },
+          location: { end: start + data[0].length, start },
           quoted: false,
           type: 'LiteralExpression',
-          value: Number(data.join('')),
+          value: Number(data[0]),
         },
         type: 'Tag',
       }),
@@ -672,7 +670,11 @@ const grammar: Grammar = {
       postprocess: (data, start) => ({ inclusive: false, location: { start } }),
       symbols: [{ literal: '}' }],
     },
-    { name: 'range_value', postprocess: id, symbols: ['decimal'] },
+    {
+      name: 'range_value',
+      postprocess: (data) => Number(data[0]),
+      symbols: ['decimal'],
+    },
     { name: 'range_value', postprocess: id, symbols: ['dqstring'] },
     { name: 'range_value', postprocess: id, symbols: ['sqstring'] },
     {

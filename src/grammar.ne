@@ -9,12 +9,11 @@ __ -> whitespace_character:+ {% (data) => data[0].length %}
 whitespace_character -> [ \t\n\v\f] {% id %}
 
 # Numbers
+# Keep the source text: `1.0` is 3 characters long, but `1` once parsed.
 decimal -> "-":? [0-9]:+ ("." [0-9]:+):? {%
-  (data) => parseFloat(
-    (data[0] || "") +
+  (data) => (data[0] || "") +
     data[1].join("") +
     (data[2] ? "."+data[2][1].join("") : "")
-  )
 %}
 
 # Double-quoted string
@@ -198,7 +197,7 @@ field ->
   | dqstring {% (data, start) => ({type: 'LiteralExpression', name: data[0], quoted: true, quotes: 'double', location: {start, end: start + data[0].length + 2}}) %}
 
 expression ->
-    decimal {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'LiteralExpression', quoted: false, value: Number(data.join(''))}}) %}
+    decimal {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data[0].length}, type: 'LiteralExpression', quoted: false, value: Number(data[0])}}) %}
   | regex {% (data, start) => ({type: 'Tag', expression: {location: {start, end: start + data.join('').length}, type: 'RegexExpression', value: data.join('')}}) %}
   | range {% (data) => data[0] %}
   | unquoted_value {% (data, start, reject) => {
@@ -268,7 +267,7 @@ range_close ->
 # boundaries are compared lexically, which makes ISO 8601 date/datetime and other
 # canonically-ordered string ranges work. See https://github.com/gajus/liqe/issues/3
 range_value ->
-    decimal  {% id %}
+    decimal  {% (data) => Number(data[0]) %}
   | dqstring {% id %}
   | sqstring {% id %}
 
